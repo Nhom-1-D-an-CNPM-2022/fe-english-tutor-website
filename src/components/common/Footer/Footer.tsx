@@ -1,16 +1,12 @@
 import React from 'react';
 import './Footer.scss';
-
 import { Row, Col } from 'react-bootstrap';
 import { GrLocation } from 'react-icons/gr';
 import { AiFillPhone } from 'react-icons/ai';
 
-import LinkFollow from '../../LinkFollow/LinkFollow';
-
 export const Footer = () => {
   return (
     <div className="footer">
-      <LinkFollow></LinkFollow>
       <div className="footer__body">
         <Row>
           <div className="footer__content">
