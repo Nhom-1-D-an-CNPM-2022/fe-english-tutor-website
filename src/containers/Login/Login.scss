@@ -1,0 +1,64 @@
+.login {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: fit-content;
+  margin: 30px auto;
+  &__img {
+    img {
+      object-fit: cover;
+      object-position: 100% 50%;
+      height: 100%;
+      width: 100%;
+      max-width: 400px;
+    }
+  }
+  &__wrap {
+    max-width: 450px;
+    h1 {
+      font-weight: 500;
+      font-size: 2.2rem;
+      font-family: Helvetica Neue;
+      line-height: 1.235;
+    }
+    h6 {
+      font-size: 0.9285714286rem;
+      font-family: Helvetica Neue;
+      font-weight: 400;
+      line-height: 1.5;
+      span{
+        font-size: 0.9285714286rem;
+        font-family: Helvetica Neue;
+      font-weight: 300;
+      line-height: 1.5;
+      }
+    }
+  }
+  &--color-primary {
+    color: #228891;
+  }
+  &--bg-color-primary{
+    background-color: #228891 !important;
+  }
+  &__line {
+    display: flex;
+    align-items: center;
+    hr {
+      width: 150px;
+      height: 0.5px !important;
+    }
+  }
+  &--mt-15 {
+    margin-top: 15px;
+  }
+  &--mb-15 {
+    margin-bottom: 15px;
+  }
+  &--ml-10 {
+    margin-left: 10px;
+  }
+  &--mr-10 {
+    margin-right: 10px;
+  }
+}
