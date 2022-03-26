@@ -1,72 +1,95 @@
-import React, { useEffect, useState } from 'react';
-import './Header.scss';
-import { Container, Row, Col, Form } from 'react-bootstrap';
-import { useHistory, useLocation, Link } from 'react-router-dom';
-import Notification from '../../Notification/Notification';
-import Cart from '../../Cart/Cart';
-import { AccountHeader } from '../../AccountHeader/AccountHeader';
-import { ChooseLanguage } from '../../ChooseLanguage/ChooseLanguage';
-import { getQueryStringValue } from '../../../helpers';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { MdMessage } from 'react-icons/md';
+import { IoMdNotificationsOutline } from 'react-icons/io';
+import { AiOutlineCalendar } from 'react-icons/ai';
 
 export const Header = () => {
-  const history = useHistory();
-  const location = useLocation();
-  const [textSearch, setTextSearch] = useState('');
-  
-  
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
+  const className = 'header';
 
-    const searchInput = e.target.search;
-
-    if (searchInput) {
-      setTextSearch(searchInput.value);
-      history.push({
-        pathname: `/catalogsearch/result`,
-        search: `?text=${searchInput.value}`,
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (location.search) {
-      setTextSearch(getQueryStringValue('text'));
-    }
-  }, [location]);
-  
   return (
-    <div className="header">
-      <div className="advertisement">
-        <img src="/advertisement.png" alt="Fahasa advertisement" />
+    <div className={className}>
+      <div className={`${className}__content`}>
+        <Link to={''} className={`${className}__logo`}>
+          <img src="" alt="Logo" />
+        </Link>
+        <div className={`${className}__tabs`}>
+          <div className={`${className}__tabs--content`}>
+            <div className={`${className}__tabs--flex`}>
+              <Link to={''} className={`${className}__tabs--item`}>
+                <span>Gia sư</span>
+              </Link>
+              <Link to={''} className={`${className}__tabs--item`}>
+                <span>Khóa học</span>
+              </Link>
+              <Link to={''} className={`${className}__tabs--item`}>
+                <span>Tiến độ</span>
+              </Link>
+            </div>
+            <span className={`${className}__line`}></span>
+          </div>
+          <div className={`${className}__flex--grow`}></div>
+          <Link to={''} className={`${className}__register`}>
+            <span className={`${className}__label`}>Đằng ký khóa học</span>
+            <span className={`${className}__background`}></span>
+          </Link>
+          <div className={`${className}__btn`}>
+            <div className={`${className}__btn--content`}>
+              <button className={`${className}__btn--root`}>
+                <span className={`${className}__label`}>
+                  <span className={`${className}__root`}>
+                    <MdMessage />
+                  </span>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div className={`${className}__btn`}>
+            <div className={`${className}__btn--content`}>
+              <button className={`${className}__btn--root`}>
+                <span className={`${className}__label`}>
+                  <span className={`${className}__root`}>
+                    <IoMdNotificationsOutline />
+                  </span>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div className={`${className}__btn`}>
+            <div className={`${className}__btn--content`}>
+              <button className={`${className}__btn--root`}>
+                <span className={`${className}__label`}>
+                  <span className={`${className}__root`}>
+                    <AiOutlineCalendar />
+                  </span>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div className={`${className}__btn`}>
+            <div className={`${className}__btn--content`}>
+              <button className={`${className}__btn--root`}>
+                <span className={`${className}__label`}>
+                  <span className={`${className}__root`}>
+                    <AiOutlineCalendar />
+                  </span>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div className={`${className}__btn`}>
+            <div className={`${className}__btn--content`}>
+              <button className={`${className}__btn--root`}>
+                <span className={`${className}__label`}>
+                  <span className={`${className}__root`}>
+                    <AiOutlineCalendar />
+                  </span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-      <Container className="main-header">
-        <Row>
-          <Col md={2} className="logo">
-            <Link to="/">
-              <img alt="Fahasa" src="/logo.png" />
-            </Link>
-          </Col>
-          <Col md={7} className="header-search-box">
-            <Form className="form-inline" onSubmit={handleSubmit}>
-              <Form.Group className="input-search">
-                <input
-                  type="text"
-                  defaultValue={textSearch}
-                  name="search"
-                  placeholder="Tìm kiếm sản phẩm mong muốn..."
-                />
-              </Form.Group>
-              <button type="submit" className="pull-right btn-search"></button>
-            </Form>
-          </Col>
-          <Col md={3} className="group-button-header">
-            <Notification></Notification>
-            <Cart></Cart>
-            <AccountHeader></AccountHeader>
-            <ChooseLanguage className="header__language"></ChooseLanguage>
-          </Col>
-        </Row>
-      </Container>
     </div>
   );
 };

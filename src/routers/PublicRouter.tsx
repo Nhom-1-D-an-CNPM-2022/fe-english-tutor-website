@@ -14,6 +14,7 @@ export const PublicRouter: React.FC<IPublicRouter> = ({
   typeHeader,
 }) => {
   let query = new URLSearchParams(useLocation().search).get("text");
+  
   return (
     <Route
       exact={exact}
