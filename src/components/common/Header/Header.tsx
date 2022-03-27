@@ -29,7 +29,7 @@ export const Header = () => {
             <span className={`${className}__line`}></span>
           </div>
           <div className={`${className}__flex--grow`}></div>
-          <Link to={''} className={`${className}__register`}>
+          <Link to={'/register'} className={`${className}__register`}>
             <span className={`${className}__label`}>Đằng ký khóa học</span>
             <span className={`${className}__background`}></span>
           </Link>
