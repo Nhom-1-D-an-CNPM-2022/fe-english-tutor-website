@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
-import { Home } from '../containers';
+import { Home, Tutors } from '../containers';
 import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
 import { BlankLayout, HeaderFooterLayout, OnlyFooterLayout, OnlyHeaderLayout } from '../layouts';
@@ -17,6 +17,16 @@ export const Routers = () => {
           exact={true}
           path={'/'}
           component={Home}
+          layout={HeaderFooterLayout}
+          isHasHeader={true}
+          header={Header}
+          isHasFooter={true}
+          footer={Footer}
+        />
+        <PublicRouter
+          exact={true}
+          path={'/tutors'}
+          component={Tutors}
           layout={HeaderFooterLayout}
           isHasHeader={true}
           header={Header}
