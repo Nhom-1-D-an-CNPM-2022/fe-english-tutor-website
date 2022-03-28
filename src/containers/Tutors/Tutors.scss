@@ -1,0 +1,76 @@
+.toolbar-container{
+    background: transparent;
+    padding: 6px 0px 10px;
+    min-height: 0px;
+}
+.typo-findtutor{
+    color: rgb(51, 51, 51);
+    font-size: 1.7em;
+    padding-left: 0px;
+    padding-right: 16px;
+    line-height: 1.7em;
+    text-align: right;
+    white-space: nowrap;
+    margin: 0px -4px 0px 4px;
+}
+.box-tutor{
+    margin-right: auto;
+    margin-left: initial;
+    display: flex;
+}
+.a-tutor{
+    margin: 0 10px -2px;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+}
+.h5-available{
+    font-weight: 300;
+    color: rgb(34, 136, 145);
+}
+.h5-favourite-tutor{
+    font-weight: 600;
+    color: rgb(51, 51, 51);
+}
+.box-search{
+    flex-shrink: 1;
+}
+.div-search{
+    background-color: white;
+    display: flex;
+    align-items: center;
+    padding: 0px 15px;
+    margin-left: 0px;
+    flex-grow: 1;
+}
+.toolbar-filter{
+    background: transparent;
+    height: initial;
+    margin: 0px -4px 0px 0px;
+    padding: 0px;
+    min-height: 0px;
+}
+.box-filter{
+    display: flex;
+    text-align: right;
+}
+.div-filter{
+    margin: 0px 4px;
+}
+.buttonbase-filter{
+    line-height: 2; letter-spacing: 0.6px;
+}
+.container-tutors{
+    padding-top: 20px;
+}
+.list-tutors{
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+}
+.column-tutors{
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
