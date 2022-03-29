@@ -1,0 +1,56 @@
+.paper-cardtutor{
+    margin-bottom: 20px;
+    max-width: 32.5%;
+    min-width: 370px;
+    flex-grow: 1;
+    box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
+    border: 1px solid rgb(221, 221, 221);
+    box-sizing: border-box;
+    border-radius: 8px;
+}
+.tutor-name{
+    font-size: 18.5px;
+    line-height: 22px;
+    padding-right: 50px;
+    font-weight: 600;
+}
+.tutor-archivement{
+    display: flex;
+    align-items: center;
+    color: rgb(72, 72, 72);
+    font-size: 12px;
+}
+.archivement-icon{
+    width: 12px;
+    height: 12px;
+    color: rgb(238, 163, 32);
+}
+.card-footer{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 0px;
+    height: 50px;
+    border-bottom-right-radius: inherit;
+    border-bottom-left-radius: inherit;
+}
+.button-footer{
+    border-width: 0px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+.accent {
+    display: flex;
+    align-items: center;
+    line-height: 13px;
+    margin-left: -5px;
+    margin-right: -5px;
+    padding-left: 0px;
+    padding-right: 25px;
+}
+.accent-img{
+    width: 32px;
+    height: 32px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
