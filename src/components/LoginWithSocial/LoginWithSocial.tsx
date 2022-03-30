@@ -6,6 +6,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import AppleIcon from '@mui/icons-material/Apple';
 import SvgIcon from '@mui/material/SvgIcon';
 import { GoogleLogin } from 'react-google-login';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 export const LoginWithSocial = () => {
@@ -13,47 +14,78 @@ export const LoginWithSocial = () => {
   const handleSuccessLoginWithGoogle = async (response: any) => {
     const tokenId = response.tokenId;
     console.log(tokenId);
-    axios.post(`${process.env.URL_MY_API}users/login/google`, {
-      tokenId: tokenId
-    })
-    .then(function (response: any) {
-      console.log(response);
-      if(response.accessToken !== ""){
-        localStorage.setItem('accessToken', response.accessToken);
-        if (history.action === 'PUSH') {
-          history.goBack();
-        } else {
-          history.push({
-            pathname: `/`,
-          });
+    axios
+      .post(`${process.env.URL_MY_API}users/login/google`, {
+        tokenId: tokenId,
+      })
+      .then(function (response: any) {
+        if (response.accessToken !== '') {
+          localStorage.setItem('accessToken', response.accessToken);
+          if (history.action === 'PUSH') {
+            history.goBack();
+          } else {
+            history.push({
+              pathname: `/`,
+            });
+          }
         }
-      }
-    })
-    .catch(function (error:any) {
-      console.log(error);
-    });
+      })
+      .catch(function (error: any) {
+        console.log(error);
+      });
   };
   const handleFaliedLoginWithGoogle = (response: any) => {
     console.log(response);
   };
+  const responseFacebook = (response: any) => {
+    axios
+      .post(`${process.env.URL_MY_API}users/login/facebook`, {
+        tokenId: response.accessToken,
+      })
+      .then(function (response: any) {
+        if (response.accessToken !== '') {
+          localStorage.setItem('accessToken', response.accessToken);
+          if (history.action === 'PUSH') {
+            history.goBack();
+          } else {
+            history.push({
+              pathname: `/`,
+            });
+          }
+        }
+      })
+      .catch(function (error: any) {
+        console.log(error);
+      });
+  };
   return (
     <div className="login-with-social">
-      <div className="login-with-social__button">
-        <svg
-          className="MuiSvgIcon-root-69"
-          focusable="false"
-          viewBox="0 0 34 33"
-          aria-hidden="true"
-          style={{ marginRight: '12px', height: '24px', width: '24px' }}
-        >
-          <path
-            fill="#4267B2"
-            fill-rule="nonzero"
-            d="M17 0C7.887 0 .5 7.425.5 16.585c0 8.315 6.093 15.181 14.033 16.38V20.981h-4.082v-4.36h4.082v-2.902c0-4.803 2.328-6.91 6.3-6.91 1.902 0 2.907.14 3.384.205v3.805h-2.71c-1.686 0-2.275 1.607-2.275 3.418v2.383h4.942l-.67 4.36h-4.27V33C27.288 31.904 33.5 24.981 33.5 16.585 33.5 7.425 26.113 0 17 0z"
-          ></path>
-        </svg>
-        <span>Facebook</span>
-      </div>
+      <FacebookLogin
+        appId="346628950749198"
+        autoLoad={false}
+        callback={responseFacebook}
+        render={(renderProps: any) => (
+          <button onClick={renderProps.onClick}>
+            <div className="login-with-social__button">
+              <svg
+                className="MuiSvgIcon-root-69"
+                focusable="false"
+                viewBox="0 0 34 33"
+                aria-hidden="true"
+                style={{ marginRight: '12px', height: '24px', width: '24px' }}
+              >
+                <path
+                  fill="#4267B2"
+                  fill-rule="nonzero"
+                  d="M17 0C7.887 0 .5 7.425.5 16.585c0 8.315 6.093 15.181 14.033 16.38V20.981h-4.082v-4.36h4.082v-2.902c0-4.803 2.328-6.91 6.3-6.91 1.902 0 2.907.14 3.384.205v3.805h-2.71c-1.686 0-2.275 1.607-2.275 3.418v2.383h4.942l-.67 4.36h-4.27V33C27.288 31.904 33.5 24.981 33.5 16.585 33.5 7.425 26.113 0 17 0z"
+                ></path>
+              </svg>
+              <span>Facebook</span>
+            </div>
+          </button>
+        )}
+      />
+
       <GoogleLogin
         clientId="503078025554-e9df776se6oom7m0vqsoj1gjlkn1maku.apps.googleusercontent.com"
         onSuccess={handleSuccessLoginWithGoogle}
