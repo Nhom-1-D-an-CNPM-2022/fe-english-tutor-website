@@ -12,24 +12,18 @@ import React from 'react';
 import './LoginWithForm.scss';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
-export const LoginWithForm = () => {
-  const [values, setValues] = React.useState({
-    email: '',
-    password: '',
-    showPassword: false,
-  });
-
-  const handleChange = (prop: any) => (event: any) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
-
-  const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
-    });
-  };
+interface IValueLogin{
+  email: string,
+  password: string,
+  showPassword: boolean
+}
+interface ILoginWithForm {
+  values: IValueLogin,
+  handleChange: any,
+  handleClickShowPassword: any,
+}
+export const LoginWithForm:React.FC<ILoginWithForm> = ({values, handleChange, handleClickShowPassword}) => {
+  
 
   const handleMouseDownPassword = (event: any) => {
     event.preventDefault();
