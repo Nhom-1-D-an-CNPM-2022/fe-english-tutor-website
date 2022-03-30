@@ -44,9 +44,6 @@ export const Routers = () => {
           footer={Footer}
         />
       </Switch>
-      <Switch>
-        <PublicRouter exact={true} path={'/login'} component={Login} layout={HeaderFooterLayout} />
-      </Switch>
     </Router>
   );
 };
