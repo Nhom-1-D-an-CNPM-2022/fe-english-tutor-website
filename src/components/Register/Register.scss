@@ -1,0 +1,36 @@
+.register-page {
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+
+  &__button {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 4px 10px 4px 10px;
+    min-width: 119px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__button:hover {
+    cursor: pointer;
+    background-color: #ccc;
+  }
+  &__img {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+  }
+  &__main-content {
+    flex: 1;
+    margin: 30px 40px;
+    display: flex;
+    flex-direction: column;
+  }
+  &__register-button-group {
+    margin: 30px 20px;
+    display: flex;
+    justify-content: space-around;
+    width: 300px;
+  }
+}

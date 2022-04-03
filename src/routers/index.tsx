@@ -6,7 +6,7 @@ import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
 import { BlankLayout, HeaderFooterLayout, OnlyFooterLayout, OnlyHeaderLayout } from '../layouts';
 import { Header, Footer } from '../components/common';
-
+import { Register } from '../components';
 export const Routers = () => {
   const buildysURL = process.env.REACT_APP_LINK_BUILDYS;
 
@@ -22,6 +22,15 @@ export const Routers = () => {
           header={Header}
           isHasFooter={true}
           footer={Footer}
+        />
+        <PublicRouter
+          exact={true}
+          path={'/register'}
+          component={Register}
+          layout={OnlyHeaderLayout}
+          isHasHeader={true}
+          header={Header}
+          isHasFooter={false}
         />
         <PublicRouter
           exact={true}
