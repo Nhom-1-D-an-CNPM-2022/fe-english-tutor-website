@@ -51,16 +51,16 @@ export const Register = () => {
         </Typography>
         <p>Đăng ký với:</p>
         <div className="register-page__register-button-group">
-          <ButtonBase>
-            <FacebookIcon />
+          <Button variant="outlined">
+            <FacebookIcon sx={{ marginRight: '10px' }} />
             Facebook
-          </ButtonBase>
-          <ButtonBase>
-            <GoogleIcon />
+          </Button>
+          <Button variant="outlined">
+            <GoogleIcon sx={{ marginRight: '10px' }} />
             Google
-          </ButtonBase>
+          </Button>
         </div>
-        <Divider sx={{ width: '350px', height: '8px', marginBottom: '20px' }}>hoặc</Divider>
+        <Divider sx={{ width: '350px', height: '8px', marginBottom: '40px' }}>hoặc</Divider>
         <p>Đăng ký bằng địa chỉ email của bạn:</p>
         <FormControl sx={{ width: '350px', marginTop: '15px' }}>
           <TextField
@@ -93,7 +93,9 @@ export const Register = () => {
           />
         </FormControl>
         <div>
-          <Button>Tạo tài khoản</Button>
+          <Button variant="contained" fullWidth sx={{ width: '350px', marginY: '15px' }}>
+            Tạo tài khoản
+          </Button>
           <p>
             Bạn đã có tài khoản? <a href="#">Đăng nhập</a>
           </p>
