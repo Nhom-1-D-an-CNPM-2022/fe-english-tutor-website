@@ -1,12 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
-import { Home, Login, Tutors } from '../containers';
+import { Home, Login, Tutors, Register } from '../containers';
 import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
 import { BlankLayout, HeaderFooterLayout, OnlyFooterLayout, OnlyHeaderLayout } from '../layouts';
 import { Header, Footer } from '../components/common';
-import { Register } from '../components';
 export const Routers = () => {
   const buildysURL = process.env.REACT_APP_LINK_BUILDYS;
 
@@ -27,10 +26,11 @@ export const Routers = () => {
           exact={true}
           path={'/register'}
           component={Register}
-          layout={OnlyHeaderLayout}
+          layout={HeaderFooterLayout}
           isHasHeader={true}
           header={Header}
-          isHasFooter={false}
+          isHasFooter={true}
+          footer={Footer}
         />
         <PublicRouter
           exact={true}
