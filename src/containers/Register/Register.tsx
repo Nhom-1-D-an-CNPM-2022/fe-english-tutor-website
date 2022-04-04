@@ -3,9 +3,9 @@ import axios from 'axios';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { LoginWithForm, LoginWithSocial } from '../../components';
-import './Login.scss';
+import './Register.scss';
 
-export const Login = () => {
+export const Register = () => {
   const history = useHistory();
   const [values, setValues] = React.useState({
     email: '',
@@ -15,7 +15,7 @@ export const Login = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     axios
-      .post(`${process.env.URL_MY_API}users/login`, {
+      .post(`${process.env.URL_MY_API}users/register`, {
         email: values.email,
         password: values.password,
       })
@@ -47,33 +47,35 @@ export const Login = () => {
     });
   };
   return (
-    <div className="login">
-      <div className="login__img">
-        <img src="https://www.cambly.com/fe/static/login_illustration_big.png" alt="Cambly" />
+    <div className="register">
+      <div className="register__img">
+        <img src="https://www.cambly.com/fe/static/signup_illustration.png" alt="Cambly" />
       </div>
-      <div className="login__wrap">
-        <h1>Chào mừng quay trở lại với Cambly</h1>
-        <h6 className="login--mt-15 login--mb-15">Đăng nhập với:</h6>
+      <div className="register__wrap">
+        <h1>Bắt đầu học Tiếng Anh với Cambly</h1>
+        <h6 className="register--mt-15 register--mb-15">Đăng ký với:</h6>
         <LoginWithSocial />
-        <div className="login__line login--mt-15 login--mb-15">
-          <hr className="login--mr-10" />
+        <div className="register__line register--mt-15 register--mb-15">
+          <hr className="register--mr-10" />
           <p>hoặc</p>
-          <hr className="login--ml-10" />
+          <hr className="register--ml-10" />
         </div>
-        <h6 className="login--mt-15 login--mb-15">Đăng nhập với địa chỉ email của bạn:</h6>
+        <h6 className="register--mt-15 register--mb-15">Đăng ký bằng địa chỉ email của bạn:</h6>
         <LoginWithForm
           values={values}
           handleChange={handleChange}
           handleClickShowPassword={handleClickShowPassword}
         />
-        <h6 className="login--mt-15 login--mb-15">
-          <span className="login--color-primary">Quên mật khẩu của bạn?</span>
-        </h6>
-        <Button variant="contained" className="login--bg-color-primary" onClick={handleSubmit}>
-          Đăng nhập
+        <Button
+          variant="contained"
+          className="register--bg-color-primary"
+          sx={{ marginTop: '15px' }}
+          onClick={handleSubmit}
+        >
+          Tạo tài khoản
         </Button>
-        <h6 className="login--mt-15 login--mb-15">
-          Mới dùng Cambly? <span className="login--color-primary">Đăng ký</span>
+        <h6 className="register--mt-15 register--mb-15">
+          Bạn đã có tài khoản? <span className="register--color-primary">Đăng nhập</span>
         </h6>
       </div>
     </div>
