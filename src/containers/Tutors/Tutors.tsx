@@ -1,5 +1,5 @@
 import React from 'react';
-import { TutorCard } from '../../components';
+import { FilterTutor, TutorCard } from '../../components';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -20,7 +20,7 @@ export const Tutors = () => {
   const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
   return (
-    <>
+    <div className="tutors">
       <Toolbar variant="regular" disableGutters={true} className="toolbar-container">
         <Typography variant="body1" className="typo-findtutor">
           Tìm một gia sư
@@ -49,25 +49,23 @@ export const Tutors = () => {
           </Paper>
         </Box>
       </Toolbar>
+      <Box className="box-tutor"> <FilterTutor></FilterTutor></Box>
       <div className="container-tutors">
         <div className="list-tutors">
           <div className="column-tutors">
-          <TutorCard />
-          <TutorCard />
+            <TutorCard />
+            <TutorCard />
 
-          <TutorCard />
-          <TutorCard />
-          <TutorCard />
-          <TutorCard />
-          <TutorCard />
-          <TutorCard />
-          <TutorCard />
-
+            <TutorCard />
+            <TutorCard />
+            <TutorCard />
+            <TutorCard />
+            <TutorCard />
+            <TutorCard />
+            <TutorCard />
           </div>
         </div>
-      
       </div>
-      
-    </>
+    </div>
   );
 };

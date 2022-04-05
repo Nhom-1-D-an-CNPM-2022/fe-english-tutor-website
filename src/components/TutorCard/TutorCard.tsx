@@ -16,7 +16,7 @@ import './TutorCard.scss'
 export const TutorCard = () => {
   return (
     <Paper square={true} variant="elevation" className='paper-cardtutor'>
-    <Card sx={{ maxWidth: 450 }}>
+    <Card sx={{ maxWidth: 480 }}>
     <CardHeader
         avatar={
           <Avatar 
