@@ -1,0 +1,27 @@
+.card-option {
+  display: none;
+  background-color: rgba(204, 204, 204, 0.267);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  position: fixed;
+  &__show {
+    display: block;
+  }
+  &__item {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    min-width: 300px;
+    height: auto;
+    padding: 7px;
+    padding-left: 15px;
+    position: absolute;
+    background-color: #fff;
+    overflow-y: auto;
+    max-height: 300px;
+    z-index: 999;
+    box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
+  }
+}
