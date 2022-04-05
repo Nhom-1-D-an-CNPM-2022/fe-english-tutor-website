@@ -8,6 +8,7 @@ import IMenuOld from '../assets/images/menu/old.png';
 import IMenuStationery from '../assets/images/menu/stationery.png';
 import IMenuSuggestion from '../assets/images/menu/suggestion.png';
 import IMenuTrend from '../assets/images/menu/trend.png';
+import ILoginIllustration from '../assets/images/login_illustration_big.png';
 
 import SvgVietnam from '../assets/svg/vietnam.svg';
 import SvgEnglish from '../assets/svg/english.svg';
@@ -21,6 +22,10 @@ import SvgMethod6 from '../assets/svg/formMethod/method6.svg';
 import SvgMethod7 from '../assets/svg/formMethod/method7.svg';
 import SvgMethod8 from '../assets/svg/formMethod/method8.svg';
 import SvgMethod9 from '../assets/svg/formMethod/method9.svg';
+
+
+
+
 
 export {
   IMenuDiscount,
@@ -44,4 +49,5 @@ export {
   SvgMethod7,
   SvgMethod8,
   SvgMethod9,
+  ILoginIllustration,
 };

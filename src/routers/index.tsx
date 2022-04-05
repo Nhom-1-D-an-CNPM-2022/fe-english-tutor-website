@@ -32,7 +32,7 @@ export const Routers = () => {
           isHasFooter={true}
           footer={Footer}
         />
-        <PublicRouter
+        <PrivateRouter
           exact={true}
           path={'/tutors'}
           component={Tutors}
@@ -44,7 +44,7 @@ export const Routers = () => {
         />
         <PublicRouter
           exact={true}
-          path={'/login'}
+          path={'/student/login'}
           component={Login}
           layout={HeaderFooterLayout}
           isHasHeader={true}

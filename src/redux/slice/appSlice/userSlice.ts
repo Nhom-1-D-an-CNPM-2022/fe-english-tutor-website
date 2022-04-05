@@ -1,19 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import userApi from '../../../services/aixos/userApi';
 
-export const loginWithEmail = createAsyncThunk('user/login', async (params: any) => {
-  return await userApi.loginWithEmail(params).then((res) => res.data);
-});
-
-export const registerWithEmail = createAsyncThunk('user/register', async (params: any) => {
-  return await userApi.registerWithEmail(params).then((res) => res.data);
-});
-
-export const sendOTP = createAsyncThunk('user/send-otp', async (params: any) => {
-  return await userApi.sendOTP(params).then((res) => res.data);
-});
-
-export const getInfo = createAsyncThunk('user/get-info', async (params: any) => {
+export const getInfo = createAsyncThunk('users/get-info', async (params: any) => {
   return await userApi.getInfo(params).then((res) => res.data);
 });
 
@@ -85,12 +73,6 @@ interface IInitialState {
   account: IAccount;
   status: boolean;
   message: string;
-  informationVAT: IInformationVAT;
-  listUser: any;
-  deliveryAddress: Array<IUserAddress>;
-  paymentAddress: Array<IUserAddress>;
-  ortherAddress: Array<IUserAddress>;
-  itemAddress: IUserAddress;
 }
 
 const initialState = {
@@ -100,12 +82,6 @@ const initialState = {
   account: {},
   status: false,
   message: '',
-  informationVAT: {},
-  listUser: [],
-  deliveryAddress: [],
-  paymentAddress: [],
-  ortherAddress: [],
-  itemAddress: {},
 } as IInitialState;
 
 export const userSlice = createSlice({
@@ -113,17 +89,6 @@ export const userSlice = createSlice({
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(loginWithEmail.fulfilled, (state, action) => {
-      localStorage.setItem('jwt', action.payload.data);
-    });
-    builder.addCase(registerWithEmail.fulfilled, (state, action) => {
-      state.isUser = false;
-      state.OTP = '';
-    });
-    builder.addCase(sendOTP.fulfilled, (state, action) => {
-      state.OTP = action.payload.data;
-      state.isUser = action.payload.isUser;
-    });
     builder.addCase(getInfo.fulfilled, (state, action) => {
       if (action.payload.data) {
         state.account = action.payload.data;
@@ -139,71 +104,6 @@ export const userSlice = createSlice({
     builder.addCase(addInformationVAT.fulfilled, (state, action) => {
       state.status = action.payload.data;
       state.message = action.payload.message;
-    });
-    builder.addCase(getInformationVAT.fulfilled, (state, action) => {
-      state.informationVAT = action.payload.data;
-    });
-    builder.addCase(addUserAddress.fulfilled, (state, action) => {
-      state.status = action.payload.data;
-      state.message = action.payload.message;
-    });
-    builder.addCase(updateUserAddress.fulfilled, (state, action) => {
-      state.status = action.payload.data;
-      state.message = action.payload.message;
-    });
-    builder.addCase(getAllUserAddress.fulfilled, (state, action) => {
-      if (action.payload.data) {
-        const address: Array<IUserAddress> = action.payload.data;
-        state.paymentAddress = [];
-        state.deliveryAddress = [];
-        state.ortherAddress = [];
-
-        address.map((item) => {
-          if (!!item.PaymentAddress) {
-            state.paymentAddress.push(item);
-          } else if (!!item.DeliveryAddress) {
-            state.deliveryAddress.push(item);
-          } else {
-            state.ortherAddress.push(item);
-          }
-        });
-      }
-    });
-    builder.addCase(getUserAddress.fulfilled, (state, action) => {
-      state.itemAddress = action.payload.data;
-    });
-    builder.addCase(deleteUserAddress.fulfilled, (state, action) => {
-      state.status = action.payload.data;
-      state.message = action.payload.message;
-    });
-    builder.addCase(getInfo.rejected, (state, action) => {
-      state.isAccount = false;
-    });
-    builder.addCase(doGetAllUser.fulfilled, (state, action) => {
-      state.listUser = action.payload.data;
-    });
-    builder.addCase(doChangeActiveUser.fulfilled, (state, action) => {
-      const userid = action.payload.data;
-
-      if (userid) {
-        const index = state.listUser.findIndex((item: any) => item.userid === parseInt(userid));
-
-        if (index >= 0) {
-          state.listUser[index].active = !state.listUser[index].active;
-        }
-      }
-    });
-
-    builder.addCase(doChangeRoleUser.fulfilled, (state, action) => {
-      const { role, userid } = action.payload.data;
-
-      if (userid) {
-        const index = state.listUser.findIndex((item: any) => item.userid === parseInt(userid));
-
-        if (index >= 0) {
-          state.listUser[index].typeofuser = role;
-        }
-      }
     });
   },
 });
