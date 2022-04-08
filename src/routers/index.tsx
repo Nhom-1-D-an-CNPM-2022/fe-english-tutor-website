@@ -16,7 +16,7 @@ export const Routers = () => {
         <PublicRouter
           exact={true}
           path={'/'}
-          component={SearchBox}
+          component={Home}
           layout={HeaderFooterLayout}
           isHasHeader={true}
           header={Header}
