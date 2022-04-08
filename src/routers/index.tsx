@@ -45,7 +45,7 @@ export const Routers = () => {
         />
         <PublicRouter
           exact={true}
-          path={'/login'}
+          path={'/student/login'}
           component={Login}
           layout={HeaderFooterLayout}
           isHasHeader={true}

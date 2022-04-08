@@ -1,0 +1,18 @@
+.filter-tutor {
+  display: flex;
+  position: relative;
+  &__button {
+    font-size: 12px;
+    margin: 4px;
+    color: #565454;
+    border: 1px solid #ccc;
+    line-height: 2;
+    letter-spacing: 0.6px;
+    padding: 5px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    &:hover {
+      background-color: #f0f0f0;
+    }
+  }
+}
