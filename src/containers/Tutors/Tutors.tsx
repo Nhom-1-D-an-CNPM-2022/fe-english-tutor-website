@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState }  from 'react';
 import { FilterTutor, TutorCard } from '../../components';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -13,12 +13,21 @@ import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import ButtonBase from '@mui/material/ButtonBase';
+import tutorApi from '../../services/aixos/tutorApi';
 import './Tutors.scss';
 
 export const Tutors = () => {
   const pages = ['Products', 'Pricing', 'Blog'];
   const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
+  const [tutorList, setTutorList] = useState([]);
+  useEffect(() => {
+    async function fetchMyAPI() {
+        let response = await tutorApi.getAllTutor()
+        setTutorList(arr => arr.concat(response.data));
+      }
+      fetchMyAPI();
+    }, [])
+   
   return (
     <div className="tutors">
       <Toolbar variant="regular" disableGutters={true} className="toolbar-container">
@@ -53,16 +62,9 @@ export const Tutors = () => {
       <div className="container-tutors">
         <div className="list-tutors">
           <div className="column-tutors">
-            <TutorCard />
-            <TutorCard />
-
-            <TutorCard />
-            <TutorCard />
-            <TutorCard />
-            <TutorCard />
-            <TutorCard />
-            <TutorCard />
-            <TutorCard />
+          {tutorList && tutorList.map((item, i) => {
+              return <TutorCard key={i} name={item.fullname} introduction={item.introduction} ageOfAccount={item.ageOfAccount} accent="USA"/>
+            })}
           </div>
         </div>
       </div>
