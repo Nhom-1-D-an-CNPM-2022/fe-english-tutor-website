@@ -18,6 +18,7 @@ interface IValueLogin {
   password: string;
   isPassword: boolean;
   showPassword: boolean;
+  errorMessage: string;
 }
 interface ILoginWithForm {
   values: IValueLogin;
@@ -42,12 +43,24 @@ export const LoginWithForm: React.FC<ILoginWithForm> = ({
           defaultValue={values.email}
           onChange={handleChange('email')}
           error={values.isEmail === false && values.email === ''}
-          helperText={(values.isEmail === false && values.email === '') ? 'Vui lòng nhập email đã đăng ký' : ' '}
+          helperText={
+            values.isEmail === false && values.email === '' ? 'Vui lòng nhập email đã đăng ký' : ' '
+          }
         />
+        {values.errorMessage && (
+          <FormHelperText error id="outlined-name">
+            {values.errorMessage}
+          </FormHelperText>
+        )}
         <div className="login-with-form--mt-15"></div>
       </FormControl>
       <FormControl sx={{ width: '350px' }}>
-        <InputLabel htmlFor="outlined-adornment-password" error={!values.isPassword && values.password === ''}>Mật khẩu</InputLabel>
+        <InputLabel
+          htmlFor="outlined-adornment-password"
+          error={!values.isPassword && values.password === ''}
+        >
+          Mật khẩu
+        </InputLabel>
         <OutlinedInput
           id="outlined-adornment-password"
           type={values.showPassword ? 'text' : 'password'}

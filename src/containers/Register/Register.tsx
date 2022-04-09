@@ -11,7 +11,9 @@ export const Register = () => {
     email: '',
     password: '',
     showPassword: false,
+    errorMessage: '',
   });
+  const [error, setError] = React.useState('');
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     axios
@@ -20,19 +22,29 @@ export const Register = () => {
         password: values.password,
       })
       .then(function (response: any) {
-        if (response.accessToken !== '') {
-          localStorage.setItem('accessToken', response.accessToken);
-          if (history.action === 'PUSH') {
-            history.goBack();
-          } else {
-            history.push({
-              pathname: `/`,
-            });
-          }
-        }
+        axios
+          .post(`${process.env.URL_MY_API}users/login`, {
+            email: values.email,
+            password: values.password,
+          })
+          .then(function (response: any) {
+            if (response.accessToken !== '') {
+              localStorage.setItem('accessToken', response.accessToken);
+              if (history.action === 'PUSH') {
+                history.goBack();
+              } else {
+                history.push({
+                  pathname: `/`,
+                });
+              }
+            }
+          })
+          .catch(function (error: any) {
+            console.log(error);
+          });
       })
       .catch(function (error: any) {
-        console.log(error);
+        setValues({ ...values, errorMessage: error.response.data.message });
       });
   };
 
