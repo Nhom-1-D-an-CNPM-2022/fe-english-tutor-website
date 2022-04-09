@@ -13,7 +13,13 @@ import SvgIcon from '@mui/material/SvgIcon';
 import { red } from '@mui/material/colors';
 import Paper from '@mui/material/Paper';
 import './TutorCard.scss'
-export const TutorCard = () => {
+interface ITutorCard{
+  name?: string;
+  accent?: string;
+  introduction?: string;
+  ageOfAccount?: number;
+}
+export const TutorCard: React.FC<ITutorCard> = ({name, accent, introduction, ageOfAccount}) => {
   return (
     <Paper square={true} variant="elevation" className='paper-cardtutor'>
     <Card sx={{ maxWidth: 480 }}>
@@ -33,7 +39,7 @@ export const TutorCard = () => {
           </IconButton>
         }
         title={
-            <span className='tutor-name'>Ms. Keiko</span>
+            <span className='tutor-name'>{name}</span>
         }
         subheader={
             <div className="sub-header">
@@ -46,19 +52,19 @@ export const TutorCard = () => {
                 <br/>
                 <span className="accent">
                     <img src="https://www.cambly.com/static/images/country-flag-icons/US.png" alt="Giọng Mỹ" className='accent-img'/>
-                    USA
+                    {accent}
                 </span>
             </div>
         }
       />
     <CardContent>
       <Typography variant="body2" color="text.secondary">
-        Hi my name is Ms. Keiko and I have been a Special Education teacher for over 20 years. I just moved to Spain and I am also learning a new...
+        {introduction}
       </Typography>
     </CardContent>
     <CardActions className='card-footer'>
       <Button size="small" className='button-footer'>Tin nhắn</Button>
-      <Button size="small" className='button-footer'>Hồ sơ</Button>
+      <Button size="small" className='button-footer'>Gọi</Button>
     </CardActions>
   </Card>
   </Paper>
