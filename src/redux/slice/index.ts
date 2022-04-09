@@ -7,3 +7,4 @@ export * from './appSlice/userSlice';
 export * from './appSlice/statisticSlice';
 export * from './appSlice/cartSlice';
 export * from './appSlice/orderSlice';
+export * from './appSlice/tutorSlice';
