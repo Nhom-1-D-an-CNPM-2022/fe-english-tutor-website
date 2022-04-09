@@ -3,36 +3,56 @@ import axios from 'axios';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { LoginWithForm, LoginWithSocial } from '../../components';
+import { ILoginIllustration } from '../../constants/images';
 import './Login.scss';
 
 export const Login = () => {
   const history = useHistory();
   const [values, setValues] = React.useState({
     email: '',
+    isEmail: true,
     password: '',
+    isPassword: true,
     showPassword: false,
   });
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    axios.post(`${process.env.URL_MY_API}users/login`, {
-      email: values.email,
-      password: values.password,
-    })
-    .then(function (response: any) {
-      if(response.accessToken !== ""){
-        localStorage.setItem('accessToken', response.accessToken);
-        if (history.action === 'PUSH') {
-          history.goBack();
-        } else {
-          history.push({
-            pathname: `/`,
-          });
-        }
+    if (values.email === '') {
+      values.isEmail = false;
+      setValues({...values});
+      if (values.password === '') {
+        values.isPassword = false;
+        setValues({...values});
+        return;
       }
-    })
-    .catch(function (error:any) {
-      console.log(error);
-    });
+      return;
+    }
+    if (values.password === '') {
+      values.isPassword = false;
+      setValues(values);
+      return;
+    } else {
+      axios
+        .post(`${process.env.URL_MY_API}users/login`, {
+          email: values.email,
+          password: values.password,
+        })
+        .then(function (response: any) {
+          if (response.accessToken !== '') {
+            localStorage.setItem('accessToken', response.accessToken);
+            if (history.action === 'PUSH') {
+              history.goBack();
+            } else {
+              history.push({
+                pathname: `/`,
+              });
+            }
+          }
+        })
+        .catch(function (error: any) {
+          console.log(error);
+        });
+    }
   };
 
   const handleChange = (prop: any) => (event: any) => {
@@ -48,7 +68,7 @@ export const Login = () => {
   return (
     <div className="login">
       <div className="login__img">
-        <img src="https://www.cambly.com/fe/static/login_illustration_big.png" alt="Cambly" />
+        <img src={ILoginIllustration} alt="Cambly" />
       </div>
       <div className="login__wrap">
         <h1>Chào mừng quay trở lại với Cambly</h1>
@@ -72,7 +92,7 @@ export const Login = () => {
           Đăng nhập
         </Button>
         <h6 className="login--mt-15 login--mb-15">
-          Mới dùng Cambly?<span className="login--color-primary">Đăng ký</span>
+          Mới dùng Cambly? <span className="login--color-primary">Đăng ký</span>
         </h6>
       </div>
     </div>

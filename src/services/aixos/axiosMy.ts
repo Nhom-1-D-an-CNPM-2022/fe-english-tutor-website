@@ -10,7 +10,7 @@ const token = localStorage.getItem('jwt');
 const buildysURL = process.env.REACT_APP_LINK_BUILDYS;
 
 const axiosMy = axios.create({
-  baseURL: baseURL + "/api/",
+  baseURL: baseURL,
   headers: {
     "content-type": "application/json",
     Authorization: token,
