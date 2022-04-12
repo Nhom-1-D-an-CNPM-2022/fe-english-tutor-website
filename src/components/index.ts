@@ -5,3 +5,4 @@ export * from './TutorCard/TutorCard';
 export * from './LoginWithForm/LoginWithForm';
 export * from './LoginWithSocial/LoginWithSocial';
 export * from './FilterTutor/FilterTutor';
+export * from './Video/Video';
