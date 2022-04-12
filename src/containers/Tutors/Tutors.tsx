@@ -1,4 +1,4 @@
-import React, { useEffect, useState }  from 'react';
+import React, { useEffect, useState } from 'react';
 import { FilterTutor, TutorCard } from '../../components';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -20,14 +20,26 @@ export const Tutors = () => {
   const pages = ['Products', 'Pricing', 'Blog'];
   const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
   const [tutorList, setTutorList] = useState([]);
+  const [query, setQuery] = useState('');
+
   useEffect(() => {
     async function fetchMyAPI() {
-        let response = await tutorApi.getAllTutor()
-        setTutorList(arr => arr.concat(response.data));
-      }
-      fetchMyAPI();
-    }, [])
-   
+      let response = await tutorApi.getAllTutor();
+      setTutorList((arr) => arr.concat(response.data));
+    }
+    fetchMyAPI();
+  }, []);
+
+  const handleSubmitSearchAllTutors = async (e: any) => {
+    e.preventDefault();
+    const response = await tutorApi.searchAllTutors(query);
+    setTutorList(response.data);
+  };
+
+  const handleOnChange = (e: any) => {
+    setQuery(e.target.value);
+  };
+
   return (
     <div className="tutors">
       <Toolbar variant="regular" disableGutters={true} className="toolbar-container">
@@ -46,6 +58,7 @@ export const Tutors = () => {
           <Paper
             component="form"
             sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
+            onSubmit={handleSubmitSearchAllTutors}
           >
             <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
               <SearchIcon />
@@ -54,17 +67,30 @@ export const Tutors = () => {
               sx={{ ml: 1, flex: 1 }}
               placeholder="Tên, ngôn ngữ, sở thích riêng"
               inputProps={{ 'aria-label': 'tên, ngôn ngữ, sở thích riêng' }}
+              onChange={handleOnChange}
             />
           </Paper>
         </Box>
       </Toolbar>
-      <Box className="box-tutor"> <FilterTutor></FilterTutor></Box>
+      <Box className="box-tutor">
+        {' '}
+        <FilterTutor></FilterTutor>
+      </Box>
       <div className="container-tutors">
         <div className="list-tutors">
           <div className="column-tutors">
-          {tutorList && tutorList.map((item, i) => {
-              return <TutorCard key={i} name={item.fullname} introduction={item.introduction} ageOfAccount={item.ageOfAccount} accent="USA"/>
-            })}
+            {tutorList &&
+              tutorList.map((item, i) => {
+                return (
+                  <TutorCard
+                    key={i}
+                    name={item.fullname}
+                    introduction={item.introduction}
+                    ageOfAccount={item.ageOfAccount}
+                    accent="USA"
+                  />
+                );
+              })}
           </div>
         </div>
       </div>
