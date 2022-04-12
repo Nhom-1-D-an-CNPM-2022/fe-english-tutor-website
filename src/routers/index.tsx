@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
 import { Home, Login, Tutors, Register, State, VideoCall } from '../containers';
-import { SearchBox } from '../components';
+//import { SearchBox } from '../components';
 import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
 import { BlankLayout, HeaderFooterLayout, OnlyFooterLayout, OnlyHeaderLayout } from '../layouts';
