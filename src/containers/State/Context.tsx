@@ -24,6 +24,7 @@ interface IContext {
           leaveCall: any;
           handleScreenSharing: any;
           screenShare: any;
+          iCall1: any;
 }
 
 const Context = createContext<IContext|null>(null);

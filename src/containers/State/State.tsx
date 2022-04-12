@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 import Context from "./Context";
 import Peer from 'simple-peer';
 
-const URL = "http://localhost:5000/";
+const URL = process.env.URL_MY_API;
 export const socket = io(URL);
 
 interface IState{
@@ -14,7 +14,7 @@ export const State:React.FC<IState> = ({children}) => {
 
     const [onlineList, setOnlineList] = useState([]);
     const [receiveCall, setReceiveCall] = useState(false);
-    const [otherUser, setOtherUser] = useState();
+    const [otherUser, setOtherUser] = useState('');
     const [signalCall, setSignalCall] = useState({});
     const [video, setVideo] = useState({});
     const [isCall, setIsCall] = useState(false);
@@ -78,6 +78,20 @@ export const State:React.FC<IState> = ({children}) => {
       setOtherUser(id);
       setIsCall(true);
       socket.emit('callToUser', ({from: socket.id, to: id}));
+    };
+
+    const iCall1 = () =>{
+      if (onlineList.length < 2)
+        alert('Cuộc gọi thất bại')
+      else{
+        let id = '';
+        for (let t of onlineList)
+          id = t;
+        setOtherUser(id);
+        setIsCall(true);
+        socket.emit('callToUser', ({from: socket.id, to: id}));
+        window.location.href = '/call';
+      }
     };
 
     const iCall = () =>{
@@ -239,6 +253,7 @@ export const State:React.FC<IState> = ({children}) => {
           setMicroStatus,
           handleScreenSharing,
           screenShare,
+          iCall1,
         }}>
           {children}
         </Context.Provider>

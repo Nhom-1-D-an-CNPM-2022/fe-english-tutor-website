@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './Header.scss';
 
 import { Link } from 'react-router-dom';
@@ -7,8 +7,12 @@ import { IoMdNotificationsOutline } from 'react-icons/io';
 import { AiOutlineCalendar } from 'react-icons/ai';
 import { BsFillQuestionCircleFill } from 'react-icons/bs';
 import { FaUserCircle } from 'react-icons/fa';
+import {Modal, Button} from 'react-bootstrap';
+import {NavLink} from 'react-router-dom';
 
 import { MenuUser } from './MenuUser/MenuUser';
+
+import Context from '../../../containers/State/Context';
 
 export const Header = () => {
   const className = 'header';
@@ -18,12 +22,29 @@ export const Header = () => {
     setOpenMenuUser(!openMenuUser);
   };
 
+  const {
+    receiveCall,
+    setReceiveCall,
+    decline,
+  } = useContext(Context);
+
   return (
     <div className={className}>
       <div className={`${className}__content`}>
         <Link to={''} className={`${className}__logo`}>
           <img src="https://www.cambly.com/fe/static/logos/sm/primary.png" alt="Logo" />
         </Link>
+        <Modal
+            title="Chat"
+            footer={null}
+            show = {receiveCall}
+            onHide = {receiveCall}
+            style={{ maxHeight: "100px" }}
+            >
+              <label>You just received a call</label>
+              <Button ><NavLink to={`/call`}>Accept</NavLink></Button>
+              <Button onClick={()=> {setReceiveCall(false); decline();}}>Decline</Button>
+        </Modal>
         <div className={`${className}__tabs`}>
           <div className={`${className}__tabs--content`}>
             <div className={`${className}__tabs--flex`}>
