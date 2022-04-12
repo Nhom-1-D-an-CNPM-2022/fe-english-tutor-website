@@ -5,16 +5,14 @@ import {BsCameraVideoFill, BsCameraVideoOffFill, BsFillChatRightDotsFill} from '
 import {MdOutlineScreenShare, MdOutlineStopScreenShare} from 'react-icons/md'
 import { Video } from '../../components'
 import './VideoCall.scss';
-import Context from '../../components/State/Context'
+import Context from '../State/Context'
 
 export const VideoCall =  () => {
     const {
       userVideo,
-      setVideo,
       isCall,
       iCall,
       acceptCall,
-      video,
       myVideo,
       yourMic,
       myMic,
@@ -48,7 +46,7 @@ export const VideoCall =  () => {
           style={{ textAlign: "center" }}
           className="card"
         >
-              <Video isMute = {myMic} isVid = {myVid} myVideo={myVideo}/>
+              <Video isMute = {true} isVid = {myVid} myVideo={myVideo}/>
             </div>
             <div className="card2">
               {callSuccess ?
@@ -69,8 +67,8 @@ export const VideoCall =  () => {
             {!screenShare? <Button variant="secondary" style={{width:'50px', height: '50px', margin: '10px', cursor:'pointer'}} onClick={handleScreenSharing}><MdOutlineScreenShare/></Button>
             :
             <Button variant="secondary" style={{width:'50px', height: '50px', margin: '10px', cursor:'pointer'}} onClick={handleScreenSharing}><MdOutlineStopScreenShare /></Button>}
-            <Button variant="secondary" style={{width:'50px', height: '50px', margin: '10px', display: 'inline', cursor:'pointer'}}><BsFillChatRightDotsFill/>1</Button>
-            <Button onClick={leaveCall} style={{width:'50px', height: '50px', margin: '10px', color: 'red', cursor:'pointer'}}><FaPhoneSlash /></Button>
+            <Button variant="secondary" style={{width:'50px', height: '50px', margin: '10px', display: 'inline', cursor:'pointer'}}><BsFillChatRightDotsFill/></Button>
+            <Button variant="secondary" onClick={leaveCall} style={{width:'50px', height: '50px', margin: '10px', color: 'red', cursor:'pointer'}}><FaPhoneSlash /></Button>
         </ButtonGroup>
       </div>
       </>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import Context from "./Context";
-import Peer from "simple-peer";
+import Peer from 'simple-peer';
 
 const URL = "http://localhost:5000/";
 export const socket = io(URL);
