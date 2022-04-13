@@ -19,10 +19,10 @@ export const Login = () => {
     e.preventDefault();
     if (values.email === '') {
       values.isEmail = false;
-      setValues({...values});
+      setValues({ ...values });
       if (values.password === '') {
         values.isPassword = false;
-        setValues({...values});
+        setValues({ ...values });
         return;
       }
       return;
@@ -39,7 +39,8 @@ export const Login = () => {
         })
         .then(function (response: any) {
           if (response.accessToken !== '') {
-            localStorage.setItem('accessToken', response.accessToken);
+            localStorage.setItem('accessToken', response.data.accessToken);
+            
             if (history.action === 'PUSH') {
               history.goBack();
             } else {

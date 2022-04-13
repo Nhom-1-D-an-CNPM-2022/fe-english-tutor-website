@@ -29,8 +29,8 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getInfo.fulfilled, (state, action) => {
-      if (action.payload.data) {
-        state.account = action.payload.data;
+      if (action.payload.user) {
+        state.account = action.payload.user;
         state.isAccount = true;
       } else {
         state.isAccount = false;
