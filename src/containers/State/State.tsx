@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 import Context from "./Context";
 import Peer from 'simple-peer';
 
-const URL = process.env.URL_MY_API;
+const URL = 'https://apinc.herokuapp.com/';
 export const socket = io(URL);
 
 interface IState{
@@ -86,7 +86,12 @@ export const State:React.FC<IState> = ({children}) => {
       else{
         let id = '';
         for (let t of onlineList)
+        if (t!= socket.id)
           id = t;
+        if (id === ''){
+          alert('Cuộc gọi thất bại')
+          return;
+        }
         setOtherUser(id);
         setIsCall(true);
         socket.emit('callToUser', ({from: socket.id, to: id}));
