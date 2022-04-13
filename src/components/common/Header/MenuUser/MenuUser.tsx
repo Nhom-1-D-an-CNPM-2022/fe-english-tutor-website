@@ -5,14 +5,16 @@ import { Link, useHistory } from 'react-router-dom';
 
 interface MenuUser {
   showMenu: boolean;
+  setShowMenu: any;
 }
 
-export const MenuUser = ({ showMenu = false }: MenuUser) => {
+export const MenuUser = ({ showMenu = false, setShowMenu }: MenuUser) => {
   const className = 'menu-user';
   const history = useHistory();
 
   const handleLogout = () => {
-    window.localStorage.clear();
+    setShowMenu(false);
+    localStorage.setItem('accessToken', '');
     history.push({
       pathname: `/log-out`,
     });

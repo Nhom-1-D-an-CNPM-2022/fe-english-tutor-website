@@ -14,7 +14,7 @@ export const Routers = () => {
     <State>
       <Router>
         <Switch>
-          <PublicRouter
+          <PrivateRouter
             exact={true}
             path={'/'}
             component={Home}
