@@ -81,28 +81,10 @@ export const State: React.FC<IState> = ({ children }) => {
       for (let t of onlineList) id = t;
       setOtherUser(id);
       setIsCall(true);
-      socket.emit('callToUser', ({from: socket.id, to: id}));
-    };
-
-    const iCall1 = () =>{
-      if (onlineList.length < 2)
-        alert('Cuộc gọi thất bại')
-      else{
-        let id = '';
-        for (let t of onlineList)
-        if (t!= socket.id)
-          id = t;
-        if (id === ''){
-          alert('Cuộc gọi thất bại')
-          return;
-        }
-        setOtherUser(id);
-        setIsCall(true);
-        socket.emit('callToUser', ({from: socket.id, to: id}));
-        window.location.href = '/call';
-      }
-    };
-
+      socket.emit('callToUser', { from: socket.id, to: id });
+      window.location.href = '/call';
+    }
+  };
 
   const iCall = () => {
     try {

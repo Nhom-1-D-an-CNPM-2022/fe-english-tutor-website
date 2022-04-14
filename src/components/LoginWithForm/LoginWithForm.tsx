@@ -18,7 +18,7 @@ interface IValueLogin {
   password: string;
   isPassword: boolean;
   showPassword: boolean;
-  errorMessage: string;
+  errorMessage?: string;
 }
 interface ILoginWithForm {
   values: IValueLogin;
