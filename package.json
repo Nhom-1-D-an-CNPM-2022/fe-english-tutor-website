@@ -52,6 +52,9 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
+    "@devexpress/dx-react-core": "^3.0.2",
+    "@devexpress/dx-react-scheduler": "^3.0.2",
+    "@devexpress/dx-react-scheduler-material-ui": "^3.0.2",
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
     "@material-ui/core": "^4.12.3",
@@ -72,6 +75,7 @@
     "boxicons": "^2.0.9",
     "chart.js": "^3.6.2",
     "cloudinary-react": "^1.7.0",
+    "clsx": "^1.1.1",
     "jquery": "^3.6.0",
     "moment": "^2.29.1",
     "popper.js": "^1.16.1",
