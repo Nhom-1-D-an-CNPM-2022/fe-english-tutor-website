@@ -64,6 +64,26 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
+          <PublicRouter
+            exact={true}
+            path={'/student/login'}
+            component={Login}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PrivateRouter
+            exact={true}
+            path={'/log-out'}
+            component={Home}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
         </Switch>
       </Router>
     </State>

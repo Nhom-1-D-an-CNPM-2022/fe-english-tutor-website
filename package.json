@@ -9,7 +9,8 @@
     "test": "jest",
     "watch": "webpack-dev-server --progress --colors --hot --inline",
     "buildOnWin": "set \"GENERATE_SOURCEMAP=false\" && webpack --mode production",
-    "buildOnLinux": "GENERATE_SOURCEMAP=false webpack --mode production"
+    "buildOnLinux": "GENERATE_SOURCEMAP=false webpack --mode production",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",

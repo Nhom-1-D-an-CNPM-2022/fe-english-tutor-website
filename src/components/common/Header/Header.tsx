@@ -11,7 +11,6 @@ import { Modal, Button } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
 import { MenuUser } from './MenuUser/MenuUser';
-
 import Context from '../../../containers/State/Context';
 
 export const Header = () => {
