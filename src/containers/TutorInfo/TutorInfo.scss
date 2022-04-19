@@ -1,0 +1,54 @@
+.tutor-info {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 70%;
+  &__header {
+    width: 100%;
+    z-index: 9999 !important;
+    &__wrapper {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 15px;
+      &__content {
+        margin: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        &__rating {
+          display: flex;
+          line-height: 13px;
+          align-items: center;
+        }
+      }
+    }
+  }
+
+  &__body {
+    margin-top: 15px;
+    width: 100%;
+    flex-direction: column;
+    &__divider {
+      width: 100%;
+      margin: 20px 0 !important;
+    }
+    &__introduce {
+      display: flex;
+      flex-direction: column;
+    }
+    &__my-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      &__header {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+      }
+      &__content {
+        margin-left: 37px;
+      }
+    }
+  }
+}
