@@ -1,13 +1,15 @@
 import React from 'react';
-import { Schedule } from '../../components';
-
 import './Scheduler.scss';
 
-export const Scheduler = () =>{
+import { Schedule, ScheduleInfo } from '../../components';
+import { useParams } from 'react-router-dom';
 
-    return (
-        <div className="scheduler">
-        <Schedule/>
-        </div>
-    )
-}
+export const Scheduler = () => {
+  const { id }: any = useParams();
+
+  if (id != undefined) {
+    return <ScheduleInfo />;
+  }
+
+  return <Schedule />;
+};

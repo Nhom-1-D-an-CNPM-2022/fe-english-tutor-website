@@ -1,4 +1,4 @@
-@import '../../assets/scss/variable.scss';
+@import "../../assets/scss/variable.scss";
 
 .header-footer {
   width: 100%;
@@ -32,5 +32,6 @@
     justify-content: center;
     align-items: center;
     z-index: 999;
+    background: rgba(0, 0, 0, 0.05);
   }
 }
