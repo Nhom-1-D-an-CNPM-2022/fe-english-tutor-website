@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
-
 import {
   Home,
   Login,
@@ -8,7 +7,6 @@ import {
   Register,
   State,
   VideoCall,
-  Scheduler,
   TutorInfo,
 } from '../containers';
 //import { SearchBox } from '../components';
@@ -93,16 +91,7 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-          <PublicRouter
-            exact={true}
-            path={'/student/schedule'}
-            component={Scheduler}
-            layout={HeaderFooterLayout}
-            isHasHeader={true}
-            header={Header}
-            isHasFooter={true}
-            footer={Footer}
-          />
+         
         </Switch>
       </Router>
     </State>

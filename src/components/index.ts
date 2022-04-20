@@ -6,4 +6,3 @@ export * from './LoginWithForm/LoginWithForm';
 export * from './LoginWithSocial/LoginWithSocial';
 export * from './FilterTutor/FilterTutor';
 export * from './Video/Video';
-export * from './Schedule/Schedule';
