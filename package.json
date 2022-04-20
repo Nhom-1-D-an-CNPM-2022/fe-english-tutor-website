@@ -75,6 +75,7 @@
     "cloudinary-react": "^1.7.0",
     "clsx": "^1.1.1",
     "jquery": "^3.6.0",
+    "material-ui-popup-state": "^2.0.0",
     "moment": "^2.29.1",
     "popper.js": "^1.16.1",
     "query-string": "^7.0.1",

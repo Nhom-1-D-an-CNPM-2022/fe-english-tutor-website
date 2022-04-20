@@ -8,6 +8,7 @@ import {
   State,
   VideoCall,
   TutorInfo,
+  Scheduler
 } from '../containers';
 //import { SearchBox } from '../components';
 import { PrivateRouter } from './PrivateRouter';
@@ -91,7 +92,26 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-         
+          <PublicRouter
+            exact={true}
+            path={'/student/schedule'}
+            component={Scheduler}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PublicRouter
+            exact={true}
+            path={'/student/schedule/:id'}
+            component={Scheduler}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
         </Switch>
       </Router>
     </State>
