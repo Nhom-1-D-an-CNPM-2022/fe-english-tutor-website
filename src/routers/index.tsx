@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
-import { Home, Login, Tutors, Register, State, VideoCall } from '../containers';
+import { Home, Login, Tutors, Register, State, VideoCall, Scheduler } from '../containers';
 //import { SearchBox } from '../components';
 import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
@@ -58,6 +58,26 @@ export const Routers = () => {
             exact={true}
             path={'/student/login'}
             component={Login}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PrivateRouter
+            exact={true}
+            path={'/log-out'}
+            component={Home}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PublicRouter
+            exact={true}
+            path={'/student/schedule'}
+            component={Scheduler}
             layout={HeaderFooterLayout}
             isHasHeader={true}
             header={Header}

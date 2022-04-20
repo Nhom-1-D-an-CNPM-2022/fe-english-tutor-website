@@ -27,7 +27,6 @@ export const PrivateRouter: React.FC<IPrivateRouter> = ({
   const isAccount = useSelector((state: RootState) => state.userSlice.isAccount);
   const fecthInfo = async () => {
     const check = (await dispatch(getInfo({ jwt: localStorage.getItem('accessToken') }))).payload;
-    console.log('check', check);
 
     if (
       check === true ||
@@ -38,16 +37,18 @@ export const PrivateRouter: React.FC<IPrivateRouter> = ({
       setIsFectch(true);
     }
   };
+
   useEffect(() => {
     fecthInfo();
     return;
   }, [location]);
 
   console.log('isAccount', isAccount);
-  console.log('location', location);
 
   const render = (props: any) => {
-    if (isAccount == false && location === '/log-out') {
+    console.log('location', location);
+
+    if (isAccount === false && location === '/log-out') {
       return <Redirect to="/student/login" />;
     }
 

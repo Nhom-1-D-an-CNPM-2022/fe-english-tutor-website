@@ -74,7 +74,6 @@ export const State: React.FC<IState> = ({ children }) => {
     socket.emit('callToUser', { from: socket.id, to: id });
   };
 
-
     const iCall1 = () =>{
       if (onlineList.length < 2)
         alert('Cuộc gọi thất bại')
@@ -93,7 +92,6 @@ export const State: React.FC<IState> = ({ children }) => {
         window.location.href = '/call';
       }
     };
-
 
   const iCall = () => {
     try {

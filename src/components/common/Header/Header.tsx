@@ -11,7 +11,6 @@ import { Modal, Button } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
 import { MenuUser } from './MenuUser/MenuUser';
-
 import Context from '../../../containers/State/Context';
 
 export const Header = () => {
@@ -98,7 +97,9 @@ export const Header = () => {
             <button className={`${className}__btn--root`}>
               <span className={`${className}__label`}>
                 <span className={`${className}__root`}>
-                  <AiOutlineCalendar size={24} />
+                  <Link to="/student/schedule" style={{ transform: 'translateY(-4px)' }}>
+                    <AiOutlineCalendar size={24} color="rgb(68 61 61)" />
+                  </Link>
                 </span>
               </span>
             </button>
