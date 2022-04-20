@@ -1,5 +1,4 @@
 import React from 'react';
-import './Scheduler.scss';
 
 import { Schedule, ScheduleInfo } from '../../components';
 import { useParams } from 'react-router-dom';
