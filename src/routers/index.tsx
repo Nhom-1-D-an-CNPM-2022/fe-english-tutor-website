@@ -1,7 +1,20 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
+<<<<<<< HEAD
 
 import { Home, Login, Tutors, Register, State, VideoCall, Scheduler, Introduction } from '../containers';
+=======
+import {
+  Home,
+  Login,
+  Tutors,
+  Register,
+  State,
+  VideoCall,
+  TutorInfo,
+  Scheduler
+} from '../containers';
+>>>>>>> aed7a503fc02dc8a1099197df86a0496ffdd96b1
 //import { SearchBox } from '../components';
 import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
@@ -66,6 +79,16 @@ export const Routers = () => {
           />
           <PublicRouter
             exact={true}
+            path={'/tutors/:tutorId'}
+            component={TutorInfo}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PublicRouter
+            exact={true}
             path={'/student/login'}
             component={Login}
             layout={HeaderFooterLayout}
@@ -87,6 +110,16 @@ export const Routers = () => {
           <PublicRouter
             exact={true}
             path={'/student/schedule'}
+            component={Scheduler}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PublicRouter
+            exact={true}
+            path={'/student/schedule/:id'}
             component={Scheduler}
             layout={HeaderFooterLayout}
             isHasHeader={true}
