@@ -1,9 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
-<<<<<<< HEAD
-
-import { Home, Login, Tutors, Register, State, VideoCall, Scheduler, Introduction } from '../containers';
-=======
 import {
   Home,
   Login,
@@ -12,9 +8,9 @@ import {
   State,
   VideoCall,
   TutorInfo,
-  Scheduler
+  Scheduler,
+  Introduction
 } from '../containers';
->>>>>>> aed7a503fc02dc8a1099197df86a0496ffdd96b1
 //import { SearchBox } from '../components';
 import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
