@@ -9,6 +9,10 @@ export const searchAllTutors = createAsyncThunk('/tutors/search', async (params:
   return await tutorApi.searchAllTutors(params).then((res) => res.data);
 });
 
+export const getTutorsProfile = createAsyncThunk('/tutors/profile/:id', async (id: string) => {
+  return await tutorApi.getTutorsProfile(id).then((res) => res.data);
+});
+
 interface IInitialState {
   fullname: string;
   introduction: string;
@@ -16,6 +20,8 @@ interface IInitialState {
   tutorList: any;
   status: boolean;
   message: string;
+  interests: string;
+  profession: string[];
 }
 
 const initialState = {
@@ -25,6 +31,8 @@ const initialState = {
   tutorList: [],
   status: false,
   message: '',
+  interests: '',
+  profession: [],
 } as IInitialState;
 
 export const tutorSlice = createSlice({
@@ -38,6 +46,13 @@ export const tutorSlice = createSlice({
     });
     builder.addCase(searchAllTutors.fulfilled, (state, action) => {
       state.tutorList = action.payload.data;
+      state.message = action.payload.message;
+    });
+    builder.addCase(getTutorsProfile.fulfilled, (state, action) => {
+      state.fullname = action.payload.data.fullname;
+      state.introduction = action.payload.data.introduction;
+      state.interests = action.payload.data.interests;
+      state.profession = action.payload.data.profession.trim().split(',');
       state.message = action.payload.message;
     });
   },
