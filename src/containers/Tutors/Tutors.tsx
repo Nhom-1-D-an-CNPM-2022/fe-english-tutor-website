@@ -39,7 +39,9 @@ export const Tutors = () => {
   const handleOnChange = (e: any) => {
     setQuery(e.target.value);
   };
-
+  const onChangeTutorListByFilter = (data: any) => {
+    setTutorList(data);
+  };
   return (
     <div className="tutors">
       <Toolbar variant="regular" disableGutters={true} className="toolbar-container">
@@ -73,8 +75,7 @@ export const Tutors = () => {
         </Box>
       </Toolbar>
       <Box className="box-tutor">
-        {' '}
-        <FilterTutor></FilterTutor>
+        <FilterTutor onChangeTutorListByFilter={onChangeTutorListByFilter}></FilterTutor>
       </Box>
       <div className="container-tutors">
         <div className="list-tutors">
