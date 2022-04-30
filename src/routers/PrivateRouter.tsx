@@ -83,7 +83,7 @@ export const PrivateRouter: React.FC<IPrivateRouter> = ({
         <Component {...props} />
       </Layout>
     ) : (
-      <Redirect to="/student/login" />
+      <Redirect to="/home" />
     );
   };
 

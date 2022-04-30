@@ -1,0 +1,117 @@
+.scheduleBody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__content {
+        width: 100%;
+        display: inline-grid;
+        grid-template-columns: auto auto auto auto auto auto auto;
+    }
+
+    &__title {
+        text-align: center;
+
+        h5 {
+            font-size: 14px;
+            font-weight: 300;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-family: inherit;
+            line-height: 1.2;
+            color: inherit;
+        }
+    }
+
+    &__day {
+        background: rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+        height: 12vh;
+        margin: 8px;
+        padding: 8px 8px 6px;
+        overflow: hidden;
+        border-radius: 3px;
+        position: relative;
+    }
+
+    &__past {
+        background: rgba(17, 187, 62, 0.02);
+        color: rgb(153, 153, 153);
+        border: inherit;
+        opacity: inherit;
+        cursor: default !important;
+    }
+    &__booked{
+        border-radius: 24px;
+        background: rgb(16, 206, 41);
+        color: rgb(255, 255, 255);
+        width: 20px;
+        float: right;
+        text-align: center;
+    }
+    &__hide {
+        background-color: #fff !important;
+        cursor: default !important;
+    }
+
+    &__text-content {
+        display: flex;
+        margin-top: -4px;
+        align-items: center;
+        flex-shrink: 0;
+        justify-content: end;
+    }
+
+    &__text {
+        width: 20px;
+        display: flex;
+        align-self: flex-start;
+        flex-shrink: 1;
+        justify-content: center;
+    }
+
+    &__active {
+        border-radius: 24px;
+        background: rgb(246, 186, 1);
+        color: rgb(255, 255, 255);
+        width: 20px;
+        float: right;
+        text-align: center;
+    }
+
+    &__tutor {
+        display: flex;
+        flex-grow: 1;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    &__btn {
+        display: flex;
+        flex-grow: 1;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .green-line{
+        border: solid rgb(16, 206, 41);
+        border-radius: 5px;
+        width: 15px;
+        height: 3px;
+    }
+}
+.Popup-text-able{
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.87);
+}
+.Popup-button-able{
+    width: initial;
+    background-color: rgb(34, 134, 145);
+    color: rgb(245, 245, 245);
+}
+
+.Popup-button-disable{
+    width: initial;
+    background-color: rgb(189, 189, 189);
+    color: rgb(53, 53, 53);
+}

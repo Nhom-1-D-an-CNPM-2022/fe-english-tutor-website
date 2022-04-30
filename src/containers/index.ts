@@ -7,3 +7,4 @@ export * from './VideoCall/VideoCall';
 export * from './Scheduler/Scheduler';
 export * from './Introduction/Introduction';
 export * from './TutorInfo/TutorInfo';
+export * from './TutorScheduler/TutorScheduler';

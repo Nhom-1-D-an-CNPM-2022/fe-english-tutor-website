@@ -9,7 +9,8 @@ import {
   VideoCall,
   TutorInfo,
   Scheduler,
-  Introduction
+  Introduction,
+  TutorScheduler,
 } from '../containers';
 //import { SearchBox } from '../components';
 import { PrivateRouter } from './PrivateRouter';
@@ -117,6 +118,26 @@ export const Routers = () => {
             exact={true}
             path={'/student/schedule/:id'}
             component={Scheduler}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PublicRouter
+            exact={true}
+            path={'/tutors/schedule/create'}
+            component={TutorScheduler}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PublicRouter
+            exact={true}
+            path={'/tutors/schedule/create/:id'}
+            component={TutorScheduler}
             layout={HeaderFooterLayout}
             isHasHeader={true}
             header={Header}
