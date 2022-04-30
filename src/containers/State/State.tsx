@@ -23,6 +23,7 @@ export const State: React.FC<IState> = ({ children }) => {
   const [yourVid, setYourVid] = useState(true);
   const [callSuccess, setCallSuccess] = useState(false);
   const [screenShare, setScreenShare] = useState(false);
+  const [notifications, setNotifications] = useState([]);
 
   const myVideo = useRef(null);
   const userVideo = useRef(null);
@@ -66,6 +67,12 @@ export const State: React.FC<IState> = ({ children }) => {
         setYourVid(vid);
       }
     });
+
+    socket.on('notification', (teacher: any, course:any, notification: any)=>{
+      const t = notifications;
+      t.push({teacher: teacher, course, notification});
+      setNotifications(t);
+    })
   });
 
   const callUser = async (id: any) => {
@@ -226,6 +233,10 @@ export const State: React.FC<IState> = ({ children }) => {
     setScreenShare(!screenShare);
   };
 
+  const sendMail = (teacher: any, student: any, course:any, notification:any) =>{
+    socket.emit( 'notification', {teacher, student, course, notification});
+  }
+
   return (
     <Context.Provider
       value={{
@@ -253,6 +264,9 @@ export const State: React.FC<IState> = ({ children }) => {
         handleScreenSharing,
         screenShare,
         iCall1,
+        sendMail,
+        notifications,
+        setNotifications,
       }}
     >
       {children}
