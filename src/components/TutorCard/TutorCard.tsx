@@ -25,8 +25,8 @@ export const TutorCard: React.FC<ITutorCard> = ({ name, accent, introduction, ag
   const { iCall1 } = React.useContext(Context);
 
   return (
-    <Paper square={true} variant="elevation" className="paper-cardtutor">
-      <Card sx={{ maxWidth: 480 }}>
+    <Paper square={true} variant="elevation" className="paper-cardtutor" sx={{marginRight: '10px'}}>
+      <Card sx={{ width: 480 }}>
         <CardHeader
           avatar={
             <Avatar
