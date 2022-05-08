@@ -13,12 +13,10 @@ const tutorApi = {
     const url = `/tutors/profile/${id}`;
     return await axiosMy.get(url);
   },
-  updateTutorProfile: async (data: any, accessToken: any) => {
+  updateTutorProfile: async (data: any) => {
     const url = `/tutors/profile/me`;
 
-    return await axiosMy.put(url, data, {
-      headers: { Authorization: `Bearer ${accessToken.jwt}` },
-    });
+    return await axiosMy.put(url, data);
   },
 };
 export default tutorApi;

@@ -43,14 +43,7 @@ export const MyInfo = () => {
   };
 
   const handleSubmit = async () => {
-    const res = (
-      await dispatch(
-        updateTutorProfile({
-          data: { ...fieldValue },
-          accessToken: localStorage.getItem('accessToken'),
-        }),
-      )
-    ).payload;
+    const res = (await dispatch(updateTutorProfile(fieldValue))).payload;
     console.log(res);
   };
 
