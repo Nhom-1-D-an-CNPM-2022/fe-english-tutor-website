@@ -8,3 +8,4 @@ export * from './Schedule/Schedule';
 export * from './ScheduleInfo/ScheduleInfo';
 export * from './ScheduleTutor/ScheduleTutor';
 export * from './ScheduleInfoTutor/ScheduleInfoTutor';
+export * from './MyInfo/MyInfo';

@@ -13,6 +13,16 @@ export const getTutorsProfile = createAsyncThunk('/tutors/profile/:id', async (i
   return await tutorApi.getTutorsProfile(id).then((res) => res.data);
 });
 
+export const updateTutorProfile = createAsyncThunk(
+  '/tutor/profile/me',
+  async (data: any, accessToken: any) => {
+    return await tutorApi
+      .updateTutorProfile(data, accessToken)
+      .then((res) => res.data)
+      .catch((error) => error.response);
+  },
+);
+
 interface IInitialState {
   fullname: string;
   introduction: string;
@@ -22,6 +32,10 @@ interface IInitialState {
   message: string;
   interests: string;
   profession: string[];
+  languages: string[];
+  experience: string[];
+  displayName: string;
+  hometown: string;
 }
 
 const initialState = {
@@ -33,6 +47,10 @@ const initialState = {
   message: '',
   interests: '',
   profession: [],
+  languages: [],
+  experience: [],
+  displayName: '',
+  hometown: '',
 } as IInitialState;
 
 export const tutorSlice = createSlice({
@@ -54,6 +72,16 @@ export const tutorSlice = createSlice({
       state.interests = action.payload.data.interests;
       state.profession = action.payload.data.profession.trim().split(',');
       state.message = action.payload.message;
+    });
+    builder.addCase(updateTutorProfile.fulfilled, (state, action) => {
+      state.fullname = action.payload.data.fullname;
+      state.introduction = action.payload.data.introduction;
+      state.interests = action.payload.data.interests;
+      state.profession = action.payload.data.profession.trim().split(',');
+      state.languages = action.payload.data.languages.trim().split(',');
+      state.experience = action.payload.data.experience.trim().split(',');
+      state.displayName = action.payload.data.displayName;
+      state.hometown = action.payload.data.hometown;
     });
   },
 });
