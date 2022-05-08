@@ -8,3 +8,5 @@ export * from './Scheduler/Scheduler';
 export * from './Introduction/Introduction';
 export * from './TutorInfo/TutorInfo';
 export * from './TutorScheduler/TutorScheduler';
+export * from './TutorLogin/TutorLogin';
+export * from './TutorRegister/TutorRegister';
