@@ -6,6 +6,9 @@ import Peer from 'simple-peer';
 const URL = 'https://apinc.herokuapp.com/';
 export const socket = io(URL);
 
+import { RootState } from '../../redux/rootReducer';
+import { useSelector } from 'react-redux';
+
 interface IState {
   children: any;
 }
@@ -14,6 +17,7 @@ export const State: React.FC<IState> = ({ children }) => {
   const [onlineList, setOnlineList] = useState([]);
   const [receiveCall, setReceiveCall] = useState(false);
   const [otherUser, setOtherUser] = useState('');
+  const [otherUserAccount, setOtherUserAccount] = useState('');
   const [signalCall, setSignalCall] = useState({});
   const [video, setVideo] = useState({});
   const [isCall, setIsCall] = useState(false);
@@ -31,6 +35,8 @@ export const State: React.FC<IState> = ({ children }) => {
 
   const screenShareTrack = useRef(null);
 
+  const account = useSelector((state: RootState) => state.userSlice.account);
+
   useEffect(() => {
     myVideo.current = {};
   }, []);
@@ -40,12 +46,13 @@ export const State: React.FC<IState> = ({ children }) => {
       for (let t of list) if (t.id === socket.id) list.splice(list.indexOf(t), 1);
       setOnlineList(list);
     });
-    socket.emit('online');
+    socket.emit('online', account);
     socket.on('callToUser', (from: any) => {
       if (!callSuccess) {
         setReceiveCall(true);
-        setOtherUser(from);
-      } else socket.emit('callFail', { from: from });
+        setOtherUser(from.socketID);
+        setOtherUserAccount(from);
+      } else socket.emit('callFail', { from: from.socketID });
     });
 
     socket.on('callFail', () => {
@@ -78,26 +85,15 @@ export const State: React.FC<IState> = ({ children }) => {
   const callUser = async (id: any) => {
     setOtherUser(id);
     setIsCall(true);
-    socket.emit('callToUser', { from: socket.id, to: id });
+    socket.emit('callToUser', { from: {socketID: socket.id, user: account}, to: id });
   };
 
-    const iCall1 = () =>{
-      if (onlineList.length < 2)
-        alert('Cuộc gọi thất bại')
-      else{
-        let id = '';
-        for (let t of onlineList)
-        if (t!= socket.id)
-          id = t;
-        if (id === ''){
-          alert('Cuộc gọi thất bại')
-          return;
-        }
-        setOtherUser(id);
-        setIsCall(true);
-        socket.emit('callToUser', ({from: socket.id, to: id}));
-        window.location.href = '/call';
-      }
+    const iCall1 = (toUser: any) => {
+      const id = toUser.socketID;
+      setOtherUser(id);
+      setIsCall(true);
+      socket.emit('callToUser', ({from: socket.id, to: id}));
+      window.location.href = '/call';
     };
 
   const iCall = () => {
@@ -267,6 +263,7 @@ export const State: React.FC<IState> = ({ children }) => {
         sendMail,
         notifications,
         setNotifications,
+        otherUserAccount,
       }}
     >
       {children}
