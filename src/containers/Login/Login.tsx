@@ -39,8 +39,11 @@ export const Login = () => {
           password: values.password,
         })
         .then(function (response: any) {
-          if (response.accessToken !== '') {
-            localStorage.setItem('accessToken', response.accessToken);
+          
+          console.log(response.data.accessToken)
+          if (response.data.accessToken !== '') {
+            localStorage.setItem('accessToken', response.data.accessToken);
+            
             if (history.action === 'PUSH') {
               history.goBack();
             } else {

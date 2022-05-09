@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import './Header.scss';
 
 import { Link } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { BsFillQuestionCircleFill } from 'react-icons/bs';
 import { FaUserCircle } from 'react-icons/fa';
 
 import { MenuUser } from './MenuUser/MenuUser';
+import Context from '../../../containers/State/Context';
 
 export const Header = () => {
   const className = 'header';
@@ -17,6 +18,19 @@ export const Header = () => {
   const handleClickMenuUser = () => {
     setOpenMenuUser(!openMenuUser);
   };
+
+  const { receiveCall, setReceiveCall, decline, otherUserAccount } = useContext(Context);
+
+  useEffect(()=>{
+    if (receiveCall){
+      if (confirm(otherUserAccount.user.fullname + ' calling \n Do you accept it?') == true) {
+        window.location.href = '/call';
+      } else {
+        decline();
+      }
+      setReceiveCall(false);
+    }
+  })
 
   return (
     <div className={className}>
@@ -41,7 +55,7 @@ export const Header = () => {
           </div>
         </div>
         <div className={`${className}__flex--grow`}></div>
-        <Link to={''} className={`${className}__register`}>
+        <Link to='student/login' className={`${className}__register`}>
           <span className={`${className}__label`}>Đăng ký khóa học</span>
           <span className={`${className}__background`}></span>
         </Link>
@@ -72,7 +86,9 @@ export const Header = () => {
             <button className={`${className}__btn--root`}>
               <span className={`${className}__label`}>
                 <span className={`${className}__root`}>
-                  <AiOutlineCalendar size={24} />
+                  <Link to="/student/schedule" style={{ transform: 'translateY(-4px)' }}>
+                    <AiOutlineCalendar size={24} color="rgb(68 61 61)" />
+                  </Link>
                 </span>
               </span>
             </button>
@@ -98,7 +114,7 @@ export const Header = () => {
                 </span>
               </span>
             </button>
-            <MenuUser showMenu={openMenuUser} />
+            <MenuUser showMenu={openMenuUser} setShowMenu={setOpenMenuUser} />
           </div>
         </div>
       </div>

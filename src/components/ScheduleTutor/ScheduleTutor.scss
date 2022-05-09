@@ -1,0 +1,42 @@
+.schedule {
+    position: relative;
+    width: 100%;
+    padding-bottom: 80px;
+    min-height: calc(100vh - 76px);
+
+    &__content::before,
+    &__content::after,
+    &__row::after,
+    &__row::before {
+        content: " ";
+        display: table;
+    }
+
+    &__content {
+        min-height: 80vh;
+        padding: 30px;
+        border-radius: 8px;
+        background: white;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    &__row {
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+
+    &__col {
+        margin-left: 8.33333333%;
+        margin-right: 8.33333333%;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    &__calender {
+        max-width: 100%;
+        display: flex;
+        flex-flow: column;
+        overflow: hidden;
+    }
+}

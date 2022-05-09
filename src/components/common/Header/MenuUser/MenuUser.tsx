@@ -1,21 +1,18 @@
 import React from 'react';
 import './MenuUser.scss';
 
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface MenuUser {
   showMenu: boolean;
+  setShowMenu: any;
 }
 
-export const MenuUser = ({ showMenu = false }: MenuUser) => {
+export const MenuUser = ({ showMenu = false, setShowMenu }: MenuUser) => {
   const className = 'menu-user';
-  const history = useHistory();
 
   const handleLogout = () => {
-    window.localStorage.clear();
-    history.push({
-      pathname: `/log-out`,
-    });
+    localStorage.setItem('accessToken', '');
   };
 
   return (
@@ -45,7 +42,7 @@ export const MenuUser = ({ showMenu = false }: MenuUser) => {
           Mã giới thiệu
           <span className={`${className}__line`}></span>
         </Link>
-        <Link to="" className={`${className}__item`} onClick={handleLogout}>
+        <Link to="/log-out" className={`${className}__item`} onClick={handleLogout}>
           Đăng xuất
           <span className={`${className}__line`}></span>
         </Link>

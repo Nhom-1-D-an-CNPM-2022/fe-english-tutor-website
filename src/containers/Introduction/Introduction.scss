@@ -1,0 +1,156 @@
+.Box-Container {
+    width: 100%;
+    margin-bottom: 90px;
+}
+.Box-Container .Box-root{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.Box-padding{
+    width: 20px;
+    height: 20px;
+}
+.jss262{
+    padding-top: 40px;
+    background-color: rgb(255, 97, 79);
+}
+.Box-Container .con-hello-tutor{
+    padding-top: 50px;
+}
+.Box-Container .con-hello-tutor .container-hello-tutor{
+    display: flex;
+    flex-wrap: nowrap;
+}
+.Box-Container .con-hello-tutor .hello-tutor-start{
+    height: inherit;
+}
+.Box-Container .con-hello-tutor .hello-tutor-image{
+    min-height: 490px;
+    width: 398px;
+    padding-left: 10vw;
+    position: relative;
+}
+.Box-Container .con-hello-tutor #tutor-main-image{
+    background-image: url('https://www.cambly.com/fe/static/landing_page/tutors/tutor1.jpg');
+    width: 350px;
+    height: 350px;
+    background-size: contain;
+    border-radius: 200px;
+}
+.Box-Container .con-hello-tutor #tutor-sub-image{
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    position: absolute;
+    bottom: 20px;
+    right: -40px;
+    padding: 15px;
+}
+.Box-Container .con-hello-tutor #tutor-sub-image .image-box{
+    display: flex;
+    align-items: center;
+}
+.Box-Container .con-hello-tutor #tutor-sub-image .image-box #img-flag{
+    width: 40px;
+    height: 40px;
+    margin: 0 10px 10px 10px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+.Box-Container .con-hello-tutor #tutor-sub-image .image-box #img-flag img{
+    width: 40px;
+    height: 40px;
+}
+.Box-Container .Box-root{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.Box-Container .Box-root .Box-top-content{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.Box-Container .Box-root .Box-top-content .View-courses{
+    padding: 0px 28px;
+    background: rgb(255, 201, 41);
+    min-height: 95px;
+    font-weight: 500;
+    font-size: 30px;
+    box-shadow: rgb(0 0 0 / 15%) 0px 10px 20px;
+    color: rgb(29, 78, 96);
+}
+.Box-Container .Box-root .continue-grid{
+    color: rgb(87, 15, 15);
+}
+.Box-Container .Box-root .continue-grid .left-continue{
+    padding-top: 50px;
+}
+
+#appLinks {
+    height: 150px;
+    margin-bottom: 10px;
+    width: 100%;
+    padding-top: 51px;
+    justify-content: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#appLinks a{
+    width: 110px;
+    max-width: 35%;
+}
+
+#appLinks a img{
+    width: 100%;
+}
+
+.Box-Container .Box-Background {
+    position: relative;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    background-color: rgb(255, 201, 41);
+}
+
+.Box-Container .Box-Background .DoMore-Container{
+    position: relative;
+    z-index: 1;
+    padding: 0px;
+}
+.Box-Container .Box-Background .DoMore-Container .DoMore-Header{
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+    padding-bottom: 80px;
+}
+
+.Tab-Container{
+    display: flex;
+    flex-grow: 1;
+}
+.content-footer{
+    width: 100%;
+    margin-bottom: 80px;
+}
+
+.content-footer .content-footer-container{
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.content-footer .content-footer-container .heading{
+    color: #838383;
+    padding: 10px;
+    text-transform: uppercase;
+}
+.content-footer .content-footer-container .heading .content-button{
+    text-transform: none;
+    justify-content: start;
+    color: black;
+}
+#content-container{
+    display: flex;
+    flex-direction: column;
+}
+#button-start{
+    background-color: #228891;
+}

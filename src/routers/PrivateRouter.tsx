@@ -4,11 +4,6 @@ import { useSelector } from 'react-redux';
 import { Redirect, Route, useLocation } from 'react-router-dom';
 import { RootState } from '../redux/rootReducer';
 import { getInfo } from '../redux/slice/appSlice/userSlice';
-// import { doGetCurrentUser } from '../redux/slice';
-// import { EToken } from '../constants/login';
-// import { logout } from '../helpers/app';
-// import { readCookie } from '../helpers/login';
-// import { RootState } from '../redux/reducers/rootReducers';
 import { useAppDispatch } from '../redux/store';
 
 export const PrivateRouter: React.FC<IPrivateRouter> = ({
@@ -32,20 +27,31 @@ export const PrivateRouter: React.FC<IPrivateRouter> = ({
   const isAccount = useSelector((state: RootState) => state.userSlice.isAccount);
   const fecthInfo = async () => {
     const check = (await dispatch(getInfo({ jwt: localStorage.getItem('accessToken') }))).payload;
-    if (check === true || check === false || String(typeof check) === 'object') {
+
+    if (
+      check === true ||
+      check === false ||
+      String(typeof check) === 'object' ||
+      check === undefined
+    ) {
       setIsFectch(true);
     }
   };
+
   useEffect(() => {
     fecthInfo();
     return;
   }, [location]);
 
+  console.log('isAccount', isAccount);
+
   const render = (props: any) => {
-    console.log(location)
-    if (isAccount == false && location === '/log-out') {
+    console.log('location', location);
+
+    if (isAccount === false && location === '/log-out') {
       return <Redirect to="/student/login" />;
     }
+
     return isFetch == false ? (
       <div style={{ marginTop: '20px' }}>
         <Spinner animation="grow" variant="primary" />
@@ -77,7 +83,7 @@ export const PrivateRouter: React.FC<IPrivateRouter> = ({
         <Component {...props} />
       </Layout>
     ) : (
-      <Redirect to="/" />
+      <Redirect to="/home" />
     );
   };
 
