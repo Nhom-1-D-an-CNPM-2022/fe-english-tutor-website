@@ -10,6 +10,7 @@ import {
   TutorInfo,
   Scheduler,
   Introduction,
+  Reservation,
   TutorScheduler,
 } from '../containers';
 //import { SearchBox } from '../components';
@@ -123,6 +124,15 @@ export const Routers = () => {
             header={Header}
             isHasFooter={true}
             footer={Footer}
+          />
+          <PublicRouter
+            exact={true}
+            path={'/tutor/reservation'}
+            component={Reservation}
+            layout={OnlyHeaderLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={false}
           />
           <PublicRouter
             exact={true}

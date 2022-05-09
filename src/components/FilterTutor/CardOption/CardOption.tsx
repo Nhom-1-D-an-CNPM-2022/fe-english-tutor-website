@@ -4,19 +4,17 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 interface ICardOption {
-  isShow: boolean;
   data: any;
   onChangeCheck: any;
   onChangeTutorListByFilter: any;
 }
 export const CardOption: React.FC<ICardOption> = ({
-  isShow,
   data,
   onChangeCheck,
   onChangeTutorListByFilter,
 }) => {
   return (
-    <div className={`card-option ${isShow ? 'card-option__show' : ''}`}>
+    <div className={`card-option`}>
       <div className="card-option__item">
         <FormGroup>
           {data.map((items: any, index: number) => {
