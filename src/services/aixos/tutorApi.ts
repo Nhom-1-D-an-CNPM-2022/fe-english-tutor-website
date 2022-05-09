@@ -18,7 +18,7 @@ const tutorApi = {
 
     return await axiosMy.put(url, {
       data,
-      headers: { Authorization: `Bearer ${accessToken.jwt}` },
+      headers: { Authorization: `Bearer ${accessToken}` },
     });
   },
 };
