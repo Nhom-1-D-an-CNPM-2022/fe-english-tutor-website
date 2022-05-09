@@ -31,6 +31,7 @@ interface IInitialState {
   profession: string;
   languages: string;
   experience: string;
+  education: string;
   displayName: string;
   hometown: string;
 }
@@ -46,6 +47,7 @@ const initialState = {
   profession: '',
   languages: '',
   experience: '',
+  education: '',
   displayName: '',
   hometown: '',
 } as IInitialState;
@@ -77,6 +79,7 @@ export const tutorSlice = createSlice({
       state.profession = action.payload.data.profession.join(', ');
       state.languages = action.payload.data.languages.join(', ');
       state.experience = action.payload.data.experience.join(', ');
+      state.education = action.payload.data.education.join(', ');
       state.displayName = action.payload.data.displayName;
       state.hometown = action.payload.data.hometown;
     });

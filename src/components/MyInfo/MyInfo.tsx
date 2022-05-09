@@ -17,6 +17,7 @@ interface tutorInfo {
   profession: string;
   languages: string;
   experience: string;
+  education: string;
   displayName: string;
   hometown: string;
 }
@@ -32,6 +33,7 @@ const tutorInitProfile = {
   profession: arrayToInfo(['profession', '123']),
   languages: arrayToInfo(['languages']),
   experience: arrayToInfo(['experience']),
+  education: arrayToInfo(['education']),
   displayName: 'displayName value',
   hometown: 'hometown value',
 } as tutorInfo;
@@ -40,9 +42,10 @@ const INFO_MAPPER = {
   fullname: 'Họ và tên',
   introduction: 'Giới thiệu',
   interests: 'Thông tin về tôi',
-  profession: 'Bằng cấp',
+  profession: 'Kĩ năng',
   languages: 'Ngôn ngữ',
   experience: 'Kinh nghiệm',
+  education: 'Bằng cấp',
   displayName: 'Tên hiển thị',
   hometown: 'Quê',
 };
