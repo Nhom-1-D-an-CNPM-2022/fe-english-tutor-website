@@ -85,10 +85,11 @@ export const Tutors = () => {
                 return (
                   <TutorCard
                     key={i}
-                    name={item.fullname}
+                    name={item.displayName}
                     introduction={item.introduction}
                     ageOfAccount={item.ageOfAccount}
                     accent="USA"
+                    id={item.userId}
                   />
                 );
               })}
