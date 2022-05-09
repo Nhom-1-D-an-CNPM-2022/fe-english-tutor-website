@@ -9,5 +9,9 @@ const tutorApi = {
     const url = `/tutors/search`;
     return await axiosMy.get(url, { params });
   },
+  getTutorsProfile: async (id: string) => {
+    const url = `/tutors/profile/${id}`;
+    return await axiosMy.get(url);
+  },
 };
 export default tutorApi;

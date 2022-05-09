@@ -25,6 +25,9 @@ interface IContext {
           handleScreenSharing: any;
           screenShare: any;
           iCall1: any;
+          sendMail: any;
+          notifications: any;
+          setNotifications: any;
 }
 
 const Context = createContext<IContext|null>(null);

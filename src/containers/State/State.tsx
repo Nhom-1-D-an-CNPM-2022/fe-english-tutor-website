@@ -23,6 +23,7 @@ export const State: React.FC<IState> = ({ children }) => {
   const [yourVid, setYourVid] = useState(true);
   const [callSuccess, setCallSuccess] = useState(false);
   const [screenShare, setScreenShare] = useState(false);
+  const [notifications, setNotifications] = useState([]);
 
   const myVideo = useRef(null);
   const userVideo = useRef(null);
@@ -66,6 +67,12 @@ export const State: React.FC<IState> = ({ children }) => {
         setYourVid(vid);
       }
     });
+
+    socket.on('notification', (teacher: any, course:any, notification: any)=>{
+      const t = notifications;
+      t.push({teacher: teacher, course, notification});
+      setNotifications(t);
+    })
   });
 
   const callUser = async (id: any) => {
@@ -74,17 +81,24 @@ export const State: React.FC<IState> = ({ children }) => {
     socket.emit('callToUser', { from: socket.id, to: id });
   };
 
-  const iCall1 = () => {
-    if (onlineList.length < 2) alert('Cuộc gọi thất bại');
-    else {
-      let id = '';
-      for (let t of onlineList) id = t;
-      setOtherUser(id);
-      setIsCall(true);
-      socket.emit('callToUser', { from: socket.id, to: id });
-      window.location.href = '/call';
-    }
-  };
+    const iCall1 = () =>{
+      if (onlineList.length < 2)
+        alert('Cuộc gọi thất bại')
+      else{
+        let id = '';
+        for (let t of onlineList)
+        if (t!= socket.id)
+          id = t;
+        if (id === ''){
+          alert('Cuộc gọi thất bại')
+          return;
+        }
+        setOtherUser(id);
+        setIsCall(true);
+        socket.emit('callToUser', ({from: socket.id, to: id}));
+        window.location.href = '/call';
+      }
+    };
 
   const iCall = () => {
     try {
@@ -219,6 +233,10 @@ export const State: React.FC<IState> = ({ children }) => {
     setScreenShare(!screenShare);
   };
 
+  const sendMail = (teacher: any, student: any, course:any, notification:any) =>{
+    socket.emit( 'notification', {teacher, student, course, notification});
+  }
+
   return (
     <Context.Provider
       value={{
@@ -246,6 +264,9 @@ export const State: React.FC<IState> = ({ children }) => {
         handleScreenSharing,
         screenShare,
         iCall1,
+        sendMail,
+        notifications,
+        setNotifications,
       }}
     >
       {children}

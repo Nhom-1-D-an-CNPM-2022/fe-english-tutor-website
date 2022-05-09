@@ -1,0 +1,14 @@
+.scheduleClass {
+    display: flex;
+    flex-flow: column;
+    padding: 16px 0px;
+    min-width: 290px;
+    max-height: 500px;
+
+    &__btn {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

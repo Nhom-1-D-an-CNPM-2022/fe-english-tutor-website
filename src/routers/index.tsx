@@ -10,7 +10,8 @@ import {
   TutorInfo,
   Scheduler,
   Introduction,
-  Reservation
+  Reservation,
+  TutorScheduler,
 } from '../containers';
 //import { SearchBox } from '../components';
 import { PrivateRouter } from './PrivateRouter';
@@ -76,7 +77,7 @@ export const Routers = () => {
           />
           <PublicRouter
             exact={true}
-            path={'/tutors/:tutorId'}
+            path={'/tutors/:id'}
             component={TutorInfo}
             layout={HeaderFooterLayout}
             isHasHeader={true}
@@ -132,6 +133,26 @@ export const Routers = () => {
             isHasHeader={true}
             header={Header}
             isHasFooter={false}
+          />
+          <PublicRouter
+            exact={true}
+            path={'/tutors/schedule/create'}
+            component={TutorScheduler}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PublicRouter
+            exact={true}
+            path={'/tutors/schedule/create/:id'}
+            component={TutorScheduler}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
           />
         </Switch>
       </Router>
