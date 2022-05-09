@@ -1,5 +1,5 @@
-import React, {useRef, useContext, useEffect}from 'react'
-import {Button, ButtonGroup, Card, Modal} from 'react-bootstrap';
+import React, { useContext, useEffect}from 'react'
+import {Button, ButtonGroup} from 'react-bootstrap';
 import {FaPhoneSlash, FaMicrophone, FaMicrophoneSlash }  from 'react-icons/fa';
 import {BsCameraVideoFill, BsCameraVideoOffFill, BsFillChatRightDotsFill} from 'react-icons/bs';
 import {MdOutlineScreenShare, MdOutlineStopScreenShare} from 'react-icons/md'

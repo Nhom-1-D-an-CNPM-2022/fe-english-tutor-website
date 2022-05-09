@@ -28,6 +28,7 @@ interface IContext {
           sendMail: any;
           notifications: any;
           setNotifications: any;
+          otherUserAccount: any;
 }
 
 const Context = createContext<IContext|null>(null);

@@ -24,14 +24,28 @@ interface tutorInfo {
   fullname: string;
   introduction: string;
   interests: string;
-  profession: string[];
+  profession: string;
+  languages: string;
+  experience: string;
+  education: string;
+  displayName: string;
+  hometown: string;
 }
 
+const arrayToInfo = (arrayString: string[]) => {
+  return arrayString.join(', ');
+};
+
 const tutorInitProfile = {
-  fullname: '',
-  introduction: '',
-  interests: '',
-  profession: [],
+  fullname: 'Hoang',
+  introduction: 'introduction value',
+  interests: 'interests value',
+  profession: arrayToInfo(['profession', '123']),
+  languages: arrayToInfo(['languages']),
+  experience: arrayToInfo(['experience']),
+  education: arrayToInfo(['education']),
+  displayName: 'displayName value',
+  hometown: 'hometown value',
 } as tutorInfo;
 
 export const TutorInfo = () => {
@@ -68,40 +82,73 @@ export const TutorInfo = () => {
           <Typography variant="h6">{tutorInfo.introduction}</Typography>
         </div>
         <Divider className="tutor-info__body__divider" />
-        <div className="tutor-info__body__my-info">
-          <div className="tutor-info__body__my-info__header">
-            <AccessibilityNewIcon color="primary" />
-            <Typography variant="h6" sx={{ marginLeft: '10px' }}>
-              Thông tin của tôi
-            </Typography>
-          </div>
-          <Typography variant="body1" sx={{ marginLeft: '38px' }}>
-            {tutorInfo.interests}
-          </Typography>
-        </div>
-        <Divider className="tutor-info__body__divider" />
-        <div className="tutor-info__body__my-info">
-          <div className="tutor-info__body__my-info__header">
-            <PublicIcon color="primary" />
-            <Typography variant="h6" sx={{ marginLeft: '10px' }}>
-              Ngôn ngữ
-            </Typography>
-          </div>
-          <div className="tutor-info__body__my-info__content">
-            <Chip label="Tieng Viet" variant="outlined" sx={{ marginRight: '10px' }} />
-            <Chip label="Tieng Anh" variant="outlined" />
-          </div>
-        </div>
-        <Divider className="tutor-info__body__divider" />
-        <Typography variant="h5">Kinh nghiệm</Typography>
-        <div className="tutor-info__body__my-info__content">
-          {tutorInfo.profession?.map((i) => (
-            <Chip label={i} variant="outlined" sx={{ marginRight: '10px' }} />
-          ))}
-        </div>
-        <Divider className="tutor-info__body__divider" />
-        <Typography variant="h5">Giấy Chứng Nhận Nổi Bật</Typography>
-        <Divider className="tutor-info__body__divider" />
+        {tutorInfo.interests && (
+          <>
+            <div className="tutor-info__body__my-info">
+              <div className="tutor-info__body__my-info__header">
+                <AccessibilityNewIcon color="primary" />
+                <Typography variant="h6" sx={{ marginLeft: '10px' }}>
+                  Thông tin của tôi
+                </Typography>
+              </div>
+              <Typography variant="body1" sx={{ marginLeft: '38px' }}>
+                {tutorInfo.interests}
+              </Typography>
+            </div>
+            <Divider className="tutor-info__body__divider" />
+          </>
+        )}
+        {tutorInfo.languages && (
+          <>
+            <div className="tutor-info__body__my-info">
+              <div className="tutor-info__body__my-info__header">
+                <PublicIcon color="primary" />
+                <Typography variant="h6" sx={{ marginLeft: '10px' }}>
+                  Ngôn ngữ
+                </Typography>
+              </div>
+              <div className="tutor-info__body__my-info__content">
+                <Chip label="Tieng Viet" variant="outlined" sx={{ marginRight: '10px' }} />
+                <Chip label="Tieng Anh" variant="outlined" />
+              </div>
+            </div>
+            <Divider className="tutor-info__body__divider" />
+          </>
+        )}
+        {tutorInfo.profession && (
+          <>
+            <Typography variant="h5">Kĩ năng</Typography>
+            <div className="tutor-info__body__my-info__content">
+              {tutorInfo.profession.split(' ').map((i) => (
+                <Chip key={i} label={i} variant="outlined" sx={{ marginRight: '10px' }} />
+              ))}
+            </div>
+            <Divider className="tutor-info__body__divider" />
+          </>
+        )}
+        {tutorInfo.experience && (
+          <>
+            <Typography variant="h5">Kinh nghiệm</Typography>
+            <div className="tutor-info__body__my-info__content">
+              {tutorInfo.experience.split(' ').map((i) => (
+                <Chip key={i} label={i} variant="outlined" sx={{ marginRight: '10px' }} />
+              ))}
+            </div>
+            <Divider className="tutor-info__body__divider" />
+          </>
+        )}
+        {tutorInfo.education && (
+          <>
+            <Typography variant="h5">Bằng cấp</Typography>
+            <div className="tutor-info__body__my-info__content">
+              {tutorInfo.education.split(' ').map((i) => (
+                <Chip key={i} label={i} variant="outlined" sx={{ marginRight: '10px' }} />
+              ))}
+            </div>
+            <Divider className="tutor-info__body__divider" />
+          </>
+        )}
+
         <Typography variant="h5" sx={{ marginBottom: '10px' }}>
           Lịch làm việc
         </Typography>

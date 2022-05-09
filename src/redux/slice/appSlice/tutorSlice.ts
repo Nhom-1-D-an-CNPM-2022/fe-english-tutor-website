@@ -13,12 +13,12 @@ export const getTutorsProfile = createAsyncThunk('/tutors/profile/:id', async (i
   return await tutorApi.getTutorsProfile(id).then((res) => res.data);
 });
 
-export const updateTutorProfile = createAsyncThunk('/tutor/profile/me', async (data: any) => {
-  return await tutorApi
-    .updateTutorProfile(data)
-    .then((res) => res.data)
-    .catch((error) => error.response);
-});
+export const updateTutorProfile = createAsyncThunk(
+  '/tutor/profile/me',
+  async (data: any, accessToken: any) => {
+    return await tutorApi.updateTutorProfile(data, accessToken).then((res) => res.data);
+  },
+);
 
 interface IInitialState {
   fullname: string;

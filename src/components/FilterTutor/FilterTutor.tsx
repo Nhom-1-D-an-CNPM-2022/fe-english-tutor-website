@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { CardOption } from './CardOption/CardOption';
 import './FilterTutor.scss';
 import tutorApi from '../../services/aixos/tutorApi';
+import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
+import { Box, Popover } from '@mui/material';
 interface IFilterTutor {
   onChangeTutorListByFilter: any;
 }
 export const FilterTutor: React.FC<IFilterTutor> = ({ onChangeTutorListByFilter }) => {
-  console.log(onChangeTutorListByFilter)
   const [listFilter, setListFilter] = useState([
     {
       title: 'Khóa học Cambly',
@@ -37,7 +38,6 @@ export const FilterTutor: React.FC<IFilterTutor> = ({ onChangeTutorListByFilter 
         'Introduction to Public Speaking',
         'The Olympics',
       ],
-      isShow: false,
     },
     { title: 'Cấp độ Bài học', options: ['Người mới', 'Trung cấp', 'Nâng cao'] },
     {
@@ -86,11 +86,6 @@ export const FilterTutor: React.FC<IFilterTutor> = ({ onChangeTutorListByFilter 
     'Vui nhộn và Thích giao du': false,
     'Uyên bác và Thông thạo': false,
   });
-  const handleChangeShow = (index: any) => {
-    listFilter[index].isShow = !listFilter[index].isShow;
-    setListFilter([...listFilter]);
-    console.log(listFilter[index].isShow);
-  };
   const onChangeCheck = async (
     event: React.ChangeEvent<HTMLInputElement>,
     onChangeTutorListByFilter: any,
@@ -117,15 +112,32 @@ export const FilterTutor: React.FC<IFilterTutor> = ({ onChangeTutorListByFilter 
       {listFilter.map((items: any, index: number) => {
         return (
           <div key={index}>
-            <button className="filter-tutor__button" onClick={() => handleChangeShow(index)}>
-              {items.title}
-            </button>
-            <CardOption
-              isShow={items.isShow}
-              data={items.options}
-              onChangeCheck={onChangeCheck}
-              onChangeTutorListByFilter={onChangeTutorListByFilter}
-            ></CardOption>
+            <PopupState variant="popover" popupId="schudule-class">
+              {(popupState) => (
+                <div>
+                  <button className="filter-tutor__button" {...bindTrigger(popupState)}>
+                    {items.title}
+                  </button>
+                  <Popover
+                    {...bindPopover(popupState)}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'center',
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'center',
+                    }}
+                  >
+                    <CardOption
+                      data={items.options}
+                      onChangeCheck={onChangeCheck}
+                      onChangeTutorListByFilter={onChangeTutorListByFilter}
+                    ></CardOption>
+                  </Popover>
+                </div>
+              )}
+            </PopupState>
           </div>
         );
       })}
