@@ -14,23 +14,38 @@ interface tutorInfo {
   fullname: string;
   introduction: string;
   interests: string;
-  profession: string[];
-  languages: string[];
-  experience: string[];
+  profession: string;
+  languages: string;
+  experience: string;
   displayName: string;
   hometown: string;
 }
+
+const arrayToInfo = (arrayString: string[]) => {
+  return arrayString.join(', ');
+};
 
 const tutorInitProfile = {
   fullname: 'Hoang',
   introduction: 'introduction value',
   interests: 'interests value',
-  profession: ['profession', '123'],
-  languages: ['languages'],
-  experience: ['experience'],
+  profession: arrayToInfo(['profession', '123']),
+  languages: arrayToInfo(['languages']),
+  experience: arrayToInfo(['experience']),
   displayName: 'displayName value',
   hometown: 'hometown value',
 } as tutorInfo;
+
+const INFO_MAPPER = {
+  fullname: 'Họ và tên',
+  introduction: 'Giới thiệu',
+  interests: 'Thông tin về tôi',
+  profession: 'Bằng cấp',
+  languages: 'Ngôn ngữ',
+  experience: 'Kinh nghiệm',
+  displayName: 'Tên hiển thị',
+  hometown: 'Quê',
+};
 
 export const MyInfo = () => {
   const [changeField, setChangeField] = useState([]);
@@ -65,7 +80,7 @@ export const MyInfo = () => {
             <ListItem disableGutters>
               {changeField.includes(value) ? (
                 <>
-                  <ListItemText sx={{ flex: 1 }}>{value}</ListItemText>
+                  <ListItemText sx={{ flex: 1 }}>{INFO_MAPPER[value]}</ListItemText>
                   <TextField
                     sx={{ mr: 3, flex: 2 }}
                     defaultValue={fieldValue[value as keyof tutorInfo]}
@@ -79,7 +94,7 @@ export const MyInfo = () => {
                 </>
               ) : (
                 <ListItemButton onClick={handleClick(value)}>
-                  <ListItemText sx={{ flex: 1 }}>{value}</ListItemText>
+                  <ListItemText sx={{ flex: 1 }}>{INFO_MAPPER[value]}</ListItemText>
                   <ListItemText sx={{ flex: 2 }}>
                     {fieldValue[value as keyof tutorInfo]}
                   </ListItemText>
