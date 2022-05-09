@@ -4,6 +4,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { LoginWithForm, LoginWithSocial } from '../../components';
 import { ILoginIllustration } from '../../constants/images';
+import Link from '@mui/material/Link';
 import './Login.scss';
 
 export const Login = () => {
@@ -19,10 +20,10 @@ export const Login = () => {
     e.preventDefault();
     if (values.email === '') {
       values.isEmail = false;
-      setValues({...values});
+      setValues({ ...values });
       if (values.password === '') {
         values.isPassword = false;
-        setValues({...values});
+        setValues({ ...values });
         return;
       }
       return;
@@ -92,7 +93,10 @@ export const Login = () => {
           Đăng nhập
         </Button>
         <h6 className="login--mt-15 login--mb-15">
-          Mới dùng Cambly? <span className="login--color-primary">Đăng ký</span>
+          Mới dùng Cambly?{' '}
+          <Link href="/student/register" className="login--color-primary">
+            Đăng ký
+          </Link>
         </h6>
       </div>
     </div>

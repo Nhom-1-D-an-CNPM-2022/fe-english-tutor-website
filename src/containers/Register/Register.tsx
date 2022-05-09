@@ -3,6 +3,7 @@ import axios from 'axios';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { LoginWithForm, LoginWithSocial } from '../../components';
+import Link from '@mui/material/Link';
 import './Register.scss';
 
 export const Register = () => {
@@ -87,7 +88,10 @@ export const Register = () => {
           Tạo tài khoản
         </Button>
         <h6 className="register--mt-15 register--mb-15">
-          Bạn đã có tài khoản? <span className="register--color-primary">Đăng nhập</span>
+          Bạn đã có tài khoản?{' '}
+          <Link href="/student/login" className="register--color-primary">
+            Đăng nhập
+          </Link>
         </h6>
       </div>
     </div>

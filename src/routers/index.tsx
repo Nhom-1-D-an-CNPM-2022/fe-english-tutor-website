@@ -25,7 +25,7 @@ export const Routers = () => {
         />
         <PublicRouter
           exact={true}
-          path={'/register'}
+          path={'/student/register'}
           component={Register}
           layout={HeaderFooterLayout}
           isHasHeader={true}
