@@ -2,6 +2,7 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { LoginWithForm, LoginWithSocial } from '../../components';
 import { ILoginIllustration } from '../../constants/images';
 import './Login.scss';
@@ -54,6 +55,10 @@ export const Login = () => {
         })
         .catch(function (error: any) {
           console.log(error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Email hoặc mật khẩu không đúng.',
+          });
         });
     }
   };
