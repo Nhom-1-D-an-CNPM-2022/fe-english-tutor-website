@@ -12,6 +12,7 @@ import {
   Introduction,
   Reservation,
   TutorScheduler,
+  TutorSignUp,
 } from '../containers';
 import { MyInfo } from '../components/MyInfo/MyInfo';
 //import { SearchBox } from '../components';
@@ -165,6 +166,7 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
+          <PublicRouter path="/tutorsignup/:path?" component={TutorSignUp} layout={BlankLayout} />
         </Switch>
       </Router>
     </State>
