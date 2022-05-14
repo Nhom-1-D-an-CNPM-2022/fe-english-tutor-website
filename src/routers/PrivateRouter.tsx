@@ -26,7 +26,7 @@ export const PrivateRouter: React.FC<IPrivateRouter> = ({
   const [isFetch, setIsFectch] = useState(false);
   const isAccount = useSelector((state: RootState) => state.userSlice.isAccount);
   const fecthInfo = async () => {
-    const check = (await dispatch(getInfo({ jwt: localStorage.getItem('accessToken') }))).payload;
+    const check = (await dispatch(getInfo())).payload;
 
     if (
       check === true ||
