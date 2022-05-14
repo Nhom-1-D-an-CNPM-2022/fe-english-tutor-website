@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import userApi from '../../../services/aixos/userApi';
 
-export const getInfo = createAsyncThunk('users/get-info', async (accessToken: any) => {
-  return await userApi.getInfo(accessToken).then((res) => res.data);
+export const getInfo = createAsyncThunk('users/get-info', async () => {
+  return await userApi.getInfo().then((res) => res.data);
 });
 
 interface IInitialState {

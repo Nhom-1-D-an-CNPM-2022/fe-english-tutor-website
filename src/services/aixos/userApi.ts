@@ -1,10 +1,10 @@
 import axiosMy from './axiosMy';
 
 const userApi = {
-  getInfo: async (accessToken: any) => {
+  getInfo: async () => {
     const url = `users/info`;
 
-    return await axiosMy.get(url, { headers: { Authorization: `Bearer ${accessToken.jwt}` } });
+    return await axiosMy.get(url);
   },
 };
 
