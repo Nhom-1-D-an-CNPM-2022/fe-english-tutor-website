@@ -2,7 +2,7 @@ import { Box, Grid } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { ReservationOption, ScheduleWeekView } from '../../components';
-import scheduleApi from '../../services/aixos/schedule';
+import scheduleApi from '../../services/aixos/scheduleApi';
 import './Reservation.scss';
 
 export const Reservation = () => {

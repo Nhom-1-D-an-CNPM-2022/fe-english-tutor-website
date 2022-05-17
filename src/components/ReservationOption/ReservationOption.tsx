@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import moment from 'moment';
 import React from 'react';
-import scheduleApi from '../../services/aixos/schedule';
+import scheduleApi from '../../services/aixos/scheduleApi';
 import { RespondModal } from '../RespondModal/RespondModal';
 import './ReservationOption.scss';
 const displayOption = [

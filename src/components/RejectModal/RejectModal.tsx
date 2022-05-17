@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
-import scheduleApi from '../../services/aixos/schedule';
+import scheduleApi from '../../services/aixos/scheduleApi';
 interface IRejectModal {
   changeReservation: any;
   appointmentData: any;
