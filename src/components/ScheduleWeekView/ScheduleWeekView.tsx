@@ -26,6 +26,7 @@ import classNames from 'clsx';
 import Box from '@mui/material/Box';
 import { TutorCard } from '../TutorCard/TutorCard';
 import { Button } from '@mui/material';
+import { RejectModal } from '../RejectModal/RejectModal';
 
 const LocalizationMessagesForm = {
   detailsLabel: 'Chọn thời gian học',
@@ -114,21 +115,8 @@ const Header = ({ children, appointmentData, ...restProps }: any) => (
   </StyledAppointmentTooltipHeader>
 );
 
-const Content = ({ children, appointmentData, ...restProps }: any) => (
+const Content = ({ children, appointmentData, changeReservation, ...restProps }: any) => (
   <AppointmentTooltip.Content {...restProps} appointmentData={appointmentData}>
-    {/* <Box
-      sx={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        '& > :not(style)': {
-          m: 1,
-          width: 128,
-          height: 128,
-        },
-      }}
-    >
-      <Paper elevation={3} />
-    </Box> */}
     <Grid container alignItems="center">
       <StyledGrid item xs={2} className={classes.textCenter}>
         <StyledRoom className={classes.icon} />
@@ -138,14 +126,7 @@ const Content = ({ children, appointmentData, ...restProps }: any) => (
       </Grid>
       <Grid item xs={12}>
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '8px' }}>
-          <Button
-            variant="contained"
-            color="warning"
-            disableRipple
-            sx={{ textTransform: 'capitalize' }}
-          >
-            Cancel reservation
-          </Button>
+          <RejectModal changeReservation={changeReservation} appointmentData={appointmentData} />
         </div>
       </Grid>
     </Grid>
@@ -183,41 +164,7 @@ const Appointment = ({ children, style, ...restProps }: any) => (
     {children}
   </Appointments.Appointment>
 );
-// const CustomLayout = (props: AppointmentForm.LayoutProps) => {
-//   // const { commandLayoutComponent } = props;
 
-//   // return (
-//   //   <div style={{ border: "1px solid red" }}>
-//   //     <AppointmentForm.CommandLayout>
-//   //       {commandLayoutComponent}
-//   //     </AppointmentForm.CommandLayout>
-//   //   </div>
-//   // );
-//   const { commandLayoutComponent } = props;
-//   return (
-//     <AppointmentForm.Layout
-//       {...props}
-//       commandLayoutComponent={() => {
-//         return null;
-//       }}
-//     >
-//        <Box
-//       sx={{
-//         display: 'flex',
-//         flexWrap: 'wrap',
-//         '& > :not(style)': {
-//           m: 1,
-//           width: 128,
-//           height: 128,
-//         },
-//       }}
-//     >
-//       <Paper elevation={3} />
-//     </Box>
-//     {(commandLayoutComponent as React.FunctionComponent).call(commandLayoutComponent)}
-//     </AppointmentForm.Layout>
-//   );
-// };
 const TextEditor = (props: any) => {
   // eslint-disable-next-line react/destructuring-assignment
   if (props.type === 'multilineTextEditor') {
@@ -249,24 +196,59 @@ const BasicLayout = ({ onFieldChange, appointmentData, ...restProps }: any) => {
     </AppointmentForm.BasicLayout>
   );
 };
+const now = new Date();
 export class ScheduleWeekView extends React.PureComponent<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      data: appointments,
-      currentDate: '2018-06-27',
+      data: [],
+      currentDate: `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`,
 
       addedAppointment: {},
       appointmentChanges: {},
       editingAppointment: undefined,
     };
-
+    this.removeReservation = this.removeReservation.bind(this);
     this.commitChanges = this.commitChanges.bind(this);
     this.changeAddedAppointment = this.changeAddedAppointment.bind(this);
     this.changeAppointmentChanges = this.changeAppointmentChanges.bind(this);
     this.changeEditingAppointment = this.changeEditingAppointment.bind(this);
   }
-
+  componentDidMount() {
+    let { data } = this.state;
+    data = this.convertDataReservation(this.props.listReservation);
+    this.setState({ data });
+  }
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
+    this.setState({
+      data: this.convertDataReservation(nextProps.listReservation),
+    });
+  }
+  convertDataReservation(data: any) {
+    const listReservation: any = [];
+    data.map((item: any) => {
+      let temp: any = {};
+      const a = new Date(item.schedule.startTime);
+      temp.id = item._id;
+      temp.title = item.tutee.fullname;
+      temp.startDate = a;
+      temp.endDate = new Date(
+        a.getFullYear(),
+        a.getMonth(),
+        a.getDate(),
+        a.getHours(),
+        a.getMinutes() + item.schedule.interval,
+      );
+      temp.groupingInfo = item;
+      listReservation.push(temp);
+    });
+    return listReservation;
+  }
+  removeReservation(id:any) {
+    let { data } = this.state;
+      data = data.filter((appointment: any) => appointment.id !== id);
+    this.setState({ data });
+  }
   changeAddedAppointment(addedAppointment: any) {
     this.setState({ addedAppointment });
   }
@@ -300,7 +282,6 @@ export class ScheduleWeekView extends React.PureComponent<any, any> {
   render() {
     const { currentDate, data, addedAppointment, appointmentChanges, editingAppointment } =
       this.state;
-
     return (
       <Paper>
         <Scheduler data={data} locale="vi-VN">
@@ -329,14 +310,14 @@ export class ScheduleWeekView extends React.PureComponent<any, any> {
             // commandButtonComponent={CommandButton}
             // showCloseButton
             // showOpenButton
-            // showDeleteButton
+            showDeleteButton
           />
-          <AppointmentForm
+          {/* <AppointmentForm
             basicLayoutComponent={BasicLayout}
             textEditorComponent={TextEditor}
             messages={LocalizationMessagesForm}
-          />
-          <DragDropProvider />
+          /> */}
+          {/* <DragDropProvider /> */}
         </Scheduler>
       </Paper>
     );
