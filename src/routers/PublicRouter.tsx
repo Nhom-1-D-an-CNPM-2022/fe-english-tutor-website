@@ -24,7 +24,7 @@ export const PublicRouter: React.FC<IPublicRouter> = ({
   const { isAccount } = useSelector((state: RootState) => state.userSlice);
   const [isFetch, setIsFectch] = useState('');
   const fecthInfo = async () => {
-    const check = (await dispatch(getInfo({ jwt: localStorage.getItem('accessToken') }))).payload;
+    const check = (await dispatch(getInfo())).payload;
     if (check === true || check === false || String(typeof check) === 'object') {
       setIsFectch("true");
     }else{
