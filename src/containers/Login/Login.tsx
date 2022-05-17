@@ -2,8 +2,10 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { LoginWithForm, LoginWithSocial } from '../../components';
 import { ILoginIllustration } from '../../constants/images';
+import Link from '@mui/material/Link';
 import './Login.scss';
 
 export const Login = () => {
@@ -54,6 +56,10 @@ export const Login = () => {
         })
         .catch(function (error: any) {
           console.log(error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Email hoặc mật khẩu không đúng.',
+          });
         });
     }
   };
@@ -95,7 +101,10 @@ export const Login = () => {
           Đăng nhập
         </Button>
         <h6 className="login--mt-15 login--mb-15">
-          Mới dùng Cambly? <span className="login--color-primary">Đăng ký</span>
+          Mới dùng Cambly?{' '}
+          <Link href="/student/register" className="login--color-primary">
+            Đăng ký
+          </Link>
         </h6>
       </div>
     </div>

@@ -1,0 +1,11 @@
+.reservation{
+    margin: 15px 10px 10px 10px;
+    overflow-y: scroll;
+    &__option{
+        // position: fixed;
+    }
+    &__schedule{
+        max-height: 620px;
+        overflow-y: scroll;
+    }
+}

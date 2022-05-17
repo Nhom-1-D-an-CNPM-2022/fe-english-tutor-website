@@ -10,8 +10,10 @@ import {
   TutorInfo,
   Scheduler,
   Introduction,
+  Reservation,
   TutorScheduler,
 } from '../containers';
+import { MyInfo } from '../components/MyInfo/MyInfo';
 //import { SearchBox } from '../components';
 import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
@@ -46,7 +48,7 @@ export const Routers = () => {
           />
           <PublicRouter
             exact={true}
-            path={'/register'}
+            path={'/student/register'}
             component={Register}
             layout={HeaderFooterLayout}
             isHasHeader={true}
@@ -104,7 +106,7 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
             path={'/student/schedule'}
             component={Scheduler}
@@ -114,7 +116,7 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
             path={'/student/schedule/:id'}
             component={Scheduler}
@@ -123,6 +125,15 @@ export const Routers = () => {
             header={Header}
             isHasFooter={true}
             footer={Footer}
+          />
+          <PublicRouter
+            exact={true}
+            path={'/tutor/reservation'}
+            component={Reservation}
+            layout={OnlyHeaderLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={false}
           />
           <PublicRouter
             exact={true}
@@ -138,6 +149,16 @@ export const Routers = () => {
             exact={true}
             path={'/tutors/schedule/create/:id'}
             component={TutorScheduler}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PublicRouter
+            exact={true}
+            path={'/tutors/profile/me'}
+            component={MyInfo}
             layout={HeaderFooterLayout}
             isHasHeader={true}
             header={Header}

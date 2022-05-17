@@ -13,6 +13,13 @@ export const getTutorsProfile = createAsyncThunk('/tutors/profile/:id', async (i
   return await tutorApi.getTutorsProfile(id).then((res) => res.data);
 });
 
+export const updateTutorProfile = createAsyncThunk(
+  '/tutor/profile/me',
+  async (data: any, accessToken: any) => {
+    return await tutorApi.updateTutorProfile(data, accessToken).then((res) => res.data);
+  },
+);
+
 interface IInitialState {
   fullname: string;
   introduction: string;
@@ -21,7 +28,12 @@ interface IInitialState {
   status: boolean;
   message: string;
   interests: string;
-  profession: string[];
+  profession: string;
+  languages: string;
+  experience: string;
+  education: string;
+  displayName: string;
+  hometown: string;
 }
 
 const initialState = {
@@ -32,7 +44,12 @@ const initialState = {
   status: false,
   message: '',
   interests: '',
-  profession: [],
+  profession: '',
+  languages: '',
+  experience: '',
+  education: '',
+  displayName: '',
+  hometown: '',
 } as IInitialState;
 
 export const tutorSlice = createSlice({
@@ -52,8 +69,19 @@ export const tutorSlice = createSlice({
       state.fullname = action.payload.data.fullname;
       state.introduction = action.payload.data.introduction;
       state.interests = action.payload.data.interests;
-      state.profession = action.payload.data.profession.trim().split(',');
+      state.profession = action.payload.data.profession.join(', ');
       state.message = action.payload.message;
+    });
+    builder.addCase(updateTutorProfile.fulfilled, (state, action) => {
+      state.fullname = action.payload.data.fullname;
+      state.introduction = action.payload.data.introduction;
+      state.interests = action.payload.data.interests;
+      state.profession = action.payload.data.profession.join(', ');
+      state.languages = action.payload.data.languages.join(', ');
+      state.experience = action.payload.data.experience.join(', ');
+      state.education = action.payload.data.education.join(', ');
+      state.displayName = action.payload.data.displayName;
+      state.hometown = action.payload.data.hometown;
     });
   },
 });
