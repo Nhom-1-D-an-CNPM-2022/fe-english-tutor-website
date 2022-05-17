@@ -16,7 +16,11 @@ export const Schedule = () => {
 
   // Lấy ngày bắt đầu của tháng
   const getStartDayInMonth = () => {
-    return new Date(currentYear, currentMonth, 1).getDay();
+    const startDay = new Date(currentYear, currentMonth, 1).getDay();
+
+    if (startDay === 0) return 7;
+
+    return startDay;
   };
 
   // Kiểm tra có phải ngày hiện tại
