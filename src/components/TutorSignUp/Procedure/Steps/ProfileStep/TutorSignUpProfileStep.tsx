@@ -21,8 +21,8 @@ import {
   RecordDialog,
 } from './AddIntroductionSection/Dialogs';
 import Button from '../../base/Button/Button';
-import ProfileStepProvider from '../../../../../contexts/TutorSignUpProcedure/ProfileStepContext';
-import { TutorSignUpProcedureContext } from '../../../../../contexts/TutorSignUpProcedure/TutorSignUpProcedureContext';
+import ProfileStepProvider from '../../../../../contexts/TutorSignUp/TutorSignUpProcedure/ProfileStepContext';
+import { TutorSignUpProcedureContext } from '../../../../../contexts/TutorSignUp/TutorSignUpProcedure/TutorSignUpProcedureContext';
 import { isProfileCompleted } from './validation';
 
 export default function TutorSignUpProfileStep() {

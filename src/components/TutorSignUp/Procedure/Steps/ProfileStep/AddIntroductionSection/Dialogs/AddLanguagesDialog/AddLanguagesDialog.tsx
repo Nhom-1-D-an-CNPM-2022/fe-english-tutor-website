@@ -14,7 +14,7 @@ import Dialog from '../Dialog';
 import DialogTextField from '../base/DialogTextField/DialogTextField';
 import DialogTextFieldContainer from '../base/DialogTextFieldContainer/DialogTextFieldContainer';
 import DialogContentActions from '../base/DialogContentActions/DialogContentActions';
-import { ProfileStepContext } from '../../../../../../../../contexts/TutorSignUpProcedure/ProfileStepContext';
+import { ProfileStepContext } from '../../../../../../../../contexts/TutorSignUp/TutorSignUpProcedure/ProfileStepContext';
 import { isEmptyString, isInvalidLanguage } from '../validation';
 
 export default function AddLanguagesDialog() {

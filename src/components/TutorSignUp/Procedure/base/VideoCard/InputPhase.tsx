@@ -5,7 +5,7 @@ import VideocamIcon from '@mui/icons-material/Videocam';
 import { inputVideoPhaseStyle } from './style';
 import Button from '../Button/Button';
 import { InputPhaseProps } from './constants';
-import { ProfileStepContext } from '../../../../../contexts/TutorSignUpProcedure/ProfileStepContext';
+import { ProfileStepContext } from '../../../../../contexts/TutorSignUp/TutorSignUpProcedure/ProfileStepContext';
 
 export default function InputPhase({
   title,

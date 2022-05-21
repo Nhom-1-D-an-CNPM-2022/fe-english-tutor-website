@@ -2,7 +2,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import PersonIcon from '@mui/icons-material/Person';
 import { Box } from '@mui/material';
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import Dialog from '../Dialog';
 import { isEmptyString } from '../validation';
 import DialogTextField from '../base/DialogTextField/DialogTextField';
@@ -11,7 +11,7 @@ import {
   DISPLAY_NAME_HELPER_TEXT,
   HOMETOWN_HELPER_TEXT,
 } from './constants';
-import { ProfileStepContext } from '../../../../../../../../contexts/TutorSignUpProcedure/ProfileStepContext';
+import { ProfileStepContext } from '../../../../../../../../contexts/TutorSignUp/TutorSignUpProcedure/ProfileStepContext';
 
 export default function AddBasicInfoDialog() {
   const {
@@ -21,11 +21,19 @@ export default function AddBasicInfoDialog() {
     handleSaveDialog,
     handleChangeString,
     handleUpdateProfile,
-  } = useContext(ProfileStepContext);
+  } = React.useContext(ProfileStepContext);
 
-  const [displayName, setDisplayName] = useState<string>(profile.displayName);
-  const [hometown, setHometown] = useState<string>(profile.hometown);
-  const [dateOfBirth, setDateOfBirth] = useState<string>(profile.dateOfBirth);
+  const [displayName, setDisplayName] = React.useState<string>('');
+  const [hometown, setHometown] = React.useState<string>('');
+  const [dateOfBirth, setDateOfBirth] = React.useState<string>('');
+
+  React.useEffect(() => {
+    if (dialog === 'ADD_BASIC_INFO') {
+      setDisplayName(profile.displayName);
+      setHometown(profile.hometown);
+      setDateOfBirth(profile.dateOfBirth);
+    }
+  }, [dialog]);
 
   const handleClickSave = () => {
     function callback() {

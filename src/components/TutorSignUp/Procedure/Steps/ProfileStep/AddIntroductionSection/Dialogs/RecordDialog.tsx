@@ -2,7 +2,7 @@ import VideocamIcon from '@mui/icons-material/Videocam';
 import { Stack } from '@mui/material';
 import React, { useContext, useRef, useState } from 'react';
 import { RecordRTCPromisesHandler } from 'recordrtc';
-import { ProfileStepContext } from '../../../../../../../contexts/TutorSignUpProcedure/ProfileStepContext';
+import { ProfileStepContext } from '../../../../../../../contexts/TutorSignUp/TutorSignUpProcedure/ProfileStepContext';
 import { MediaWrapperBox } from '../../../../base/boxes';
 import Button from '../../../../base/Button/Button';
 import Dialog from './Dialog';

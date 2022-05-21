@@ -1,6 +1,6 @@
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
-import React, { useContext, useState } from 'react';
-import { ProfileStepContext } from '../../../../../../../contexts/TutorSignUpProcedure/ProfileStepContext';
+import React from 'react';
+import { ProfileStepContext } from '../../../../../../../contexts/TutorSignUp/TutorSignUpProcedure/ProfileStepContext';
 import Dialog from './Dialog';
 import DialogTextField from './base/DialogTextField/DialogTextField';
 import { isEmptyString, TEXTAREA_INPUT_LENGTH_CONSTRAINT } from './validation';
@@ -13,8 +13,14 @@ export default function AddAboutMeDialog() {
     handleSaveDialog,
     handleChangeString,
     handleUpdateProfile,
-  } = useContext(ProfileStepContext);
-  const [aboutMe, setAboutMe] = useState<string>(profile.aboutMe);
+  } = React.useContext(ProfileStepContext);
+  const [aboutMe, setAboutMe] = React.useState<string>('');
+
+  React.useEffect(() => {
+    if (dialog === 'ADD_ABOUT_ME') {
+      setAboutMe(profile.aboutMe);
+    }
+  }, [dialog]);
 
   const handleClickSave = () => {
     function callback() {

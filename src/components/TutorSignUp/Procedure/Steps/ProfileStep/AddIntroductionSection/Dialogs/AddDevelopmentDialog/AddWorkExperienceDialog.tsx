@@ -1,57 +1,39 @@
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
-import React, { useContext, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import { ProfileStepContext } from '../../../../../../../../contexts/TutorSignUpProcedure/ProfileStepContext';
+import React from 'react';
+import { ProfileStepContext } from '../../../../../../../../contexts/TutorSignUp/TutorSignUpProcedure/ProfileStepContext';
 import Button from '../../../../../base/Button/Button';
 import Dialog from '../Dialog';
 import DialogAutocomplete from '../base/DialogAutocomplete/DialogAutocomplete';
 import DialogContentActions from '../base/DialogContentActions/DialogContentActions';
 import DialogTextField from '../base/DialogTextField/DialogTextField';
 import DialogTextFieldContainer from '../base/DialogTextFieldContainer/DialogTextFieldContainer';
-import { TAGS, Development, INPUT_LENGTH_CONSTRAINTS } from './constants';
-import { isEmptyArray, isEmptyString, isInvalidDevelopment } from '../validation';
+import { TAGS, Development, INPUT_LENGTH_CONSTRAINTS, LIMIT_TAGS } from './constants';
+import { isEmptyArray, isEmptyString } from '../validation';
 import {
+  clickSaveCallback,
   handleAdd,
   handleChangeDescription,
   handleChangeTags,
   handleChangeTitle,
   handleDelete,
+  initDevelopmentDialog,
 } from './helpers';
 
 export default function AddWorkExperienceDialog() {
   const { profile, dialog, isErrorChecked, handleSaveDialog, handleUpdateProfile } =
-    useContext(ProfileStepContext);
+    React.useContext(ProfileStepContext);
 
-  const [experience, setExperience] = useState<Development[]>(
-    profile.experience.map((workExperience) => ({
-      id: uuidv4(),
-      ...workExperience,
-    })),
-  );
+  const [experience, setExperience] = React.useState<Development[]>([]);
+
+  React.useEffect(() => {
+    if (dialog === 'ADD_WORK_EXPERIENCE') {
+      initDevelopmentDialog(profile.experience, setExperience);
+    }
+  }, [dialog]);
 
   const handleClickSave = () => {
     function callback() {
-      let isError = false;
-
-      for (let i = 0; i < experience.length; i++) {
-        if (isInvalidDevelopment(experience[i])) {
-          isError = true;
-          break;
-        }
-      }
-
-      if (isError) {
-        return true;
-      } else {
-        handleUpdateProfile({
-          experience: experience.map(({ title, description, tags }) => ({
-            title,
-            description,
-            tags,
-          })),
-        });
-        return false;
-      }
+      return clickSaveCallback('experience', experience, handleUpdateProfile);
     }
 
     handleSaveDialog(callback);
@@ -82,10 +64,14 @@ export default function AddWorkExperienceDialog() {
                     INPUT_LENGTH_CONSTRAINTS.TITLE - workExperience.title.length
                   } characters remaining`
             }
+            inputProps={{
+              maxLength: INPUT_LENGTH_CONSTRAINTS.TITLE,
+            }}
             label="Title"
           />
           <DialogAutocomplete
             value={workExperience.tags}
+            limitTags={LIMIT_TAGS}
             handleChange={(event, value) =>
               handleChangeTags(experience, index, event, value, setExperience)
             }
@@ -112,6 +98,9 @@ export default function AddWorkExperienceDialog() {
             label="Description"
             minRows={2}
             maxRows={6}
+            inputProps={{
+              maxLength: INPUT_LENGTH_CONSTRAINTS.DESCRIPTION,
+            }}
             multiline
           />
         </DialogTextFieldContainer>

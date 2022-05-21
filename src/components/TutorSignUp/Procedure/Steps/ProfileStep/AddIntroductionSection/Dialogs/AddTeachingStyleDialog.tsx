@@ -1,6 +1,6 @@
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
-import React, { useContext, useState } from 'react';
-import { ProfileStepContext } from '../../../../../../../contexts/TutorSignUpProcedure/ProfileStepContext';
+import React, { useContext, useEffect, useState } from 'react';
+import { ProfileStepContext } from '../../../../../../../contexts/TutorSignUp/TutorSignUpProcedure/ProfileStepContext';
 import Dialog from './Dialog';
 import DialogTextField from './base/DialogTextField/DialogTextField';
 import { isEmptyString, TEXTAREA_INPUT_LENGTH_CONSTRAINT } from './validation';
@@ -14,7 +14,13 @@ export default function AddTeachingStyleDialog() {
     handleChangeString,
     handleUpdateProfile,
   } = useContext(ProfileStepContext);
-  const [teachingStyles, setTeachingStyles] = useState<string>(profile.teachingStyles);
+  const [teachingStyles, setTeachingStyles] = useState<string>('');
+
+  useEffect(() => {
+    if (dialog === 'ADD_TEACHING_STYLE') {
+      setTeachingStyles(profile.teachingStyles);
+    }
+  }, [dialog]);
 
   const handleClickSave = () => {
     function callback() {

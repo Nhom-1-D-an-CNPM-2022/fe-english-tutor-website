@@ -8,7 +8,7 @@ import TutorSignUpStepHeader from '../TutorSignUpStepHeader';
 import { imageWrapperStyle } from './style';
 import Button from '../../base/Button/Button';
 import React, { useContext } from 'react';
-import { TutorSignUpProcedureContext } from '../../../../../contexts/TutorSignUpProcedure/TutorSignUpProcedureContext';
+import { TutorSignUpProcedureContext } from '../../../../../contexts/TutorSignUp/TutorSignUpProcedure/TutorSignUpProcedureContext';
 
 export default function TutorSignUpWelcomeStep() {
   const { goToStep } = useContext(TutorSignUpProcedureContext);

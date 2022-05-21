@@ -23,7 +23,7 @@ import {
 import Button from '../base/Button/Button';
 import { checkList } from './constants';
 import React, { useContext } from 'react';
-import { TutorSignUpProcedureContext } from '../../../../contexts/TutorSignUpProcedure/TutorSignUpProcedureContext';
+import { TutorSignUpProcedureContext } from '../../../../contexts/TutorSignUp/TutorSignUpProcedure/TutorSignUpProcedureContext';
 
 export default function Sidebar() {
   const { currentStep, numberOfSteps, completedSteps, goToStep } = useContext(

@@ -48,6 +48,7 @@ interface ITeachingCertificates {
 }
 
 interface IInitialState {
+  userId: string;
   displayName: string;
   hometown: string;
   dateOfBirth: string;
@@ -62,12 +63,13 @@ interface IInitialState {
   motivation: string;
   source: string;
   otherPlatforms: Record<string, boolean>;
-  teachingCertificates: Array<ITeachingCertificates> | [];
+  certificates: Array<ITeachingCertificates> | [];
 }
 
 export type TutorSignUpProfile = IInitialState;
 
 const initialState = {
+  userId: '',
   displayName: '',
   hometown: '',
   dateOfBirth: '',
@@ -104,18 +106,34 @@ const initialState = {
     ByteDance: false,
     Other: false,
   },
-  teachingCertificates: [],
+  certificates: [],
 } as IInitialState;
 
 export const tutorSignUpSlice = createSlice({
   name: 'tutorSignUp',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    setProfile(_, action) {
+      return {
+        ...initialState,
+        ...action.payload,
+        languages:
+          action.payload.languages.length === 0 ? initialState.languages : action.payload.languages,
+        ...(action.payload.dateOfBirth && {
+          dateOfBirth: moment(action.payload.dateOfBirth).format('YYYY-MM-DD'),
+        }),
+      };
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(updateProfile.fulfilled, (state, action) => {
       return {
         ...state,
         ...action.payload.data,
+        languages:
+          action.payload.data.languages.length === 0
+            ? initialState.languages
+            : action.payload.data.languages,
         dateOfBirth: moment(action.payload.data).format('YYYY-MM-DD'),
       };
     });
@@ -131,12 +149,12 @@ export const tutorSignUpSlice = createSlice({
     });
 
     builder.addCase(updateTeachingCertificates.fulfilled, (state, action) => {
-      state.teachingCertificates = action.payload.data;
+      state.certificates = action.payload.data;
       return state;
     });
   },
 });
 
 const { reducer, actions } = tutorSignUpSlice;
-export const {} = actions;
+export const { setProfile } = actions;
 export default reducer;

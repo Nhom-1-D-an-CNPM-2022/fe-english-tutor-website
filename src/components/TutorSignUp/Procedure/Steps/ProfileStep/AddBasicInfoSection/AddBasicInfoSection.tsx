@@ -2,7 +2,7 @@ import { Box, IconButton, Stack } from '@mui/material';
 import TutorSignUpStepSection from '../../TutorSignUpStepSection';
 import { innerWrapperStyle, profilePictureWrapperStyle, outerWrapperStyle } from './style';
 import React, { useContext } from 'react';
-import { ProfileStepContext } from '../../../../../../contexts/TutorSignUpProcedure/ProfileStepContext';
+import { ProfileStepContext } from '../../../../../../contexts/TutorSignUp/TutorSignUpProcedure/ProfileStepContext';
 import BasicInfoActionBox from '../AddIntroductionSection/base/ActionBoxes/BasicInfoActionBox';
 
 export default function AddBasicInfoSection() {

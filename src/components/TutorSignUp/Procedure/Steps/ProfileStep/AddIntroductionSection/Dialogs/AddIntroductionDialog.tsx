@@ -1,6 +1,6 @@
 import { Avatar } from '@mui/material';
-import React, { useContext, useState } from 'react';
-import { ProfileStepContext } from '../../../../../../../contexts/TutorSignUpProcedure/ProfileStepContext';
+import React, { useContext, useEffect, useState } from 'react';
+import { ProfileStepContext } from '../../../../../../../contexts/TutorSignUp/TutorSignUpProcedure/ProfileStepContext';
 import Dialog from './Dialog';
 import DialogTextField from './base/DialogTextField/DialogTextField';
 import { isEmptyString, TEXTAREA_INPUT_LENGTH_CONSTRAINT } from './validation';
@@ -14,7 +14,13 @@ export default function AddIntroductionDialog() {
     handleChangeString,
     handleUpdateProfile,
   } = useContext(ProfileStepContext);
-  const [introduction, setIntroduction] = useState<string>(profile.introduction);
+  const [introduction, setIntroduction] = useState<string>('');
+
+  useEffect(() => {
+    if (dialog === 'ADD_INTRODUCTION') {
+      setIntroduction(profile.introduction);
+    }
+  }, [dialog]);
 
   const handleClickSave = () => {
     function callback() {

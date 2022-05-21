@@ -18,20 +18,20 @@ import {
   SOURCES,
 } from './constants';
 import { formGroupStyle } from './style';
-import React, { useContext, useState } from 'react';
-import { TutorSignUpProcedureContext } from '../../../../../contexts/TutorSignUpProcedure/TutorSignUpProcedureContext';
+import React from 'react';
+import { TutorSignUpProcedureContext } from '../../../../../contexts/TutorSignUp/TutorSignUpProcedure/TutorSignUpProcedureContext';
 import { useDispatch } from 'react-redux';
 import { updateProfile } from '../../../../../redux/slice/appSlice/tutorSignUpSlice';
+import { isOtherPlatformsChanged, isSupplementalQuestionsCompleted } from './validation';
 
 export default function TutorSignUpSupplementalStep() {
   const dispatch = useDispatch();
-  const { profile } = useContext(TutorSignUpProcedureContext);
-  const [isErrorChecked, setIsErrorChecked] = useState<boolean>(false);
-  const [motivation, setMotivation] = useState<string>(profile.motivation);
-  const [source, setSource] = useState<Source>(profile.source as Source);
-  const otherPlatforms: Record<OtherPlatform, boolean> = OTHER_PLATFORMS.reduce(
-    (obj, cur) => ({ ...obj, [cur]: profile.otherPlatforms[cur] }),
-    {},
+  const { profile, setStepCompleted } = React.useContext(TutorSignUpProcedureContext);
+  const [isErrorChecked, setIsErrorChecked] = React.useState<boolean>(false);
+  const [motivation, setMotivation] = React.useState<string>(profile.motivation);
+  const [source, setSource] = React.useState<Source>(profile.source as Source);
+  const [otherPlatforms, setOtherPlatforms] = React.useState<Record<OtherPlatform, boolean>>(
+    OTHER_PLATFORMS.reduce((obj, cur) => ({ ...obj, [cur]: profile.otherPlatforms[cur] }), {}),
   );
 
   const handleChangeMotivation = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -48,6 +48,7 @@ export default function TutorSignUpSupplementalStep() {
     platform: OtherPlatform,
   ) => {
     otherPlatforms[platform] = checked;
+    setOtherPlatforms({ ...otherPlatforms });
   };
 
   const handleClickSave = () => {
@@ -77,6 +78,9 @@ export default function TutorSignUpSupplementalStep() {
           color="secondary"
           minRows={6}
           maxRows={9}
+          inputProps={{
+            maxLength: INPUT_LENGTH_CONSTRAINTS.MOTIVATION,
+          }}
           multiline
         />
         <Divider mt={2.3} mb={0} borderWidth={0} />
@@ -117,13 +121,30 @@ export default function TutorSignUpSupplementalStep() {
         </Box>
         <Divider mt={1.25} mb={0} borderWidth={0} />
         <Stack direction="row" justifyContent="center">
-          <Button onClick={handleClickSave} type="contained" size="large" color="secondary">
+          <Button
+            onClick={handleClickSave}
+            type="contained"
+            size="large"
+            color="secondary"
+            disabled={
+              !(
+                motivation !== profile.motivation ||
+                source !== profile.source ||
+                isOtherPlatformsChanged(otherPlatforms, profile.otherPlatforms)
+              )
+            }
+          >
             Save answers
           </Button>
         </Stack>
       </TutorSignUpStepBody>
       <TutorSignUpStepFooter>
-        <Button type="contained" endIcon={<ArrowForwardIcon />} disabled>
+        <Button
+          type="contained"
+          endIcon={<ArrowForwardIcon />}
+          disabled={!isSupplementalQuestionsCompleted(profile)}
+          onClick={() => setStepCompleted('supplemental')}
+        >
           Continue to connection test
         </Button>
       </TutorSignUpStepFooter>

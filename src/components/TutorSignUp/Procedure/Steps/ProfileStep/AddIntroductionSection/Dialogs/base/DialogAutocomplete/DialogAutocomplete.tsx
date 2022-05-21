@@ -5,6 +5,7 @@ import DialogTextField from '../DialogTextField/DialogTextField';
 interface Props {
   options: readonly string[];
   value?: any[];
+  limitTags?: number;
   label?: string;
   placeholder?: string;
   error?: boolean;
@@ -15,6 +16,7 @@ interface Props {
 export default function DialogAutocomplete({
   options,
   value = [],
+  limitTags = -1,
   label = '',
   placeholder = '',
   error = false,
@@ -24,6 +26,7 @@ export default function DialogAutocomplete({
   return (
     <Autocomplete
       value={value}
+      limitTags={limitTags}
       onChange={handleChange}
       options={options}
       getOptionLabel={(option) => option}

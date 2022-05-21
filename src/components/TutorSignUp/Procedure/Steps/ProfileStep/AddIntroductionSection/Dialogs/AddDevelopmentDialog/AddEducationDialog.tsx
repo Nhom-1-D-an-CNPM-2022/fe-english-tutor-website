@@ -1,56 +1,38 @@
 import SchoolIcon from '@mui/icons-material/School';
-import React, { useContext, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import { ProfileStepContext } from '../../../../../../../../contexts/TutorSignUpProcedure/ProfileStepContext';
+import React from 'react';
+import { ProfileStepContext } from '../../../../../../../../contexts/TutorSignUp/TutorSignUpProcedure/ProfileStepContext';
 import Button from '../../../../../base/Button/Button';
 import Dialog from '../Dialog';
 import DialogAutocomplete from '../base/DialogAutocomplete/DialogAutocomplete';
 import DialogContentActions from '../base/DialogContentActions/DialogContentActions';
 import DialogTextField from '../base/DialogTextField/DialogTextField';
 import DialogTextFieldContainer from '../base/DialogTextFieldContainer/DialogTextFieldContainer';
-import { TAGS, Development, INPUT_LENGTH_CONSTRAINTS } from './constants';
+import { TAGS, Development, INPUT_LENGTH_CONSTRAINTS, LIMIT_TAGS } from './constants';
 import {
+  clickSaveCallback,
   handleAdd,
   handleChangeDescription,
   handleChangeTags,
   handleChangeTitle,
   handleDelete,
+  initDevelopmentDialog,
 } from './helpers';
-import { isEmptyArray, isEmptyString, isInvalidDevelopment } from '../validation';
+import { isEmptyArray, isEmptyString } from '../validation';
 
 export default function AddEducationDialog() {
   const { profile, dialog, isErrorChecked, handleSaveDialog, handleUpdateProfile } =
-    useContext(ProfileStepContext);
-  const [education, setEducation] = useState<Development[]>(
-    profile.education.map((education) => ({
-      id: uuidv4(),
-      ...education,
-    })),
-  );
+    React.useContext(ProfileStepContext);
+  const [education, setEducation] = React.useState<Development[]>([]);
+
+  React.useEffect(() => {
+    if (dialog === 'ADD_EDUCATION') {
+      initDevelopmentDialog(profile.education, setEducation);
+    }
+  }, [dialog]);
 
   const handleClickSave = () => {
     function callback() {
-      let isError = false;
-
-      for (let i = 0; i < education.length; i++) {
-        if (isInvalidDevelopment(education[i])) {
-          isError = true;
-          break;
-        }
-      }
-
-      if (isError) {
-        return true;
-      } else {
-        handleUpdateProfile({
-          education: education.map(({ title, description, tags }) => ({
-            title,
-            description,
-            tags,
-          })),
-        });
-        return false;
-      }
+      return clickSaveCallback('education', education, handleUpdateProfile);
     }
 
     handleSaveDialog(callback);
@@ -79,10 +61,14 @@ export default function AddEducationDialog() {
                 ? 'Please enter a title'
                 : `${INPUT_LENGTH_CONSTRAINTS.TITLE - edu.title.length} characters remaining`
             }
+            inputProps={{
+              maxLength: INPUT_LENGTH_CONSTRAINTS.TITLE,
+            }}
             label="Title"
           />
           <DialogAutocomplete
             value={edu.tags}
+            limitTags={LIMIT_TAGS}
             handleChange={(event, value) =>
               handleChangeTags(education, index, event, value, setEducation)
             }
@@ -107,6 +93,9 @@ export default function AddEducationDialog() {
             label="Description"
             minRows={2}
             maxRows={6}
+            inputProps={{
+              maxLength: INPUT_LENGTH_CONSTRAINTS.DESCRIPTION,
+            }}
             multiline
           />
         </DialogTextFieldContainer>

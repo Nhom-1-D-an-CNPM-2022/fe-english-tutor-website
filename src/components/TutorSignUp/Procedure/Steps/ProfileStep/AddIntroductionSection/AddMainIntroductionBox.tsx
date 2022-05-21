@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import React, { useContext } from 'react';
-import { ProfileStepContext } from '../../../../../../contexts/TutorSignUpProcedure/ProfileStepContext';
+import { ProfileStepContext } from '../../../../../../contexts/TutorSignUp/TutorSignUpProcedure/ProfileStepContext';
 import VideoCard from '../../../base/VideoCard/VideoCard';
 import Divider from '../../../base/Divider/Divider';
 import TextActionBox from './base/ActionBoxes/TextActionBox';

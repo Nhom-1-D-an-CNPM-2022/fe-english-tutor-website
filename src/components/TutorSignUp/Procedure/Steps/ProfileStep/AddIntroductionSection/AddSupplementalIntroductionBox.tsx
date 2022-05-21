@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import List from './base/List/List';
 import ListItem from './base/ListItem/ListItem';
 import React, { useContext } from 'react';
-import { ProfileStepContext } from '../../../../../../contexts/TutorSignUpProcedure/ProfileStepContext';
+import { ProfileStepContext } from '../../../../../../contexts/TutorSignUp/TutorSignUpProcedure/ProfileStepContext';
 import { SUPPLEMENTAL_INTRODUCTION } from './constants';
 import { ChipActionBox, DevelopmentActionBox, TextActionBox } from './base/ActionBoxes';
 import { Development } from './base/ActionBoxes/EditActionBoxes/DevelopmentEditActionBox/constants';
@@ -33,7 +33,7 @@ export default function AddSupplementalIntroductionBox() {
     profile.languages.map((language) => `${language.language} (${language.dialect})`),
     profile.experience,
     profile.education,
-    profile.teachingCertificates.map((certificate) => certificate.type),
+    profile.certificates.map((certificate) => certificate.type),
   ];
 
   return (

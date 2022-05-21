@@ -1,16 +1,16 @@
 import { IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import React, { useContext, useState } from 'react';
-import { ProfileStepContext } from '../../../../../../../../contexts/TutorSignUpProcedure/ProfileStepContext';
+import { ProfileStepContext } from '../../../../../../../../contexts/TutorSignUp/TutorSignUpProcedure/ProfileStepContext';
 import Dialog from '../Dialog';
 import constants from './constants';
 import UploadPhase from './UploadPhase';
 import EditPhase from './EditPhase';
 
 export default function AddProfilePictureDialog() {
-  const { profile, dialog, handleSaveDialog, closeDialog, handleUpdateProfilePicture } =
+  const { dialog, handleSaveDialog, closeDialog, handleUpdateProfilePicture } =
     useContext(ProfileStepContext);
-  const [previewSource, setPreviewSource] = useState<string | undefined>(profile.profilePicture);
+  const [previewSource, setPreviewSource] = useState<string | undefined>('');
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.item(0);

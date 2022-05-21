@@ -9,4 +9,6 @@ export * from './Introduction/Introduction';
 export * from './TutorInfo/TutorInfo';
 export * from './Reservation/Reservation';
 export * from './TutorScheduler/TutorScheduler';
-export * from './TutorSignUp/TutorSignUp';
+export * from './TutorSignUp/Home/TutorSignUpHome';
+export * from './TutorSignUp/TutorAccount/TutorSignUpAccount';
+export * from './TutorSignUp/TutorSignUpProcedure';

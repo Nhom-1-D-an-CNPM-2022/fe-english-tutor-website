@@ -7,9 +7,9 @@ export default function DevelopmentEditActionBox({ currentValue }: DevelopmentEd
   return (
     <EditActionBox>
       {currentValue &&
-        currentValue.map((singleDevelopment) => (
+        currentValue.map((singleDevelopment, index) => (
           <Box
-            key={Date.now()}
+            key={index}
             sx={{
               '&:not(:last-of-type)': {
                 marginBottom: '20px',

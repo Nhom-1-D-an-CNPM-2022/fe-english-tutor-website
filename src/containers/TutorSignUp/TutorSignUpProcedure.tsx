@@ -8,7 +8,7 @@ import TutorSignUpWelcomeStep from '../../components/TutorSignUp/Procedure/Steps
 import TutorSignUpLayout from '../../layouts/TutorSignUpLayout/TutorSignUpLayout';
 import TutorSignUpProcedureLayout from '../../layouts/TutorSignUpLayout/TutorSignUpProcedureLayout';
 
-export const TutorSignUp = () => {
+export function TutorSignUpProcedure() {
   return (
     <TutorSignUpLayout>
       <Switch>
@@ -34,4 +34,4 @@ export const TutorSignUp = () => {
       </Switch>
     </TutorSignUpLayout>
   );
-};
+}

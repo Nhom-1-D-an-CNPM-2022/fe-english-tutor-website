@@ -3,7 +3,7 @@ import { titleStyle, wrapperStyle } from './style';
 import DialogContent from './base/DialogContent/DialogContent';
 import Button from '../../../../base/Button/Button';
 import React, { ReactNode, useContext } from 'react';
-import { ProfileStepContext } from '../../../../../../../contexts/TutorSignUpProcedure/ProfileStepContext';
+import { ProfileStepContext } from '../../../../../../../contexts/TutorSignUp/TutorSignUpProcedure/ProfileStepContext';
 
 interface Props {
   open: boolean;

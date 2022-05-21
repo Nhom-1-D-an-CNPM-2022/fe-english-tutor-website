@@ -12,7 +12,9 @@ import {
   Introduction,
   Reservation,
   TutorScheduler,
-  TutorSignUp,
+  TutorSignUpProcedure,
+  TutorSignUpHome,
+  TutorSignUpAccount,
 } from '../containers';
 import { MyInfo } from '../components/MyInfo/MyInfo';
 //import { SearchBox } from '../components';
@@ -69,7 +71,7 @@ export const Routers = () => {
           />
           <PublicRouter
             exact={true}
-            path={'/tutors'}
+            path={'/student/tutors'}
             component={Tutors}
             layout={HeaderFooterLayout}
             isHasHeader={true}
@@ -166,7 +168,13 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-          <PublicRouter path="/tutorsignup/:path?" component={TutorSignUp} layout={BlankLayout} />
+          <PublicRouter path="/tutors" component={TutorSignUpHome} layout={BlankLayout} exact />
+          <PublicRouter path="/tutor/:path?" component={TutorSignUpAccount} layout={BlankLayout} />
+          <PublicRouter
+            path="/tutorsignup/:path?"
+            component={TutorSignUpProcedure}
+            layout={BlankLayout}
+          />
         </Switch>
       </Router>
     </State>

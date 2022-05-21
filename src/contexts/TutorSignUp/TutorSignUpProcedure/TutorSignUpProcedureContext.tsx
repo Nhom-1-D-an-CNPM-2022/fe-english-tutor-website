@@ -1,23 +1,26 @@
 import React, { createContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { RootState } from '../../redux/rootReducer';
-import { TutorSignUpProfile } from '../../redux/slice/appSlice/tutorSignUpSlice';
+import { RootState } from '../../../redux/rootReducer';
+import { TutorSignUpProfile } from '../../../redux/slice/appSlice/tutorSignUpSlice';
 
 export type Steps =
   | 'welcome'
   | 'profile'
   | 'supplemental'
   // | "kidsDemoLesson"
-  | 'connection';
+  | 'connection'
+  | 'status';
 
 interface ContextValue {
   currentStep: Steps;
   profile: TutorSignUpProfile;
   numberOfSteps: number;
   completedSteps: Set<Steps>;
+  isProcedureCompleted: boolean;
   goToStep: (step: Steps) => void;
-  setProfileStepCompleted: () => void;
+  setStepCompleted: (step: Steps) => void;
+  setProcedureCompleted: () => void;
 }
 
 export const TutorSignUpProcedureContext = createContext<ContextValue>({} as any);
@@ -30,7 +33,8 @@ export default function TutorSignUpProcedureProvider({ children }: React.PropsWi
     location.pathname.split('/').pop() as Steps,
   );
   const numberOfSteps = 3;
-  const [completedSteps, setCompletedSteps] = useState<Set<Steps>>(new Set());
+  const [completedSteps, setCompletedSteps] = useState<Set<Steps>>(new Set<Steps>());
+  const [isProcedureCompleted, setIsProcedureCompleted] = useState<boolean>(false);
 
   const goToStep = (step: Steps) => {
     const urlSegments = location.pathname.split('/');
@@ -45,8 +49,12 @@ export default function TutorSignUpProcedureProvider({ children }: React.PropsWi
     history.push(urlSegments.join('/'));
   };
 
-  const setProfileStepCompleted = () => {
-    setCompletedSteps(completedSteps.add('profile'));
+  const setStepCompleted = (step: Steps) => {
+    setCompletedSteps(completedSteps.add(step));
+  };
+
+  const setProcedureCompleted = () => {
+    setIsProcedureCompleted(true);
   };
 
   return (
@@ -56,8 +64,10 @@ export default function TutorSignUpProcedureProvider({ children }: React.PropsWi
         profile,
         numberOfSteps,
         completedSteps,
+        isProcedureCompleted,
         goToStep,
-        setProfileStepCompleted,
+        setStepCompleted,
+        setProcedureCompleted,
       }}
     >
       {children}

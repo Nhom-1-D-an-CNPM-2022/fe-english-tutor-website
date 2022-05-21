@@ -6,7 +6,7 @@ import {
   updateProfilePicture,
   updateTeachingCertificates,
   updateVideoIntroduction,
-} from '../../redux/slice/appSlice/tutorSignUpSlice';
+} from '../../../redux/slice/appSlice/tutorSignUpSlice';
 
 type Dialogs =
   | 'EDIT_PROFILE_PICTURE'

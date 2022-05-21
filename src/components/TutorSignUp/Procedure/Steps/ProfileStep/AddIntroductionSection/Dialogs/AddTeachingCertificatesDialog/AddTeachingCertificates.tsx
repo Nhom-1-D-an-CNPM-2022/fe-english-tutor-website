@@ -2,7 +2,7 @@ import Dialog from '../Dialog';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import UploadIcon from '@mui/icons-material/Upload';
 import { Box, MenuItem, Typography } from '@mui/material';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Button from '../../../../../base/Button/Button';
 import DialogTextFieldContainer from '../base/DialogTextFieldContainer/DialogTextFieldContainer';
@@ -10,21 +10,27 @@ import DialogTextField from '../base/DialogTextField/DialogTextField';
 import { Certificate, certificateTypes } from './constants';
 import { fileNameWrapperStyle } from './style';
 import DialogContentActions from '../base/DialogContentActions/DialogContentActions';
-import { ProfileStepContext } from '../../../../../../../../contexts/TutorSignUpProcedure/ProfileStepContext';
+import { ProfileStepContext } from '../../../../../../../../contexts/TutorSignUp/TutorSignUpProcedure/ProfileStepContext';
 import { isInvalidCertificate } from '../validation';
 
 export default function AddTeachingCertificatesDialog() {
   const { profile, dialog, isErrorChecked, handleSaveDialog, handleUpdateTeachingCertificates } =
     useContext(ProfileStepContext);
-  const [certificates, setCertificates] = useState<Certificate[]>(
-    profile.teachingCertificates.map(({ fileName, URLFile, type }) => ({
-      id: uuidv4(),
-      fileName,
-      URLFile,
-      type,
-    })),
-  );
   const [selectedTypes, setSelectedTypes] = useState<Array<string>>([]);
+  const [certificates, setCertificates] = useState<Certificate[]>([]);
+
+  useEffect(() => {
+    if (dialog === 'ADD_TEACHING_CERTIFICATES') {
+      setCertificates(
+        profile.certificates.map(({ fileName, URLFile, type }) => ({
+          id: uuidv4(),
+          fileName,
+          URLFile,
+          type,
+        })),
+      );
+    }
+  }, [dialog]);
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.item(0);
