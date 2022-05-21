@@ -310,7 +310,7 @@ export class ScheduleWeekView extends React.PureComponent<any, any> {
             // commandButtonComponent={CommandButton}
             // showCloseButton
             // showOpenButton
-            showDeleteButton
+            //showDeleteButton
           />
           {/* <AppointmentForm
             basicLayoutComponent={BasicLayout}
