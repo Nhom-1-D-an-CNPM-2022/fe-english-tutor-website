@@ -170,7 +170,7 @@ export const Routers = () => {
           />
           <PublicRouter path="/tutors" component={TutorSignUpHome} layout={BlankLayout} exact />
           <PublicRouter path="/tutor/:path?" component={TutorSignUpAccount} layout={BlankLayout} />
-          <PublicRouter
+          <PrivateRouter
             path="/tutorsignup/:path?"
             component={TutorSignUpProcedure}
             layout={BlankLayout}

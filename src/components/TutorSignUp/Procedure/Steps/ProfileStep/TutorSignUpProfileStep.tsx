@@ -23,18 +23,23 @@ import {
 import Button from '../../base/Button/Button';
 import ProfileStepProvider from '../../../../../contexts/TutorSignUp/TutorSignUpProcedure/ProfileStepContext';
 import { TutorSignUpProcedureContext } from '../../../../../contexts/TutorSignUp/TutorSignUpProcedure/TutorSignUpProcedureContext';
-import { isProfileCompleted } from './validation';
 
 export default function TutorSignUpProfileStep() {
-  const { profile, completedSteps, setProfileStepCompleted, goToStep } = useContext(
-    TutorSignUpProcedureContext,
-  );
+  const { profile, completedSteps, isProfileStepCompleted, setStepCompleted, goToStep } =
+    useContext(TutorSignUpProcedureContext);
 
   useEffect(() => {
-    if (isProfileCompleted(profile)) {
-      setProfileStepCompleted();
+    if (isProfileStepCompleted(profile)) {
+      setStepCompleted('profile');
     }
-  }, [profile]);
+  }, [
+    profile.displayName,
+    profile.hometown,
+    profile.dateOfBirth,
+    profile.introduction,
+    profile.videoIntroduction,
+    profile.languages[0].dialect,
+  ]);
 
   return (
     <ProfileStepProvider profile={profile}>

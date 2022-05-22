@@ -2,7 +2,7 @@ import axiosMy from './axiosMy';
 
 const tutorSignUpApi = {
   signUpAccount: async (account: any) => {
-    const url = 'users/register';
+    const url = 'tutors';
     return await axiosMy.post(url, account);
   },
 

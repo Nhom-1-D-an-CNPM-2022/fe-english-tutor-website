@@ -18,21 +18,34 @@ import {
   SOURCES,
 } from './constants';
 import { formGroupStyle } from './style';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TutorSignUpProcedureContext } from '../../../../../contexts/TutorSignUp/TutorSignUpProcedure/TutorSignUpProcedureContext';
 import { useDispatch } from 'react-redux';
 import { updateProfile } from '../../../../../redux/slice/appSlice/tutorSignUpSlice';
-import { isOtherPlatformsChanged, isSupplementalQuestionsCompleted } from './validation';
+import { isOtherPlatformsChanged } from './validation';
 
 export default function TutorSignUpSupplementalStep() {
   const dispatch = useDispatch();
-  const { profile, setStepCompleted } = React.useContext(TutorSignUpProcedureContext);
+  const { profile, completedSteps, isSupplementalStepCompleted, setStepCompleted, goToStep } =
+    React.useContext(TutorSignUpProcedureContext);
   const [isErrorChecked, setIsErrorChecked] = React.useState<boolean>(false);
   const [motivation, setMotivation] = React.useState<string>(profile.motivation);
   const [source, setSource] = React.useState<Source>(profile.source as Source);
   const [otherPlatforms, setOtherPlatforms] = React.useState<Record<OtherPlatform, boolean>>(
-    OTHER_PLATFORMS.reduce((obj, cur) => ({ ...obj, [cur]: profile.otherPlatforms[cur] }), {}),
+    OTHER_PLATFORMS.reduce(
+      (obj, cur) => ({
+        ...obj,
+        [cur]: profile.otherPlatforms[cur] ? profile.otherPlatforms[cur] : false,
+      }),
+      {},
+    ),
   );
+
+  useEffect(() => {
+    if (isSupplementalStepCompleted(profile)) {
+      setStepCompleted('supplemental');
+    }
+  }, [profile.motivation, profile.source]);
 
   const handleChangeMotivation = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setMotivation(e.target.value);
@@ -109,12 +122,13 @@ export default function TutorSignUpSupplementalStep() {
         <Box>
           <Typography>{BODY_TYPOGRAPHY.OTHER_PLATFORMS.LABEL}</Typography>
           <FormGroup sx={formGroupStyle}>
-            {OTHER_PLATFORMS.map((platform) => (
+            {Object.entries(otherPlatforms).map(([platform, checked]) => (
               <FormControlLabel
                 key={platform}
                 onChange={(event, checked) => handleChangeOtherPlatforms(event, checked, platform)}
                 label={platform}
-                control={<Checkbox checked={otherPlatforms[platform]} />}
+                checked={checked}
+                control={<Checkbox checked={checked} />}
               />
             ))}
           </FormGroup>
@@ -141,9 +155,9 @@ export default function TutorSignUpSupplementalStep() {
       <TutorSignUpStepFooter>
         <Button
           type="contained"
+          onClick={() => goToStep('connection')}
           endIcon={<ArrowForwardIcon />}
-          disabled={!isSupplementalQuestionsCompleted(profile)}
-          onClick={() => setStepCompleted('supplemental')}
+          disabled={!completedSteps.has('supplemental')}
         >
           Continue to connection test
         </Button>
