@@ -15,7 +15,7 @@ export const getTutorsProfile = createAsyncThunk('/tutors/profile/:id', async (i
 
 export const updateTutorProfile = createAsyncThunk(
   '/tutor/profile/me',
-  async (data: any, accessToken: any) => {
+  async ({ data, accessToken }: any) => {
     return await tutorApi.updateTutorProfile(data, accessToken).then((res) => res.data);
   },
 );
