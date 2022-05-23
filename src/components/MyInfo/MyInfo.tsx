@@ -63,7 +63,7 @@ export const MyInfo = () => {
   const handleSubmit = async () => {
     const res = (
       await dispatch(
-        updateTutorProfile({ data: fieldValue, accessToken: localStorage.getItem('jwt') }),
+        updateTutorProfile({ data: fieldValue, accessToken: localStorage.getItem('accessToken') }),
       )
     ).payload;
     console.log(res);

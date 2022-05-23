@@ -16,20 +16,29 @@ import ButtonBase from '@mui/material/ButtonBase';
 import tutorApi from '../../services/aixos/tutorApi';
 import './Tutors.scss';
 import Context from '../State/Context';
+import userApi from '../../services/aixos/userApi';
 
 export const Tutors = () => {
   const pages = ['Products', 'Pricing', 'Blog'];
   const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
   const [tutorList, setTutorList] = useState([]);
   // const [tutorListOnl, setTutorListOnl] = useState([]);
-  const [tutorListAll , setTutorListAll] = useState([]);
+  const [tutorListAll, setTutorListAll] = useState([]);
   const [query, setQuery] = useState('');
   const [field, setField] = useState('all');
-  const {iCall1, onlineTutors, getOnlineTutors} = useContext(Context)
+  const { iCall1, onlineTutors, getOnlineTutors } = useContext(Context);
   useEffect(() => {
     async function fetchMyAPI() {
       let response = await tutorApi.getAllTutor();
       setTutorList((arr) => arr.concat(response.data));
+
+      await userApi.getFavoriteTutors(localStorage.getItem('accessToken')).then((response) => {
+        const tempList = tutorList.map((item) => ({
+          ...item,
+          isFavoriteTutor: !!response.data.find((temp: any) => temp._id === item._id),
+        }));
+        setTutorList(tempList);
+      });
     }
     fetchMyAPI();
   }, []);
@@ -48,17 +57,17 @@ export const Tutors = () => {
   };
   const handleClickField = (field: string) => {
     setField(field);
-    if(field === 'online'){
+    if (field === 'online') {
       // iCall1();
       // console.log('hehe')
       getOnlineTutors();
-      if(tutorListAll.length === 0){
+      if (tutorListAll.length === 0) {
         setTutorListAll(tutorList);
       }
       setTutorList(onlineTutors);
     }
-    if(field === 'all'){
-      setTutorList(tutorListAll)
+    if (field === 'all') {
+      setTutorList(tutorListAll);
     }
   };
   return (
@@ -113,7 +122,8 @@ export const Tutors = () => {
                     introduction={item.introduction}
                     ageOfAccount={item.ageOfAccount}
                     accent="USA"
-                    id={item.userId}
+                    id={item.userId || '123'}
+                    isFavoriteTutor={item.isFavoriteTutor}
                   />
                 );
               })}
