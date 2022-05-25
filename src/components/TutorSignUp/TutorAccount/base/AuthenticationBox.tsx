@@ -21,17 +21,19 @@ export default function AuthenticationBox({ authType }: { authType: 'login' | 's
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const [emailError, setEmailError] = React.useState<string>('');
   const [passwordError, setPasswordError] = React.useState<string>('');
+  const [responseError, setResponseError] = React.useState<string>('');
 
   const handleSubmit = () => {
     setEmailError('');
     setPasswordError('');
-    handleAuthenticate({
+    handleAuthenticate(
       authType,
-      email: account.email,
-      password: account.password,
-      emailErrorSetter: setEmailError,
-      passwordErrorSetter: setPasswordError,
-    });
+      account.email,
+      account.password,
+      setEmailError,
+      setPasswordError,
+      setResponseError,
+    );
   };
 
   const handleChange = (
@@ -48,6 +50,38 @@ export default function AuthenticationBox({ authType }: { authType: 'login' | 's
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
+
+  function SubmitButton() {
+    return (
+      <Button
+        variant="contained"
+        sx={{
+          ...(authType === 'login' && {
+            marginTop: 1,
+          }),
+        }}
+        onClick={handleSubmit}
+      >
+        {authType === 'signup' ? 'Create account' : 'Login'}
+      </Button>
+    );
+  }
+
+  function ButtonHelperText() {
+    return (
+      <Typography
+        height="19.91px"
+        margin="3px 14px 0 14px"
+        variant="h6"
+        lineHeight={1.66}
+        letterSpacing="0.03333em"
+        color="error.main"
+        visibility={responseError ? 'visible' : 'hidden'}
+      >
+        {responseError}
+      </Typography>
+    );
+  }
 
   return (
     <Box>
@@ -98,20 +132,16 @@ export default function AuthenticationBox({ authType }: { authType: 'login' | 's
             <Typography variant="h6">
               <Link href="/">Forgot your password?</Link>
             </Typography>
-            <Button
-              variant="contained"
-              sx={{
-                marginTop: 1,
-              }}
-              onClick={handleSubmit}
-            >
-              Log in
-            </Button>
+            <Box>
+              <SubmitButton />
+              <ButtonHelperText />
+            </Box>
           </>
         ) : (
-          <Button variant="contained" onClick={handleSubmit}>
-            Create account
-          </Button>
+          <Box>
+            <SubmitButton />
+            <ButtonHelperText />
+          </Box>
         )}
       </Box>
     </Box>

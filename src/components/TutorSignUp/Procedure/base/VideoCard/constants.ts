@@ -16,7 +16,6 @@ export interface PreviewPhaseProps {
   handleFileInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export interface VideoCardProps
-  extends Omit<InputPhaseProps, "handleFileInputChange"> {
-  handleUpdateVideo: (newUrl: any) => void;
+export interface VideoCardProps extends Omit<InputPhaseProps, 'handleFileInputChange'> {
+  handleUpdateVideo: (mediaType: 'videoIntroduction', file: File) => void;
 }

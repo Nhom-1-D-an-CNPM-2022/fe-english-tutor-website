@@ -45,18 +45,9 @@ const tutorSignUpApi = {
     });
   },
 
-  updateProfilePicture: async (newUrl: any) => {
-    const url = 'tutors/profile/picture';
-    return await axiosMy.put(url, newUrl, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-      },
-    });
-  },
-
-  updateVideoIntroduction: async (newUrl: any) => {
-    const url = 'tutors/profile/video-intro';
-    return await axiosMy.put(url, newUrl, {
+  updateProfileMedia: async (profileMedia: any) => {
+    const url = 'tutors/profile/media';
+    return await axiosMy.put(url, profileMedia, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
       },

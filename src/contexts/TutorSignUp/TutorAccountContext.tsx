@@ -10,16 +10,18 @@ interface Params {
   password: string;
   emailErrorSetter: (message: string) => void;
   passwordErrorSetter: (message: string) => void;
+  responseErrorSetter: (message: string) => void;
 }
 
 interface ContextValue {
-  handleAuthenticate: ({
-    authType,
-    email,
-    password,
-    emailErrorSetter,
-    passwordErrorSetter,
-  }: Params) => Promise<void>;
+  handleAuthenticate: (
+    authType: Params['authType'],
+    email: Params['email'],
+    password: Params['password'],
+    emailErrorSetter: Params['emailErrorSetter'],
+    passwordErrorSetter: Params['passwordErrorSetter'],
+    responseErrorSetter: Params['responseErrorSetter'],
+  ) => Promise<void>;
 }
 
 export const TutorAccountContext = createContext<ContextValue>({} as any);
@@ -108,13 +110,14 @@ export default function TutorAccountProvider({ children }: React.PropsWithChildr
     }
   };
 
-  const handleAuthenticate = async ({
-    authType,
-    email,
-    password,
-    emailErrorSetter,
-    passwordErrorSetter,
-  }: Params) => {
+  const handleAuthenticate = async (
+    authType: Params['authType'],
+    email: Params['email'],
+    password: Params['password'],
+    emailErrorSetter: Params['emailErrorSetter'],
+    passwordErrorSetter: Params['passwordErrorSetter'],
+    responseErrorSetter: Params['responseErrorSetter'],
+  ) => {
     const isValid = validateAccount(email, password, emailErrorSetter, passwordErrorSetter);
 
     if (!isValid) {
@@ -133,8 +136,8 @@ export default function TutorAccountProvider({ children }: React.PropsWithChildr
           };
 
           handleLoginSuccessfully(result);
-        } catch (error) {
-          console.log(error);
+        } catch (error: any) {
+          responseErrorSetter(error.response.data);
         }
 
         break;
@@ -148,8 +151,8 @@ export default function TutorAccountProvider({ children }: React.PropsWithChildr
           };
 
           handleLoginSuccessfully(result);
-        } catch (error) {
-          console.log(error);
+        } catch (error: any) {
+          responseErrorSetter(error.response.data);
         }
 
         break;

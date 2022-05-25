@@ -81,7 +81,7 @@ export const Routers = () => {
           />
           <PublicRouter
             exact={true}
-            path={'/tutors/:id'}
+            path={'/student/tutors/:id'}
             component={TutorInfo}
             layout={HeaderFooterLayout}
             isHasHeader={true}

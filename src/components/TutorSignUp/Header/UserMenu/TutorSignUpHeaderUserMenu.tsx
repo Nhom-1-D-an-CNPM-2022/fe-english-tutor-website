@@ -26,6 +26,12 @@ export default function TutorSignUpHeaderUserMenu({ anchorEl, open, handleClose 
     handleClose();
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+  };
+
+  const buttonActions = [handleOnClickMenuItem, handleOnClickMenuItem, handleLogout];
+
   return (
     <Menu
       sx={menuStyle}
@@ -43,10 +49,10 @@ export default function TutorSignUpHeaderUserMenu({ anchorEl, open, handleClose 
       open={open}
       onClose={handleClose}
     >
-      {menu.map((menuItem) => (
+      {menu.map((menuItem, index) => (
         <Box key={menuItem.label}>
           {menuItem.hasDividerBefore && <Divider sx={dividerStyle} />}
-          <MenuItem onClick={handleClose} sx={menuItemStyle}>
+          <MenuItem onClick={buttonActions[index]} sx={menuItemStyle}>
             <Typography>{menuItem.label}</Typography>
           </MenuItem>
         </Box>

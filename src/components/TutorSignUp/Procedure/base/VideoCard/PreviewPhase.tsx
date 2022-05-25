@@ -17,7 +17,13 @@ export default function PreviewPhase({ previewSource, handleFileInputChange }: P
           </span>
           <Typography variant="subtitle1">Record new</Typography>
         </Link>
-        <Link component="label" underline="hover">
+        <Link
+          component="label"
+          underline="hover"
+          sx={{
+            cursor: 'pointer',
+          }}
+        >
           <span>
             <CloudUploadIcon />
           </span>

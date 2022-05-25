@@ -8,14 +8,16 @@ import UploadPhase from './UploadPhase';
 import EditPhase from './EditPhase';
 
 export default function AddProfilePictureDialog() {
-  const { dialog, handleSaveDialog, closeDialog, handleUpdateProfilePicture } =
+  const { dialog, handleSaveDialog, closeDialog, handleUpdateProfileMedia } =
     useContext(ProfileStepContext);
+  const [file, setFile] = useState<File>();
   const [previewSource, setPreviewSource] = useState<string | undefined>('');
 
-  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.item(0);
 
     if (file) {
+      setFile(file);
       previewFile(file);
     }
   };
@@ -35,8 +37,12 @@ export default function AddProfilePictureDialog() {
 
   const handleClickSave = () => {
     function callback() {
-      handleUpdateProfilePicture({ URLFile: previewSource });
-      return false;
+      if (file) {
+        handleUpdateProfileMedia('picture', file);
+        return false;
+      }
+
+      return true;
     }
 
     handleSaveDialog(callback);

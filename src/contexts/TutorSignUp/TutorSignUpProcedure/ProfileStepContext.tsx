@@ -3,10 +3,10 @@ import { useDispatch } from 'react-redux';
 import {
   TutorSignUpProfile,
   updateProfile,
-  updateProfilePicture,
+  updateProfileMedia,
   updateTeachingCertificates,
-  updateVideoIntroduction,
 } from '../../../redux/slice/appSlice/tutorSignUpSlice';
+import { handleUploadFile } from './helpers';
 
 type Dialogs =
   | 'EDIT_PROFILE_PICTURE'
@@ -23,6 +23,7 @@ type Dialogs =
 interface ContextValue {
   dialog?: Dialogs;
   isErrorChecked?: boolean;
+  profile: TutorSignUpProfile;
   openEditProfilePictureDialog: () => void;
   openBasicInfoDialog: () => void;
   openRecordDialog: () => void;
@@ -39,10 +40,8 @@ interface ContextValue {
   ) => void;
   handleSaveDialog: (callback: () => boolean) => void;
   closeDialog: () => void;
-  profile: TutorSignUpProfile;
   handleUpdateProfile: (newInformation: any) => void;
-  handleUpdateProfilePicture: (newUrl: any) => void;
-  handleUpdateVideoIntroduction: (newUrl: any) => void;
+  handleUpdateProfileMedia: (mediaType: 'picture' | 'videoIntroduction', file: File) => void;
   handleUpdateTeachingCertificates: (newTeachingCertificates: any) => void;
 }
 
@@ -129,12 +128,18 @@ export default function ProfileStepProvider({
     dispatch(updateProfile(newInformation));
   };
 
-  const handleUpdateProfilePicture = (newUrl: any) => {
-    dispatch(updateProfilePicture(newUrl));
-  };
-
-  const handleUpdateVideoIntroduction = (newUrl: any) => {
-    dispatch(updateVideoIntroduction({ URLFile: newUrl }));
+  const handleUpdateProfileMedia = (mediaType: 'picture' | 'videoIntroduction', file: File) => {
+    handleUploadFile(file, function successCallback(response: any) {
+      dispatch(
+        updateProfileMedia({
+          mediaType,
+          profileMedia: {
+            url: response.url,
+            publicId: response.public_id,
+          },
+        }),
+      );
+    });
   };
 
   const handleUpdateTeachingCertificates = (newTeachingCertificates: any) => {
@@ -146,6 +151,7 @@ export default function ProfileStepProvider({
       value={{
         dialog,
         isErrorChecked,
+        profile,
         openEditProfilePictureDialog,
         openBasicInfoDialog,
         openRecordDialog,
@@ -159,10 +165,8 @@ export default function ProfileStepProvider({
         handleChangeString,
         handleSaveDialog,
         closeDialog,
-        profile,
         handleUpdateProfile,
-        handleUpdateProfilePicture,
-        handleUpdateVideoIntroduction,
+        handleUpdateProfileMedia,
         handleUpdateTeachingCertificates,
       }}
     >

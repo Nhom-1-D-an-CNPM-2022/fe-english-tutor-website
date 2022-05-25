@@ -25,7 +25,7 @@ export default function VideoCard({
     reader.readAsDataURL(file);
 
     reader.onloadend = () => {
-      handleUpdateVideo(reader.result?.toString());
+      handleUpdateVideo('videoIntroduction', file);
     };
 
     reader.onerror = (e) => {

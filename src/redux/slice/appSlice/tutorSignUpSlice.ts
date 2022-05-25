@@ -9,17 +9,10 @@ export const updateProfile = createAsyncThunk(
   },
 );
 
-export const updateProfilePicture = createAsyncThunk(
-  'tutorSignUp/updateProfilePicture',
-  async (newUrl: any) => {
-    return await tutorSignUpApi.updateProfilePicture(newUrl);
-  },
-);
-
-export const updateVideoIntroduction = createAsyncThunk(
-  'tutorSignUp/updateVideoIntroduction',
-  async (newLink: any) => {
-    return await tutorSignUpApi.updateVideoIntroduction(newLink);
+export const updateProfileMedia = createAsyncThunk(
+  'tutorSignUp/updateProfileMedia',
+  async (profileMedia: any) => {
+    return await tutorSignUpApi.updateProfileMedia(profileMedia);
   },
 );
 
@@ -114,6 +107,8 @@ export const tutorSignUpSlice = createSlice({
   initialState: initialState,
   reducers: {
     setProfile(_, action) {
+      console.log(action.payload);
+
       return {
         ...initialState,
         ...action.payload,
@@ -138,14 +133,11 @@ export const tutorSignUpSlice = createSlice({
       };
     });
 
-    builder.addCase(updateProfilePicture.fulfilled, (state, action) => {
-      state.profilePicture = action.payload.data.url;
-      return state;
-    });
-
-    builder.addCase(updateVideoIntroduction.fulfilled, (state, action) => {
-      state.videoIntroduction = action.payload.data.url;
-      return state;
+    builder.addCase(updateProfileMedia.fulfilled, (state, action) => {
+      return {
+        ...state,
+        ...action.payload.data,
+      };
     });
 
     builder.addCase(updateTeachingCertificates.fulfilled, (state, action) => {
