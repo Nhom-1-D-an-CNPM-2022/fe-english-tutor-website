@@ -12,6 +12,7 @@ import {
   Introduction,
   Reservation,
   TutorScheduler,
+  History,
 } from '../containers';
 import { MyInfo } from '../components/MyInfo/MyInfo';
 //import { SearchBox } from '../components';
@@ -159,6 +160,16 @@ export const Routers = () => {
             exact={true}
             path={'/tutors/profile/me'}
             component={MyInfo}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PublicRouter
+            exact={true}
+            path={'/student/history'}
+            component={History}
             layout={HeaderFooterLayout}
             isHasHeader={true}
             header={Header}
