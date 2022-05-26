@@ -13,6 +13,10 @@ const bookingApi = {
     const url = `booking/`;
     return await axiosMy.delete(url, { params });
   },
+  getHistory: async () => {
+    const url = `booking/history`;
+    return await axiosMy.get(url);
+  },
 };
 
 export default bookingApi;
