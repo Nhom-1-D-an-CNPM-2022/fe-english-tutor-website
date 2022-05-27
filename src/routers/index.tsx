@@ -12,14 +12,15 @@ import {
   Introduction,
   Reservation,
   TutorScheduler,
+  TutorLogin,
+  TutorRegister,
   History,
 } from '../containers';
 import { MyInfo } from '../components/MyInfo/MyInfo';
-//import { SearchBox } from '../components';
 import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
 import { BlankLayout, HeaderFooterLayout, OnlyFooterLayout, OnlyHeaderLayout } from '../layouts';
-import { Header, Footer } from '../components/common';
+import { Header, Footer, HeaderTutor } from '../components/common';
 export const Routers = () => {
   const buildysURL = process.env.REACT_APP_LINK_BUILDYS;
 
@@ -47,10 +48,10 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
-            path={'/student/register'}
-            component={Register}
+            path={'/log-out'}
+            component={Home}
             layout={HeaderFooterLayout}
             isHasHeader={true}
             header={Header}
@@ -87,20 +88,23 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
+        </Switch>
+
+        <Switch>
           <PublicRouter
             exact={true}
-            path={'/student/login'}
-            component={Login}
+            path={'/student/register'}
+            component={Register}
             layout={HeaderFooterLayout}
             isHasHeader={true}
             header={Header}
             isHasFooter={true}
             footer={Footer}
           />
-          <PrivateRouter
+          <PublicRouter
             exact={true}
-            path={'/log-out'}
-            component={Home}
+            path={'/student/login'}
+            component={Login}
             layout={HeaderFooterLayout}
             isHasHeader={true}
             header={Header}
@@ -126,6 +130,27 @@ export const Routers = () => {
             header={Header}
             isHasFooter={true}
             footer={Footer}
+          />
+        </Switch>
+
+        <Switch>
+          <PublicRouter
+            exact={true}
+            path={'/tutor/login'}
+            component={TutorLogin}
+            layout={OnlyHeaderLayout}
+            isHasHeader={true}
+            header={HeaderTutor}
+            isHasFooter={false}
+          />
+          <PublicRouter
+            exact={true}
+            path={'/tutor/register'}
+            component={TutorRegister}
+            layout={OnlyHeaderLayout}
+            isHasHeader={true}
+            header={HeaderTutor}
+            isHasFooter={false}
           />
           <PublicRouter
             exact={true}
