@@ -20,7 +20,7 @@ import { MyInfo } from '../components/MyInfo/MyInfo';
 import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
 import { BlankLayout, HeaderFooterLayout, OnlyFooterLayout, OnlyHeaderLayout } from '../layouts';
-import { Header, Footer, HeaderTutor } from '../components/common';
+import { Header, Footer, HeaderTutor, HeaderHome } from '../components/common';
 export const Routers = () => {
   const buildysURL = process.env.REACT_APP_LINK_BUILDYS;
 
@@ -28,23 +28,13 @@ export const Routers = () => {
     <State>
       <Router>
         <Switch>
-          <PrivateRouter
-            exact={true}
-            path={'/'}
-            component={Home}
-            layout={HeaderFooterLayout}
-            isHasHeader={true}
-            header={Header}
-            isHasFooter={true}
-            footer={Footer}
-          />
           <PublicRouter
             exact={true}
-            path={'/home'}
+            path={'/'}
             component={Introduction}
             layout={HeaderFooterLayout}
             isHasHeader={true}
-            header={Header}
+            header={HeaderHome}
             isHasFooter={true}
             footer={Footer}
           />
@@ -97,7 +87,7 @@ export const Routers = () => {
             component={Register}
             layout={HeaderFooterLayout}
             isHasHeader={true}
-            header={Header}
+            header={HeaderHome}
             isHasFooter={true}
             footer={Footer}
           />
@@ -105,6 +95,16 @@ export const Routers = () => {
             exact={true}
             path={'/student/login'}
             component={Login}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={HeaderHome}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PrivateRouter
+            exact={true}
+            path={'/student'}
+            component={Home}
             layout={HeaderFooterLayout}
             isHasHeader={true}
             header={Header}

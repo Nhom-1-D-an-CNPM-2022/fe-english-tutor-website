@@ -99,6 +99,8 @@ export const ScheduleClass = ({ day, month, year, weeksday }: IScheduleClass) =>
       0,
     ).toISOString();
 
+    console.log('currentDate', currentDate);
+
     const schudule: any = await scheduleApi.getSchedule({
       startTime: currentDate,
       interval: length.slice(0, 2),

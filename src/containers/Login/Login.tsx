@@ -50,7 +50,7 @@ export const Login = () => {
               history.goBack();
             } else {
               history.push({
-                pathname: `/`,
+                pathname: `/student`,
               });
             }
           }
