@@ -9,8 +9,9 @@ export default function VideoCard({
   title,
   description,
   links,
-  handleUpdateVideo,
   videoSrc = '',
+  profileMediaType,
+  handleUpdateVideo,
 }: VideoCardProps) {
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const file = e.target.files?.item(0);
@@ -25,7 +26,7 @@ export default function VideoCard({
     reader.readAsDataURL(file);
 
     reader.onloadend = () => {
-      handleUpdateVideo('videoIntroduction', file);
+      handleUpdateVideo(profileMediaType, file);
     };
 
     reader.onerror = (e) => {

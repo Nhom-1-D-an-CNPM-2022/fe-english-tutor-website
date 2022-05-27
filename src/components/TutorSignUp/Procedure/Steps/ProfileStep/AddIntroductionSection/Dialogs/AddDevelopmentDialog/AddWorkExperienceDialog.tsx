@@ -7,7 +7,13 @@ import DialogAutocomplete from '../base/DialogAutocomplete/DialogAutocomplete';
 import DialogContentActions from '../base/DialogContentActions/DialogContentActions';
 import DialogTextField from '../base/DialogTextField/DialogTextField';
 import DialogTextFieldContainer from '../base/DialogTextFieldContainer/DialogTextFieldContainer';
-import { TAGS, Development, INPUT_LENGTH_CONSTRAINTS, LIMIT_TAGS } from './constants';
+import {
+  TAGS,
+  Development,
+  INPUT_LENGTH_CONSTRAINTS,
+  LIMIT_TAGS,
+  MAX_DEVELOPMENT_ITEMS,
+} from './constants';
 import { isEmptyArray, isEmptyString } from '../validation';
 import {
   clickSaveCallback,
@@ -106,7 +112,11 @@ export default function AddWorkExperienceDialog() {
         </DialogTextFieldContainer>
       ))}
       <DialogContentActions>
-        <Button type="text" onClick={() => handleAdd(experience, setExperience)}>
+        <Button
+          type="text"
+          onClick={() => handleAdd(experience, setExperience)}
+          disabled={experience.length === MAX_DEVELOPMENT_ITEMS}
+        >
           Add experience
         </Button>
       </DialogContentActions>

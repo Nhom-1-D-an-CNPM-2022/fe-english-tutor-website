@@ -17,6 +17,7 @@ export default function AddMainIntroductionBox() {
         title={MAIN_INTRODUCTION.VIDEO_CARD.TITLE}
         description={MAIN_INTRODUCTION.VIDEO_CARD.DESCRIPTION}
         links={MAIN_INTRODUCTION.VIDEO_CARD.LINKS}
+        profileMediaType="videoIntroduction"
         handleUpdateVideo={handleUpdateProfileMedia}
       />
       <Divider mt={2.5} mb={2.5} borderWidth={0} />

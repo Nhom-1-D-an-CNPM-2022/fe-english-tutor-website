@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { TutorSignUpProfile } from '../../../redux/slice/appSlice/tutorSignUpSlice';
 
 export const handleUploadFile = (
   file: File,
@@ -61,4 +62,31 @@ export const handleUploadFile = (
 
     xhr.send(formData);
   }
+};
+
+export const validateProfileStep = ({
+  displayName,
+  hometown,
+  dateOfBirth,
+  introduction,
+  videoIntroduction,
+  languages,
+}: TutorSignUpProfile) => {
+  return (
+    Boolean(displayName) &&
+    Boolean(hometown) &&
+    Boolean(dateOfBirth) &&
+    Boolean(introduction) &&
+    Boolean(videoIntroduction) &&
+    Boolean(languages[0].language) &&
+    Boolean(languages[0].dialect)
+  );
+};
+
+export const validateSupplementalStep = ({ motivation, source }: TutorSignUpProfile) => {
+  return Boolean(motivation) && Boolean(source);
+};
+
+export const validateDemoLessonStep = ({ demoLesson }: TutorSignUpProfile) => {
+  return Boolean(demoLesson);
 };

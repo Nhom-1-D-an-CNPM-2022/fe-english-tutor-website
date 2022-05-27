@@ -53,10 +53,13 @@ interface IInitialState {
   languages: Array<ILanguage> | [];
   experience: Array<IDevelopment> | [];
   education: Array<IDevelopment> | [];
+  certificates: Array<ITeachingCertificates> | [];
   motivation: string;
   source: string;
   otherPlatforms: Record<string, boolean>;
-  certificates: Array<ITeachingCertificates> | [];
+  demoLesson: string;
+  isSubmitted: boolean;
+  isApproved: boolean;
 }
 
 export type TutorSignUpProfile = IInitialState;
@@ -91,6 +94,7 @@ const initialState = {
       tags: [],
     },
   ],
+  certificates: [],
   motivation: '',
   source: '',
   otherPlatforms: {
@@ -99,7 +103,9 @@ const initialState = {
     ByteDance: false,
     Other: false,
   },
-  certificates: [],
+  demoLesson: '',
+  isSubmitted: false,
+  isApproved: false,
 } as IInitialState;
 
 export const tutorSignUpSlice = createSlice({
@@ -107,8 +113,6 @@ export const tutorSignUpSlice = createSlice({
   initialState: initialState,
   reducers: {
     setProfile(_, action) {
-      console.log(action.payload);
-
       return {
         ...initialState,
         ...action.payload,

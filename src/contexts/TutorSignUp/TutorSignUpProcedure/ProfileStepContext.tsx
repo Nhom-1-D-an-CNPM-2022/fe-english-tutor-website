@@ -1,12 +1,11 @@
-import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   TutorSignUpProfile,
   updateProfile,
-  updateProfileMedia,
   updateTeachingCertificates,
 } from '../../../redux/slice/appSlice/tutorSignUpSlice';
-import { handleUploadFile } from './helpers';
+import { TutorSignUpProcedureContext } from './TutorSignUpProcedureContext';
 
 type Dialogs =
   | 'EDIT_PROFILE_PICTURE'
@@ -41,7 +40,10 @@ interface ContextValue {
   handleSaveDialog: (callback: () => boolean) => void;
   closeDialog: () => void;
   handleUpdateProfile: (newInformation: any) => void;
-  handleUpdateProfileMedia: (mediaType: 'picture' | 'videoIntroduction', file: File) => void;
+  handleUpdateProfileMedia: (
+    mediaType: 'profilePicture' | 'videoIntroduction' | string,
+    file: File,
+  ) => void;
   handleUpdateTeachingCertificates: (newTeachingCertificates: any) => void;
 }
 
@@ -55,6 +57,7 @@ export default function ProfileStepProvider({
   profile: TutorSignUpProfile;
 }) {
   const dispatch = useDispatch();
+  const { handleUpdateProfileMedia } = useContext(TutorSignUpProcedureContext);
   const [isErrorChecked, setIsErrorChecked] = useState<boolean>(false);
   const [dialog, setDialog] = useState<Dialogs>();
 
@@ -126,20 +129,6 @@ export default function ProfileStepProvider({
 
   const handleUpdateProfile = (newInformation: any) => {
     dispatch(updateProfile(newInformation));
-  };
-
-  const handleUpdateProfileMedia = (mediaType: 'picture' | 'videoIntroduction', file: File) => {
-    handleUploadFile(file, function successCallback(response: any) {
-      dispatch(
-        updateProfileMedia({
-          mediaType,
-          profileMedia: {
-            url: response.url,
-            publicId: response.public_id,
-          },
-        }),
-      );
-    });
   };
 
   const handleUpdateTeachingCertificates = (newTeachingCertificates: any) => {

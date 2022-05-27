@@ -7,7 +7,13 @@ import DialogAutocomplete from '../base/DialogAutocomplete/DialogAutocomplete';
 import DialogContentActions from '../base/DialogContentActions/DialogContentActions';
 import DialogTextField from '../base/DialogTextField/DialogTextField';
 import DialogTextFieldContainer from '../base/DialogTextFieldContainer/DialogTextFieldContainer';
-import { TAGS, Development, INPUT_LENGTH_CONSTRAINTS, LIMIT_TAGS } from './constants';
+import {
+  TAGS,
+  Development,
+  INPUT_LENGTH_CONSTRAINTS,
+  LIMIT_TAGS,
+  MAX_DEVELOPMENT_ITEMS,
+} from './constants';
 import {
   clickSaveCallback,
   handleAdd,
@@ -101,7 +107,11 @@ export default function AddEducationDialog() {
         </DialogTextFieldContainer>
       ))}
       <DialogContentActions>
-        <Button type="text" onClick={() => handleAdd(education, setEducation)}>
+        <Button
+          type="text"
+          onClick={() => handleAdd(education, setEducation)}
+          disabled={education.length === MAX_DEVELOPMENT_ITEMS}
+        >
           Add work
         </Button>
       </DialogContentActions>

@@ -17,5 +17,6 @@ export interface PreviewPhaseProps {
 }
 
 export interface VideoCardProps extends Omit<InputPhaseProps, 'handleFileInputChange'> {
-  handleUpdateVideo: (mediaType: 'videoIntroduction', file: File) => void;
+  profileMediaType: 'videoIntroduction' | 'demoLesson';
+  handleUpdateVideo: (mediaType: string, file: File) => void;
 }

@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { isInvalidDevelopment } from '../validation';
-import { Development, TAGS, MAX_ITEMS } from './constants';
+import { Development, TAGS, MAX_DEVELOPMENT_ITEMS } from './constants';
 
 export const handleChangeTitle = (
   arr: Development[],
@@ -37,7 +37,7 @@ export const handleAdd = (
   arr: Development[],
   setter: React.Dispatch<React.SetStateAction<Development[]>>,
 ) => {
-  if (arr.length < MAX_ITEMS) {
+  if (arr.length < MAX_DEVELOPMENT_ITEMS) {
     let newArr: Development[] = [...arr, { id: uuidv4(), title: '', tags: [], description: '' }];
 
     setter(newArr);

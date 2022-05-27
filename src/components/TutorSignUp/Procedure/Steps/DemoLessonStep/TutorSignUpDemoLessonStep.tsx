@@ -1,14 +1,14 @@
-import React from 'react';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import Button from '../../base/Button/Button';
 import VideoCard from '../../base/VideoCard/VideoCard';
 import Divider from '../../base/Divider/Divider';
 import TutorSignUpStep from '../TutorSignUpStep';
 import TutorSignUpStepBody from '../TutorSignUpStepBody';
-import TutorSignUpStepFooter from '../TutorSignUpStepFooter';
 import TutorSignUpStepHeader from '../TutorSignUpStepHeader';
+import React, { useContext } from 'react';
+import { TutorSignUpProcedureContext } from '../../../../../contexts/TutorSignUp/TutorSignUpProcedure/TutorSignUpProcedureContext';
 
 export default function TutorSignUpDemoLessonStep() {
+  const { profile, handleUpdateProfileMedia } = useContext(TutorSignUpProcedureContext);
+
   return (
     <TutorSignUpStep>
       <TutorSignUpStepHeader
@@ -30,14 +30,11 @@ export default function TutorSignUpDemoLessonStep() {
               label: 'Lesson slides',
             },
           ]}
-          handleUpdateVideo={() => {}}
+          profileMediaType="demoLesson"
+          videoSrc={profile.demoLesson}
+          handleUpdateVideo={handleUpdateProfileMedia}
         />
       </TutorSignUpStepBody>
-      <TutorSignUpStepFooter>
-        <Button type="contained" endIcon={<ArrowForwardIcon />} disabled>
-          Continue to connection test
-        </Button>
-      </TutorSignUpStepFooter>
     </TutorSignUpStep>
   );
 }

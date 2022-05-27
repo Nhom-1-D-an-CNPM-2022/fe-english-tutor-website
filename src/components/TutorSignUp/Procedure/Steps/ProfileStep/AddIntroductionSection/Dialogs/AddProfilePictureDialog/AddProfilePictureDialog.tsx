@@ -37,8 +37,12 @@ export default function AddProfilePictureDialog() {
 
   const handleClickSave = () => {
     function callback() {
+      setTimeout(() => {
+        setPreviewSource('');
+      }, 200);
+
       if (file) {
-        handleUpdateProfileMedia('picture', file);
+        handleUpdateProfileMedia('profilePicture', file);
         return false;
       }
 

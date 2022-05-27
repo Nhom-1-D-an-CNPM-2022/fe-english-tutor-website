@@ -1,33 +1,43 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { RootState } from '../../../redux/rootReducer';
-import { TutorSignUpProfile } from '../../../redux/slice/appSlice/tutorSignUpSlice';
+import {
+  TutorSignUpProfile,
+  updateProfile,
+  updateProfileMedia,
+} from '../../../redux/slice/appSlice/tutorSignUpSlice';
+import { TUTOR_SIGN_UP_PROCEDURE_STEPS } from './constants';
+import {
+  handleUploadFile,
+  validateDemoLessonStep,
+  validateProfileStep,
+  validateSupplementalStep,
+} from './helpers';
 
-export type Steps =
-  | 'welcome'
-  | 'profile'
-  | 'supplemental'
-  // | "kidsDemoLesson"
-  | 'connection'
-  | 'status';
+export type Steps = 'welcome' | 'profile' | 'supplemental' | 'demoLesson' | 'connection' | 'status';
 
 interface ContextValue {
+  steps: typeof TUTOR_SIGN_UP_PROCEDURE_STEPS;
   currentStep: Steps;
   profile: TutorSignUpProfile;
   numberOfSteps: number;
-  completedSteps: Set<Steps>;
+  isProfileStepCompleted: boolean;
+  isSupplementalStepCompleted: boolean;
+  isDemoLessonStepCompleted: boolean;
   isProcedureCompleted: boolean;
+  handleUpdateProfileMedia: (
+    mediaType: 'videoIntroduction' | 'demoLesson' | string,
+    file: File,
+  ) => void;
   goToStep: (step: Steps) => void;
-  isProfileStepCompleted: (profile: TutorSignUpProfile) => boolean;
-  isSupplementalStepCompleted: (profile: TutorSignUpProfile) => boolean;
-  setStepCompleted: (step: Steps) => void;
-  setProcedureCompleted: () => void;
+  handleSubmitProfile: () => void;
 }
 
 export const TutorSignUpProcedureContext = createContext<ContextValue>({} as any);
 
 export default function TutorSignUpProcedureProvider({ children }: React.PropsWithChildren<{}>) {
+  const dispatch = useDispatch();
   const profile = useSelector((store: RootState) => store.tutorSignUpSlice);
   const history = useHistory();
   const location = useLocation();
@@ -35,18 +45,27 @@ export default function TutorSignUpProcedureProvider({ children }: React.PropsWi
     location.pathname.split('/').pop() as Steps,
   );
   const numberOfSteps = 3;
-  const [completedSteps, setCompletedSteps] = useState<Set<Steps>>(new Set<Steps>());
-  const [isProcedureCompleted, setIsProcedureCompleted] = useState<boolean>(false);
+  const [isProfileStepCompleted, setIsProfileStepCompleted] = useState<boolean>(false);
+  const [isSupplementalStepCompleted, setIsSupplementalStepCompleted] = useState<boolean>(false);
+  const [isDemoLessonStepCompleted, setIsDemoLessonStepCompleted] = useState<boolean>(false);
 
   useEffect(() => {
-    if (isProfileStepCompleted(profile)) {
-      setCompletedSteps(new Set(JSON.parse(JSON.stringify([...completedSteps, 'profile']))));
+    if (!isProfileStepCompleted && validateProfileStep(profile)) {
+      setIsProfileStepCompleted(true);
     }
+  }, [profile]);
 
-    if (isSupplementalStepCompleted(profile)) {
-      setCompletedSteps(new Set(JSON.parse(JSON.stringify([...completedSteps, 'supplemental']))));
+  useEffect(() => {
+    if (!isSupplementalStepCompleted && validateSupplementalStep(profile)) {
+      setIsSupplementalStepCompleted(true);
     }
-  }, []);
+  }, [profile.motivation, profile.source]);
+
+  useEffect(() => {
+    if (!isDemoLessonStepCompleted && validateDemoLessonStep(profile)) {
+      setIsDemoLessonStepCompleted(true);
+    }
+  }, [profile.demoLesson]);
 
   const goToStep = (step: Steps) => {
     const urlSegments = location.pathname.split('/');
@@ -61,50 +80,41 @@ export default function TutorSignUpProcedureProvider({ children }: React.PropsWi
     history.push(urlSegments.join('/'));
   };
 
-  const isProfileStepCompleted = ({
-    displayName,
-    hometown,
-    dateOfBirth,
-    introduction,
-    videoIntroduction,
-    languages,
-  }: TutorSignUpProfile) => {
-    return (
-      Boolean(displayName) &&
-      Boolean(hometown) &&
-      Boolean(dateOfBirth) &&
-      Boolean(introduction) &&
-      Boolean(videoIntroduction) &&
-      Boolean(languages[0].language) &&
-      Boolean(languages[0].dialect)
-    );
+  const handleUpdateProfileMedia = (
+    mediaType: 'profilePicture' | 'videoIntroduction' | 'demoLesson' | string,
+    file: File,
+  ) => {
+    handleUploadFile(file, function successCallback(response: any) {
+      dispatch(
+        updateProfileMedia({
+          mediaType,
+          profileMedia: {
+            url: response.url,
+            publicId: response.public_id,
+          },
+        }),
+      );
+    });
   };
 
-  const isSupplementalStepCompleted = ({ motivation, source }: TutorSignUpProfile) => {
-    return Boolean(motivation) && Boolean(source);
-  };
-
-  const setStepCompleted = (step: Steps) => {
-    setCompletedSteps(new Set(JSON.parse(JSON.stringify([...completedSteps, step]))));
-  };
-
-  const setProcedureCompleted = () => {
-    setIsProcedureCompleted(true);
+  const handleSubmitProfile = () => {
+    dispatch(updateProfile({ isSubmitted: true }));
   };
 
   return (
     <TutorSignUpProcedureContext.Provider
       value={{
+        steps: TUTOR_SIGN_UP_PROCEDURE_STEPS,
         currentStep,
         profile,
         numberOfSteps,
-        completedSteps,
-        isProcedureCompleted,
-        goToStep,
         isProfileStepCompleted,
         isSupplementalStepCompleted,
-        setStepCompleted,
-        setProcedureCompleted,
+        isDemoLessonStepCompleted,
+        isProcedureCompleted: profile.isSubmitted,
+        handleUpdateProfileMedia,
+        goToStep,
+        handleSubmitProfile,
       }}
     >
       {children}

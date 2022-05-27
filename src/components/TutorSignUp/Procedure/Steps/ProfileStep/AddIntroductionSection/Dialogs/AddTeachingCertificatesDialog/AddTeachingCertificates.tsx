@@ -1,13 +1,19 @@
 import Dialog from '../Dialog';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import UploadIcon from '@mui/icons-material/Upload';
-import { Box, MenuItem, Typography } from '@mui/material';
+import { Box, FormHelperText, MenuItem, Typography } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Button from '../../../../../base/Button/Button';
 import DialogTextFieldContainer from '../base/DialogTextFieldContainer/DialogTextFieldContainer';
 import DialogTextField from '../base/DialogTextField/DialogTextField';
-import { Certificate, certificateTypes } from './constants';
+import {
+  Certificate,
+  CERTIFICATE_TYPES,
+  EXCEED_SIZE_ERROR_MSG,
+  MAX_CERTIFICATE_ITEMS,
+  MAX_CERTIFICATE_SIZE,
+} from './constants';
 import { fileNameWrapperStyle } from './style';
 import DialogContentActions from '../base/DialogContentActions/DialogContentActions';
 import { ProfileStepContext } from '../../../../../../../../contexts/TutorSignUp/TutorSignUpProcedure/ProfileStepContext';
@@ -18,6 +24,7 @@ export default function AddTeachingCertificatesDialog() {
     useContext(ProfileStepContext);
   const [selectedTypes, setSelectedTypes] = useState<Array<string>>([]);
   const [certificates, setCertificates] = useState<Certificate[]>([]);
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     if (dialog === 'ADD_TEACHING_CERTIFICATES') {
@@ -33,10 +40,15 @@ export default function AddTeachingCertificatesDialog() {
   }, [dialog]);
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError('');
     const file = e.target.files?.item(0);
 
     if (file) {
-      previewFile(file);
+      if (file.size <= MAX_CERTIFICATE_SIZE) {
+        previewFile(file);
+      } else {
+        setError(EXCEED_SIZE_ERROR_MSG);
+      }
     }
   };
 
@@ -133,7 +145,7 @@ export default function AddTeachingCertificatesDialog() {
             }
             select
           >
-            {certificateTypes.map((certificateType) => (
+            {CERTIFICATE_TYPES.map((certificateType) => (
               <MenuItem
                 disabled={selectedTypes.indexOf(certificateType) !== -1}
                 key={certificateType}
@@ -146,10 +158,16 @@ export default function AddTeachingCertificatesDialog() {
         </DialogTextFieldContainer>
       ))}
       <DialogContentActions>
-        <Button type="text" startIcon={<UploadIcon />} component="label">
+        <Button
+          type="text"
+          startIcon={<UploadIcon />}
+          component="label"
+          disabled={certificates.length === MAX_CERTIFICATE_ITEMS}
+        >
           Upload file
           <input onChange={handleFileInputChange} accept="image/*" type="file" hidden />
         </Button>
+        <FormHelperText error>{error}</FormHelperText>
       </DialogContentActions>
     </Dialog>
   );

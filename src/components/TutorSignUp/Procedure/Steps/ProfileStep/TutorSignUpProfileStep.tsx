@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Divider from '../../base/Divider/Divider';
 import TutorSignUpStep from '../TutorSignUpStep';
@@ -25,21 +25,7 @@ import ProfileStepProvider from '../../../../../contexts/TutorSignUp/TutorSignUp
 import { TutorSignUpProcedureContext } from '../../../../../contexts/TutorSignUp/TutorSignUpProcedure/TutorSignUpProcedureContext';
 
 export default function TutorSignUpProfileStep() {
-  const { profile, completedSteps, isProfileStepCompleted, setStepCompleted, goToStep } =
-    useContext(TutorSignUpProcedureContext);
-
-  useEffect(() => {
-    if (isProfileStepCompleted(profile)) {
-      setStepCompleted('profile');
-    }
-  }, [
-    profile.displayName,
-    profile.hometown,
-    profile.dateOfBirth,
-    profile.introduction,
-    profile.videoIntroduction,
-    profile.languages[0].dialect,
-  ]);
+  const { profile, isProfileStepCompleted, goToStep } = useContext(TutorSignUpProcedureContext);
 
   return (
     <ProfileStepProvider profile={profile}>
@@ -65,7 +51,7 @@ export default function TutorSignUpProfileStep() {
             type="contained"
             onClick={() => goToStep('supplemental')}
             endIcon={<ArrowForwardIcon />}
-            disabled={!completedSteps.has('profile')}
+            disabled={!isProfileStepCompleted}
           >
             Continue to supplemental questions
           </Button>

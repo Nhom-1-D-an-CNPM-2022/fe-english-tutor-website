@@ -13,6 +13,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
+import PersonIcon from '@mui/icons-material/Person';
 import {
   checkListStyle,
   drawerStyle,
@@ -21,14 +22,21 @@ import {
   welcomeListStyle,
 } from './style';
 import Button from '../base/Button/Button';
-import { checkList } from './constants';
 import React, { useContext } from 'react';
 import { TutorSignUpProcedureContext } from '../../../../contexts/TutorSignUp/TutorSignUpProcedure/TutorSignUpProcedureContext';
 
 export default function Sidebar() {
-  const { currentStep, numberOfSteps, completedSteps, goToStep } = useContext(
-    TutorSignUpProcedureContext,
-  );
+  const {
+    steps,
+    currentStep,
+    numberOfSteps,
+    isProfileStepCompleted,
+    isSupplementalStepCompleted,
+    isDemoLessonStepCompleted,
+    isProcedureCompleted,
+    goToStep,
+    handleSubmitProfile,
+  } = useContext(TutorSignUpProcedureContext);
 
   return (
     <Drawer sx={drawerStyle} variant="permanent" anchor="left">
@@ -51,7 +59,7 @@ export default function Sidebar() {
       <Divider />
       <List sx={checkListStyle}>
         <Typography>Your signup checklist</Typography>
-        {checkList.map((item) => (
+        {steps.map((item, index) => (
           <ListItemButton
             key={item.name}
             selected={currentStep === item.step}
@@ -59,7 +67,9 @@ export default function Sidebar() {
           >
             <ListItemText primary={item.name} />
             <ListItemIcon>
-              {completedSteps.has(item.step) ? (
+              {[isProfileStepCompleted, isSupplementalStepCompleted, isDemoLessonStepCompleted][
+                index
+              ] ? (
                 <CheckCircleOutlinedIcon
                   sx={{
                     color: '#228891',
@@ -72,14 +82,46 @@ export default function Sidebar() {
           </ListItemButton>
         ))}
       </List>
-      <Box sx={progressWrapperStyle}>
-        <Typography>
-          {completedSteps.size}/{numberOfSteps} completed
-        </Typography>
-        <Button type="contained" endIcon={<ArrowForwardIcon />} disabled>
-          Submit
-        </Button>
-      </Box>
+      {isProcedureCompleted ? (
+        <>
+          <Divider />
+          <List sx={checkListStyle}>
+            <ListItemButton selected={currentStep === 'status'} onClick={() => goToStep('status')}>
+              <ListItemText primary={'Application status'} />
+              <ListItemIcon>
+                <PersonIcon />
+              </ListItemIcon>
+            </ListItemButton>
+          </List>
+        </>
+      ) : (
+        <Box sx={progressWrapperStyle}>
+          <Typography>
+            {
+              [
+                isProfileStepCompleted,
+                isSupplementalStepCompleted,
+                isDemoLessonStepCompleted,
+              ].filter((value) => value === true).length
+            }
+            /{numberOfSteps} completed
+          </Typography>
+          <Button
+            type="contained"
+            endIcon={<ArrowForwardIcon />}
+            disabled={
+              [
+                isProfileStepCompleted,
+                isSupplementalStepCompleted,
+                isDemoLessonStepCompleted,
+              ].filter((value) => value === true).length !== numberOfSteps
+            }
+            onClick={handleSubmitProfile}
+          >
+            Submit
+          </Button>
+        </Box>
+      )}
     </Drawer>
   );
 }

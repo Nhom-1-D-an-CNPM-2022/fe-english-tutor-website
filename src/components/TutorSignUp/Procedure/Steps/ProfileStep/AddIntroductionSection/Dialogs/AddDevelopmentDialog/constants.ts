@@ -23,6 +23,6 @@ export const INPUT_LENGTH_CONSTRAINTS = {
   DESCRIPTION: 250,
 };
 
-export const MAX_ITEMS = 20;
+export const MAX_DEVELOPMENT_ITEMS = 20;
 
 export const LIMIT_TAGS = 4;
