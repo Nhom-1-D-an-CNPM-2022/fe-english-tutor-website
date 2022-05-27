@@ -11,3 +11,4 @@ export * from './Reservation/Reservation';
 export * from './TutorScheduler/TutorScheduler';
 export * from './TutorLogin/TutorLogin';
 export * from './TutorRegister/TutorRegister';
+export * from './History/History';

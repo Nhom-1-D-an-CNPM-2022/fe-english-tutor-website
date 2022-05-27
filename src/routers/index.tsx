@@ -14,6 +14,7 @@ import {
   TutorScheduler,
   TutorLogin,
   TutorRegister,
+  History,
 } from '../containers';
 import { MyInfo } from '../components/MyInfo/MyInfo';
 import { PrivateRouter } from './PrivateRouter';
@@ -184,6 +185,16 @@ export const Routers = () => {
             exact={true}
             path={'/tutors/profile/me'}
             component={MyInfo}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PublicRouter
+            exact={true}
+            path={'/student/history'}
+            component={History}
             layout={HeaderFooterLayout}
             isHasHeader={true}
             header={Header}
