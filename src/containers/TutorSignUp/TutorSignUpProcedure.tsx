@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import TutorSignUpPlatformSelector from '../../components/TutorSignUp/PlatformSelector/TutorSignUpPlatformSelector';
+import TutorSignUpApplicationStatusStep from '../../components/TutorSignUp/Procedure/Steps/ApplicationStatusStep/TutorSignUpApplicationStatusStep';
 import TutorSignUpDemoLessonStep from '../../components/TutorSignUp/Procedure/Steps/DemoLessonStep/TutorSignUpDemoLessonStep';
 import TutorSignUpProfileStep from '../../components/TutorSignUp/Procedure/Steps/ProfileStep/TutorSignUpProfileStep';
 import TutorSignUpSupplementalStep from '../../components/TutorSignUp/Procedure/Steps/SupplementalStep/TutorSignUpSupplementalStep';
@@ -26,6 +27,11 @@ export function TutorSignUpProcedure() {
               <Route
                 path="/tutorsignup/step/demoLesson"
                 component={TutorSignUpDemoLessonStep}
+                exact
+              />
+              <Route
+                path="/tutorsignup/step/status"
+                component={TutorSignUpApplicationStatusStep}
                 exact
               />
             </Switch>
