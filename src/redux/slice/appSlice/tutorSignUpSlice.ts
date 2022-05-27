@@ -59,7 +59,7 @@ interface IInitialState {
   otherPlatforms: Record<string, boolean>;
   demoLesson: string;
   isSubmitted: boolean;
-  isApproved: boolean;
+  status: 'reviewed' | 'approved' | 'rejected';
 }
 
 export type TutorSignUpProfile = IInitialState;
@@ -105,7 +105,7 @@ const initialState = {
   },
   demoLesson: '',
   isSubmitted: false,
-  isApproved: false,
+  status: 'reviewed',
 } as IInitialState;
 
 export const tutorSignUpSlice = createSlice({

@@ -22,15 +22,9 @@ export default function TutorSignUpApplicationStatusStep() {
       <Divider mt={6} borderWidth={0} />
       <TutorSignUpStepBody>
         <Box sx={style}>
-          {profile.isSubmitted ? (
-            profile.isApproved ? (
-              <CheckIcon />
-            ) : (
-              <ClearIcon />
-            )
-          ) : (
-            <MoreHorizIcon />
-          )}
+          {profile.status === 'reviewed' && <MoreHorizIcon />}
+          {profile.status === 'approved' && <CheckIcon />}
+          {profile.status === 'rejected' && <ClearIcon />}
         </Box>
       </TutorSignUpStepBody>
     </TutorSignUpStep>
