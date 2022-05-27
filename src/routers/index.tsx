@@ -12,6 +12,8 @@ import {
   Introduction,
   Reservation,
   TutorScheduler,
+  Subcription,
+  Checkout,
 } from '../containers';
 import { MyInfo } from '../components/MyInfo/MyInfo';
 //import { SearchBox } from '../components';
@@ -90,6 +92,26 @@ export const Routers = () => {
             exact={true}
             path={'/student/login'}
             component={Login}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PublicRouter
+            exact={true}
+            path={'/student/subcribe'}
+            component={Subcription}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PublicRouter
+            exact={true}
+            path={'/student/checkout'}
+            component={Checkout}
             layout={HeaderFooterLayout}
             isHasHeader={true}
             header={Header}
