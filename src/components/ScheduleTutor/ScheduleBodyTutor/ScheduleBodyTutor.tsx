@@ -77,7 +77,7 @@ export const ScheduleBodyTutor = ({
   useEffect(() => {
     const headers = {
       Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Il9pZCI6IjYyNzY4NTBiMDM2MTZlZjdhZjc2ZjA2YSIsImVtYWlsIjoiMTIzQGdtYWlsLmNvbSIsImlzVmVyaWZpZWQiOmZhbHNlfSwiaWF0IjoxNjUyNzczMjY4LCJleHAiOjE2NTI3NzY4Njh9.a-rFuEEGa0cskMJ5DBBoV4CApEPKovfWKFySYuXV8no',
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Il9pZCI6IjYyNzY4NTBiMDM2MTZlZjdhZjc2ZjA2YSIsImVtYWlsIjoiMTIzQGdtYWlsLmNvbSIsImlzVmVyaWZpZWQiOmZhbHNlfSwiaWF0IjoxNjUyNzkxODQ4LCJleHAiOjE2NTI3OTU0NDh9.LpjD_yxDVhG6gzD79Ewb4ionefGb3ePMVsTA7CCIH3E',
     };
     axios
       .get(`${process.env.URL_MY_API}schedule`, { headers })
@@ -298,6 +298,9 @@ export const ScheduleBodyTutor = ({
                 <TableCell align="right">{item.interval}</TableCell>
                 <TableCell align="right">
                   <Button variant="contained">Confirm</Button>
+                  <Button variant="outlined" color="error">
+                    Decline
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

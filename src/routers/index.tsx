@@ -12,6 +12,8 @@ import {
   Introduction,
   Reservation,
   TutorScheduler,
+  Subcription,
+  Checkout,
   TutorLogin,
   TutorRegister,
   History,
@@ -98,6 +100,26 @@ export const Routers = () => {
             layout={HeaderFooterLayout}
             isHasHeader={true}
             header={HeaderHome}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PublicRouter
+            exact={true}
+            path={'/student/subcribe'}
+            component={Subcription}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PublicRouter
+            exact={true}
+            path={'/student/checkout'}
+            component={Checkout}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
             isHasFooter={true}
             footer={Footer}
           />
