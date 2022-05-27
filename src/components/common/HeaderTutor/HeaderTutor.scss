@@ -1,0 +1,30 @@
+.header-tutor {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__left {
+        display: flex;
+        align-items: center;
+    }
+
+    &__logo {
+        color: #ff614f;
+        text-decoration: none;
+        background-color: transparent;
+
+        img {
+            padding: 1.2rem 2rem;
+            height: 70px;
+            float: left;
+            font-size: 18px;
+            line-height: 20px;
+        }
+    }
+
+    &__right {
+        display: flex;
+        align-items: baseline;
+    }
+}
