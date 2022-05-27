@@ -11,3 +11,6 @@ export * from './Reservation/Reservation';
 export * from './TutorScheduler/TutorScheduler';
 export * from './Subcription/Subcription';
 export * from './Checkout/Checkout';
+export * from './TutorLogin/TutorLogin';
+export * from './TutorRegister/TutorRegister';
+export * from './History/History';

@@ -1,17 +1,17 @@
 import React from 'react';
-import './Login.scss';
+import './TutorRegister.scss';
 
 import { LoginWithForm, LoginWithSocial } from '../../components';
-import { ILoginIllustration } from '../../constants/images';
-import { Button } from '@mui/material';
+import { Button, Divider } from '@mui/material';
 
 import axios from 'axios';
 import Link from '@mui/material/Link';
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router-dom';
 
-export const Login = () => {
+export const TutorRegister = () => {
   const history = useHistory();
+  const className = 'tutor-register';
   const [values, setValues] = React.useState({
     email: '',
     isEmail: true,
@@ -50,7 +50,7 @@ export const Login = () => {
               history.goBack();
             } else {
               history.push({
-                pathname: `/student`,
+                pathname: `/`,
               });
             }
           }
@@ -76,36 +76,60 @@ export const Login = () => {
     });
   };
   return (
-    <div className="login">
-      <div className="login__img">
-        <img src={ILoginIllustration} alt="Cambly" />
+    <div className={className}>
+      <div className={`${className}__img`}>
+        <img src="https://www.cambly.com/fe/static/tutor/tutor-signup-img.jpg" alt="Cambly" />
       </div>
-      <div className="login__wrap">
-        <h1>Chào mừng quay trở lại với Cambly</h1>
-        <h6 className="login--mt-15 login--mb-15">Đăng nhập với:</h6>
+      <div className={`${className}__wrap`}>
+        <h5>Bắt đầu Dạy Kèm trên Cambly</h5>
+        <h6 className={`${className}--mt-24 ${className}--mb-24`}>Đăng ký với:</h6>
         <LoginWithSocial />
-        <div className="login__line login--mt-15 login--mb-15">
-          <hr className="login--mr-10" />
-          <p>hoặc</p>
-          <hr className="login--ml-10" />
-        </div>
-        <h6 className="login--mt-15 login--mb-15">Đăng nhập với địa chỉ email của bạn:</h6>
+        <Divider sx={{ marginBottom: '24px', marginTop: '24px' }} textAlign="center">
+          hoặc
+        </Divider>
+        <h6 className={`${className}--mt-24 ${className}--mb-24`}>
+          Đăng ký với địa chỉ email của bạn:
+        </h6>
         <LoginWithForm
           values={values}
           handleChange={handleChange}
           handleClickShowPassword={handleClickShowPassword}
         />
-        <h6 className="login--mt-15 login--mb-15">
-          <span className="login--color-primary">Quên mật khẩu của bạn?</span>
-        </h6>
-        <Button variant="contained" className="login--bg-color-primary" onClick={handleSubmit}>
-          Đăng nhập
+        <Button
+          variant="contained"
+          className={`${className}--bg-color-primary ${className}--mt-15`}
+          onClick={handleSubmit}
+        >
+          Tạo Tài Khoản
         </Button>
-        <h6 className="login--mt-15 login--mb-15">
-          Mới dùng Cambly?{' '}
-          <Link href="/student/register" className="login--color-primary">
-            Đăng ký
+        <h6 className={`${className}--mt-15 ${className}--mb-15`}>
+          Bạn đã có tài khoản?{' '}
+          <Link
+            href="/tutor/login"
+            className={`${className}--color-primary`}
+            sx={{ textDecoration: 'none' }}
+          >
+            Đăng nhập
           </Link>
+        </h6>
+        <h6 className={`${className}--mb-15`}>
+          Bằng cách tạo một tài khoản, bạn đồng ý với{' '}
+          <Link
+            href="#"
+            className={`${className}--color-primary`}
+            sx={{ textDecoration: 'none' }}
+          >
+            Thỏa thuận người dùng
+          </Link>{' '}
+          và{' '}
+          <Link
+            href="#"
+            className={`${className}--color-primary`}
+            sx={{ textDecoration: 'none' }}
+          >
+            Chính sách Quyền riêng tư
+          </Link>{' '}
+          của chúng tôi
         </h6>
       </div>
     </div>

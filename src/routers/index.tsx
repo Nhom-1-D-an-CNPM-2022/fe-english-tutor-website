@@ -14,13 +14,15 @@ import {
   TutorScheduler,
   Subcription,
   Checkout,
+  TutorLogin,
+  TutorRegister,
+  History,
 } from '../containers';
 import { MyInfo } from '../components/MyInfo/MyInfo';
-//import { SearchBox } from '../components';
 import { PrivateRouter } from './PrivateRouter';
 import { PublicRouter } from './PublicRouter';
 import { BlankLayout, HeaderFooterLayout, OnlyFooterLayout, OnlyHeaderLayout } from '../layouts';
-import { Header, Footer } from '../components/common';
+import { Header, Footer, HeaderTutor, HeaderHome } from '../components/common';
 export const Routers = () => {
   const buildysURL = process.env.REACT_APP_LINK_BUILDYS;
 
@@ -28,30 +30,20 @@ export const Routers = () => {
     <State>
       <Router>
         <Switch>
-          <PrivateRouter
-            exact={true}
-            path={'/'}
-            component={Home}
-            layout={HeaderFooterLayout}
-            isHasHeader={true}
-            header={Header}
-            isHasFooter={true}
-            footer={Footer}
-          />
           <PublicRouter
             exact={true}
-            path={'/home'}
+            path={'/'}
             component={Introduction}
             layout={HeaderFooterLayout}
             isHasHeader={true}
-            header={Header}
+            header={HeaderHome}
             isHasFooter={true}
             footer={Footer}
           />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
-            path={'/student/register'}
-            component={Register}
+            path={'/log-out'}
+            component={Home}
             layout={HeaderFooterLayout}
             isHasHeader={true}
             header={Header}
@@ -88,13 +80,26 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
+        </Switch>
+
+        <Switch>
+          <PublicRouter
+            exact={true}
+            path={'/student/register'}
+            component={Register}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={HeaderHome}
+            isHasFooter={true}
+            footer={Footer}
+          />
           <PublicRouter
             exact={true}
             path={'/student/login'}
             component={Login}
             layout={HeaderFooterLayout}
             isHasHeader={true}
-            header={Header}
+            header={HeaderHome}
             isHasFooter={true}
             footer={Footer}
           />
@@ -120,7 +125,7 @@ export const Routers = () => {
           />
           <PrivateRouter
             exact={true}
-            path={'/log-out'}
+            path={'/student'}
             component={Home}
             layout={HeaderFooterLayout}
             isHasHeader={true}
@@ -147,6 +152,27 @@ export const Routers = () => {
             header={Header}
             isHasFooter={true}
             footer={Footer}
+          />
+        </Switch>
+
+        <Switch>
+          <PublicRouter
+            exact={true}
+            path={'/tutor/login'}
+            component={TutorLogin}
+            layout={OnlyHeaderLayout}
+            isHasHeader={true}
+            header={HeaderTutor}
+            isHasFooter={false}
+          />
+          <PublicRouter
+            exact={true}
+            path={'/tutor/register'}
+            component={TutorRegister}
+            layout={OnlyHeaderLayout}
+            isHasHeader={true}
+            header={HeaderTutor}
+            isHasFooter={false}
           />
           <PublicRouter
             exact={true}
@@ -181,6 +207,16 @@ export const Routers = () => {
             exact={true}
             path={'/tutors/profile/me'}
             component={MyInfo}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PublicRouter
+            exact={true}
+            path={'/student/history'}
+            component={History}
             layout={HeaderFooterLayout}
             isHasHeader={true}
             header={Header}
