@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Spinner } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { Redirect, Route, useLocation } from 'react-router-dom';
 import { RootState } from '../redux/rootReducer';
 import { getInfo } from '../redux/slice/appSlice/userSlice';
 import { useAppDispatch } from '../redux/store';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 export const PrivateRouter: React.FC<IPrivateRouter> = ({
   component: Component,
@@ -26,7 +27,8 @@ export const PrivateRouter: React.FC<IPrivateRouter> = ({
   const [isFetch, setIsFectch] = useState(false);
   const isAccount = useSelector((state: RootState) => state.userSlice.isAccount);
   const fecthInfo = async () => {
-    const check = (await dispatch(getInfo())).payload;
+    const check = (await dispatch(getInfo({ accessToken: localStorage.getItem('accessToken') })))
+      .payload;
 
     if (
       check === true ||
@@ -40,30 +42,24 @@ export const PrivateRouter: React.FC<IPrivateRouter> = ({
 
   useEffect(() => {
     fecthInfo();
+
     return;
   }, [location]);
 
-  console.log('isAccount', isAccount);
-
   const render = (props: any) => {
-    console.log('location', location);
-
-    if (isAccount === false && location === '/log-out') {
-      return <Redirect to="/student/login" />;
+    if (!isFetch) {
+      return (
+        <Box sx={{ display: 'flex' }}>
+          <CircularProgress />
+        </Box>
+      );
     }
 
-    return isFetch == false ? (
-      <div style={{ marginTop: '20px' }}>
-        <Spinner animation="grow" variant="primary" />
-        <Spinner animation="grow" variant="secondary" />
-        <Spinner animation="grow" variant="success" />
-        <Spinner animation="grow" variant="danger" />
-        <Spinner animation="grow" variant="warning" />
-        <Spinner animation="grow" variant="info" />
-        <Spinner animation="grow" variant="light" />
-        <Spinner animation="grow" variant="dark" />
-      </div>
-    ) : isAccount ? (
+    if (!isAccount) {
+      return <Redirect to="/" />;
+    }
+
+    return (
       <Layout
         header={
           isHasHeader ? (
@@ -82,8 +78,6 @@ export const PrivateRouter: React.FC<IPrivateRouter> = ({
       >
         <Component {...props} />
       </Layout>
-    ) : (
-      <Redirect to="/home" />
     );
   };
 
