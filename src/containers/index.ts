@@ -14,3 +14,4 @@ export * from './Checkout/Checkout';
 export * from './TutorLogin/TutorLogin';
 export * from './TutorRegister/TutorRegister';
 export * from './History/History';
+export * from './Review/Review';
