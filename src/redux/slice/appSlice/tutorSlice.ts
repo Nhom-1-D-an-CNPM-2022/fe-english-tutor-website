@@ -69,17 +69,22 @@ export const tutorSlice = createSlice({
       state.fullname = action.payload.data.fullname;
       state.introduction = action.payload.data.introduction;
       state.interests = action.payload.data.interests;
-      state.profession = action.payload.data.profession.join(', ');
+      state.profession = action.payload.data.profession?.join(', ');
+      state.languages = action.payload.data.languages?.join(', ');
+      state.experience = action.payload.data.experience?.join(', ');
+      state.education = action.payload.data.education?.join(', ');
+      state.displayName = action.payload.data.displayName;
+      state.hometown = action.payload.data.hometown;
       state.message = action.payload.message;
     });
     builder.addCase(updateTutorProfile.fulfilled, (state, action) => {
       state.fullname = action.payload.data.fullname;
       state.introduction = action.payload.data.introduction;
       state.interests = action.payload.data.interests;
-      state.profession = action.payload.data.profession.join(', ');
-      state.languages = action.payload.data.languages.join(', ');
-      state.experience = action.payload.data.experience.join(', ');
-      state.education = action.payload.data.education.join(', ');
+      state.profession = action.payload.data.profession?.join(', ');
+      state.languages = action.payload.data.languages?.join(', ');
+      state.experience = action.payload.data.experience?.join(', ');
+      state.education = action.payload.data.education?.join(', ');
       state.displayName = action.payload.data.displayName;
       state.hometown = action.payload.data.hometown;
     });

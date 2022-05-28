@@ -15,6 +15,8 @@ import './TutorInfo.scss';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '../../redux/store';
 import { getTutorsProfile } from '../../redux/slice/appSlice/tutorSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/rootReducer';
 
 type tutorId = {
   id: string;
@@ -32,25 +34,8 @@ interface tutorInfo {
   hometown: string;
 }
 
-const arrayToInfo = (arrayString: string[]) => {
-  return arrayString.join(', ');
-};
-
-const tutorInitProfile = {
-  fullname: 'Hoang',
-  introduction: 'introduction value',
-  interests: 'interests value',
-  profession: arrayToInfo(['profession', '123']),
-  languages: arrayToInfo(['languages']),
-  experience: arrayToInfo(['experience']),
-  education: arrayToInfo(['education']),
-  displayName: 'displayName value',
-  hometown: 'hometown value',
-} as tutorInfo;
-
 export const TutorInfo = () => {
   const { id } = useParams<tutorId>();
-  const [tutorInfo, setTutorInfo] = useState(tutorInitProfile);
   const dispatch = useAppDispatch();
   useEffect(() => {
     fetchData();
@@ -58,8 +43,10 @@ export const TutorInfo = () => {
   }, []);
 
   const fetchData = async () => {
-    setTutorInfo({ ...(await dispatch(getTutorsProfile(id))).payload });
+    await dispatch(getTutorsProfile(id));
   };
+
+  const tutorInfo = useSelector((state: RootState) => state.tutorSlice);
 
   return (
     <List className="tutor-info">
