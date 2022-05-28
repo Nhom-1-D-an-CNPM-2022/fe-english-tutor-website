@@ -35,7 +35,7 @@ export const Register = () => {
                 history.goBack();
               } else {
                 history.push({
-                  pathname: `/`,
+                  pathname: `/student`,
                 });
               }
             }
