@@ -17,6 +17,7 @@ import {
   TutorLogin,
   TutorRegister,
   History,
+  Review,
 } from '../containers';
 import { MyInfo } from '../components/MyInfo/MyInfo';
 import { PrivateRouter } from './PrivateRouter';
@@ -103,7 +104,7 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
             path={'/student/subcribe'}
             component={Subcription}
@@ -113,10 +114,20 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
             path={'/student/checkout'}
             component={Checkout}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PrivateRouter
+            exact={true}
+            path={'/student/review'}
+            component={Review}
             layout={HeaderFooterLayout}
             isHasHeader={true}
             header={Header}
