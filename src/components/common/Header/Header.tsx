@@ -55,7 +55,7 @@ export const Header = () => {
           </div>
         </div>
         <div className={`${className}__flex--grow`}></div>
-        <Link to='student/login' className={`${className}__register`}>
+        <Link to='/student/subcribe' className={`${className}__register`}>
           <span className={`${className}__label`}>Đăng ký khóa học</span>
           <span className={`${className}__background`}></span>
         </Link>

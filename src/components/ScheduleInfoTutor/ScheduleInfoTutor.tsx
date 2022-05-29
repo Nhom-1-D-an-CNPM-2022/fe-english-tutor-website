@@ -1,5 +1,6 @@
 import React from 'react';
 import './ScheduleInfoTutor.scss';
+import axios from 'axios';
 
 import {
   Avatar,
@@ -23,7 +24,10 @@ export const ScheduleInfoTutor = () => {
   const className = 'scheduleInfo';
   const location = useLocation();
   const state: any = location.state;
-
+  const handleClick = () => {
+    console.log(state);
+    
+  }
   return (
     <Container fixed>
       <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
@@ -70,7 +74,7 @@ export const ScheduleInfoTutor = () => {
           />
         </ListItem>
         <ListItem>
-          <Button variant="contained" className={`${className}__btn`}>
+          <Button variant="contained" className={`${className}__btn`} onClick={handleClick}>
             Gửi
           </Button>
         </ListItem>

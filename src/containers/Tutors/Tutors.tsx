@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FilterTutor, TutorCard } from '../../components';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -15,17 +15,30 @@ import SearchIcon from '@mui/icons-material/Search';
 import ButtonBase from '@mui/material/ButtonBase';
 import tutorApi from '../../services/aixos/tutorApi';
 import './Tutors.scss';
+import Context from '../State/Context';
+import userApi from '../../services/aixos/userApi';
 
 export const Tutors = () => {
   const pages = ['Products', 'Pricing', 'Blog'];
   const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
   const [tutorList, setTutorList] = useState([]);
+  // const [tutorListOnl, setTutorListOnl] = useState([]);
+  const [tutorListAll, setTutorListAll] = useState([]);
   const [query, setQuery] = useState('');
-
+  const [field, setField] = useState('all');
+  const { iCall1, onlineTutors, getOnlineTutors } = useContext(Context);
   useEffect(() => {
     async function fetchMyAPI() {
       let response = await tutorApi.getAllTutor();
       setTutorList((arr) => arr.concat(response.data));
+
+      await userApi.getFavoriteTutors(localStorage.getItem('accessToken')).then((response) => {
+        const tempList = tutorList.map((item) => ({
+          ...item,
+          isFavoriteTutor: !!response.data.find((temp: any) => temp._id === item._id),
+        }));
+        setTutorList(tempList);
+      });
     }
     fetchMyAPI();
   }, []);
@@ -42,6 +55,21 @@ export const Tutors = () => {
   const onChangeTutorListByFilter = (data: any) => {
     setTutorList(data);
   };
+  const handleClickField = (field: string) => {
+    setField(field);
+    if (field === 'online') {
+      // iCall1();
+      // console.log('hehe')
+      getOnlineTutors();
+      if (tutorListAll.length === 0) {
+        setTutorListAll(tutorList);
+      }
+      setTutorList(onlineTutors);
+    }
+    if (field === 'all') {
+      setTutorList(tutorListAll);
+    }
+  };
   return (
     <div className="tutors">
       <Toolbar variant="regular" disableGutters={true} className="toolbar-container">
@@ -49,11 +77,16 @@ export const Tutors = () => {
           Tìm một gia sư
         </Typography>
         <Box className="box-tutor">
-          <a className="a-tutor">
-            <h5 className="h5-available">Trực tuyến</h5>
+          <a className="a-tutor" onClick={() => handleClickField('all')}>
+            <h5 className={`h5-field ${field === 'all' ? 'h5-choose' : ''}`}>Tất cả</h5>
           </a>
-          <a className="a-tutor">
-            <h5 className="h5-favourite-tutor">Gia sư yêu thích</h5>
+          <a className="a-tutor" onClick={() => handleClickField('online')}>
+            <h5 className={`h5-field ${field === 'online' ? 'h5-choose' : ''}`}>Trực tuyến</h5>
+          </a>
+          <a className="a-tutor" onClick={() => handleClickField('favorite')}>
+            <h5 className={`h5-field ${field === 'favorite' ? 'h5-choose' : ''}`}>
+              Gia sư yêu thích
+            </h5>
           </a>
         </Box>
         <Box className="box-search">
@@ -89,7 +122,8 @@ export const Tutors = () => {
                     introduction={item.introduction}
                     ageOfAccount={item.ageOfAccount}
                     accent="USA"
-                    id={item.userId}
+                    id={item.userId || '123'}
+                    isFavoriteTutor={item.isFavoriteTutor}
                   />
                 );
               })}

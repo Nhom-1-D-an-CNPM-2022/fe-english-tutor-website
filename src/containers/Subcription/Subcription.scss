@@ -1,0 +1,43 @@
+.text-center{
+    text-align: center;
+}
+#subscription-page{
+    width: 100%;
+}
+#subscription-page .row{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    width: 100%;
+}
+#subscription-page .col-md-6{
+    width: 50%;
+}
+
+#subscription-page .subscription-section{
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 15px 20px;
+}
+#subscription-page .subscription-section .subscription-section-header{
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+#subscription-page .subscription-section .subscription-section-content{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    flex-grow: 1;
+}
+#subscription-page .subscription-section .subscription-section-content .content-item{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+#payment-summary .List{
+    width: 100%;
+}

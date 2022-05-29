@@ -82,6 +82,7 @@
     "chart.js": "^3.6.2",
     "cloudinary-react": "^1.7.0",
     "clsx": "^1.1.1",
+    "faker": "^6.6.6",
     "jquery": "^3.6.0",
     "material-ui-popup-state": "^2.0.0",
     "moment": "^2.29.1",

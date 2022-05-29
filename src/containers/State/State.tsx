@@ -28,7 +28,7 @@ export const State: React.FC<IState> = ({ children }) => {
   const [callSuccess, setCallSuccess] = useState(false);
   const [screenShare, setScreenShare] = useState(false);
   const [notifications, setNotifications] = useState([]);
-
+  const [onlineTutors, setOnlineTutors] = useState([]);
   const myVideo = useRef(null);
   const userVideo = useRef(null);
   const connectionRef = useRef(null);
@@ -75,26 +75,26 @@ export const State: React.FC<IState> = ({ children }) => {
       }
     });
 
-    socket.on('notification', (teacher: any, course:any, notification: any)=>{
+    socket.on('notification', (teacher: any, course: any, notification: any) => {
       const t = notifications;
-      t.push({teacher: teacher, course, notification});
+      t.push({ teacher: teacher, course, notification });
       setNotifications(t);
-    })
+    });
   });
 
   const callUser = async (id: any) => {
     setOtherUser(id);
     setIsCall(true);
-    socket.emit('callToUser', { from: {socketID: socket.id, user: account}, to: id });
+    socket.emit('callToUser', { from: { socketID: socket.id, user: account }, to: id });
   };
 
-    const iCall1 = (toUser: any) => {
-      const id = toUser.socketID;
-      setOtherUser(id);
-      setIsCall(true);
-      socket.emit('callToUser', ({from: socket.id, to: id}));
-      window.location.href = '/call';
-    };
+  const iCall1 = (toUser: any) => {
+    const id = toUser.socketID;
+    setOtherUser(id);
+    setIsCall(true);
+    socket.emit('callToUser', { from: socket.id, to: id });
+    window.location.href = '/call';
+  };
 
   const iCall = () => {
     try {
@@ -229,9 +229,29 @@ export const State: React.FC<IState> = ({ children }) => {
     setScreenShare(!screenShare);
   };
 
-  const sendMail = (teacher: any, student: any, course:any, notification:any) =>{
-    socket.emit( 'notification', {teacher, student, course, notification});
-  }
+  const sendMail = (teacher: any, student: any, course: any, notification: any) => {
+    socket.emit('notification', { teacher, student, course, notification });
+  };
+  const getOnlineTutors = async () => {
+    console.log('a');
+    await socket.emit('getOnlineTutors');
+    socket.on('receiveOnlineTutors', (list) => {
+      setOnlineTutors((onlineTutors) => [...onlineTutors, ...list]);
+    });
+  };
+  useEffect(() => {
+    socket.on('receiveNewOnlineTutor', (data) => {
+      setOnlineTutors((onlineTutor) => [...onlineTutors, ...data]);
+    });
+  });
+
+  useEffect(() => {
+    socket.on('removeOnlineTutor', (id) => {
+      setOnlineTutors((onlineTutors) =>
+        onlineTutors.filter((onlineTutors) => onlineTutors.id !== id),
+      );
+    });
+  });
 
   return (
     <Context.Provider
@@ -264,6 +284,8 @@ export const State: React.FC<IState> = ({ children }) => {
         notifications,
         setNotifications,
         otherUserAccount,
+        onlineTutors,
+        getOnlineTutors,
       }}
     >
       {children}

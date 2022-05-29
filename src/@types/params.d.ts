@@ -15,3 +15,8 @@ interface IParamsAddFavorite {
 interface IParamsStatisticByYear {
   IDYear: number;
 }
+
+interface IRespondReservation {
+  bookingId: string;
+  tutorResponse: string;
+}

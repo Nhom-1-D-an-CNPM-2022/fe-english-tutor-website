@@ -1,6 +1,7 @@
 import React from 'react';
-import { Routers } from './routers';
 import './App.scss';
+
+import { Routers } from './routers';
 
 export default function App() {
   return (

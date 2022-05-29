@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ScheduleClass.scss';
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -28,6 +28,7 @@ import {
   Rating,
 } from '@mui/material';
 import { Link, useHistory } from 'react-router-dom';
+import scheduleApi from '../../../services/aixos/scheduleApi';
 
 interface IScheduleClass {
   day: number;
@@ -63,40 +64,60 @@ export const ScheduleClass = ({ day, month, year, weeksday }: IScheduleClass) =>
     });
   };
 
-  const infoTutor = (name: string, rating: number) => {
-    return (
-      <>
-        <ListItemAvatar>
-          <Avatar>
-            <PersonOutlineIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText
-          primary={name}
-          secondary={
-            <Rating name="half-rating-read" defaultValue={rating} precision={0.5} readOnly />
-          }
-        />
-        <Link target="_blank" to="/">
-          <IconButton edge="end" aria-label="comments">
-            <AccountBoxIcon />
-          </IconButton>
-        </Link>
-      </>
-    );
+  const generateDate = () => {
+    const currentHour = new Date(year, month, day).getHours();
+    const currentMinute = new Date(year, month, day).getMinutes();
+    let minute = currentMinute + (15 - (currentMinute % 15));
+
+    const date: Array<string> = [];
+
+    for (let i = currentHour; i < 24; i++) {
+      while (minute < 60) {
+        date.push(`${i}:${minute === 0 ? '00' : minute}`);
+        minute += 15;
+      }
+
+      minute = 0;
+    }
+
+    return date;
   };
 
-  const dataDate = ['00:00', '00:15', '00:30', ''];
-  const dataLength = ['15 phút', '30 phút'];
-  const dataTutor = [{ name: 'Anh Kiem', rating: 5 }];
+  const listTutors = async () => {
+    if (date == '' || length == '') {
+      return;
+    }
 
-  const choose = (
-    data: Array<any>,
-    title: string,
-    handleChange: any,
-    value: string,
-    type: number,
-  ) => {
+    const time = date.split(':');
+    const currentDate = new Date(
+      year,
+      month,
+      day,
+      Number.parseInt(time[0]),
+      Number.parseInt(time[1]),
+      0,
+      0,
+    ).toISOString();
+
+    console.log('currentDate', currentDate);
+
+    const schudule: any = await scheduleApi.getSchedule({
+      startTime: currentDate,
+      interval: length.slice(0, 2),
+    });
+
+    setDataTutor(schudule.data);
+  };
+
+  const dataDate = generateDate();
+  const dataLength = ['15 phút', '30 phút'];
+  const [dataTutor, setDataTutor] = useState([]);
+
+  useEffect(() => {
+    listTutors();
+  }, [date, length]);
+
+  const choose = (data: any, title: string, handleChange: any, value: string, type: number) => {
     const disabled = type !== 1 && date === '';
 
     return (
@@ -116,8 +137,29 @@ export const ScheduleClass = ({ day, month, year, weeksday }: IScheduleClass) =>
               return <MenuItem value={item}>{item}</MenuItem>;
             })}
           {type === 3 &&
+            date &&
+            length &&
             data.map((item: any, index: number) => {
-              return <MenuItem value={item.name}>{infoTutor(item.name, item.rating)}</MenuItem>;
+              return (
+                <MenuItem value={item}>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <PersonOutlineIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={item.tutor.displayName}
+                    secondary={
+                      <Rating name="half-rating-read" defaultValue={5} precision={0.5} readOnly />
+                    }
+                  />
+                  <Link target="_blank" to="/">
+                    <IconButton edge="end" aria-label="comments">
+                      <AccountBoxIcon />
+                    </IconButton>
+                  </Link>
+                </MenuItem>
+              );
             })}
         </Select>
       </FormControl>

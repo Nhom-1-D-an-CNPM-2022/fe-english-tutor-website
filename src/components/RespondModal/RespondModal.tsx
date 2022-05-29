@@ -25,6 +25,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import CheckIcon from '@mui/icons-material/Check';
+import moment from 'moment';
 const BootstrapDialog = styled(Dialog)(({ theme }: any) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
@@ -63,51 +64,19 @@ const BootstrapDialogTitle = (props: DialogTitleProps) => {
     </DialogTitle>
   );
 };
-// const BootstrapButton = styled(Button)({
-//   boxShadow: 'none',
-//   textTransform: 'none',
-//   fontSize: 16,
-//   padding: '6px 12px',
-//   border: '1px solid',
-//   lineHeight: 1.5,
-//   backgroundColor: '#0063cc',
-//   borderColor: '#0063cc',
-//   fontFamily: [
-//     '-apple-system',
-//     'BlinkMacSystemFont',
-//     '"Segoe UI"',
-//     'Roboto',
-//     '"Helvetica Neue"',
-//     'Arial',
-//     'sans-serif',
-//     '"Apple Color Emoji"',
-//     '"Segoe UI Emoji"',
-//     '"Segoe UI Symbol"',
-//   ].join(','),
-//   '&:hover': {
-//     backgroundColor: '#0069d9',
-//     borderColor: '#0062cc',
-//     boxShadow: 'none',
-//   },
-//   '&:active': {
-//     boxShadow: 'none',
-//     backgroundColor: '#0062cc',
-//     borderColor: '#005cbf',
-//   },
-//   '&:focus': {
-//     boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
-//   },
-// });
+interface IRespondModal {
+  reqReservation: any;
+  css?: object;
+  handleAcceptReservation: any;
+  handleRejectReservation: any;
+}
 
-// const ColorButton = styled(Button)<ButtonProps>(({ theme }:any) => ({
-//   color: theme.palette.getContrastText(black[500]),
-//   backgroundColor: black[500],
-//   '&:hover': {
-//     backgroundColor: black[700],
-//   },
-// }));
-
-export const RespondModal = () => {
+export const RespondModal: React.FC<IRespondModal> = ({
+  reqReservation,
+  css,
+  handleAcceptReservation,
+  handleRejectReservation,
+}) => {
   const now = new Date();
   const [open, setOpen] = useState(false);
   const [isAccept, setIsAccept] = useState(false);
@@ -120,6 +89,7 @@ export const RespondModal = () => {
   };
   const handleClose = () => {
     setOpen(false);
+    setIsReject(false);
   };
 
   return (
@@ -128,7 +98,7 @@ export const RespondModal = () => {
         variant="contained"
         disableRipple
         onClick={handleClickOpen}
-        sx={{ textTransform: 'capitalize', marginLeft: '7px' }}
+        sx={{ textTransform: 'capitalize', marginLeft: '7px', css }}
       >
         Respond
       </Button>
@@ -155,19 +125,21 @@ export const RespondModal = () => {
                   sx={{ width: 25, height: 25 }}
                 />
               </ListItemIcon>
-              <ListItemText primary="Đức" />
+              <ListItemText primary={`${reqReservation.tutee.fullname}`} />
             </ListItem>
             <ListItem>
               <ListItemIcon>
                 <CalendarTodayIcon />
               </ListItemIcon>
-              <ListItemText primary="2010201/2131" />
+              <ListItemText
+                primary={`${moment(reqReservation.schedule.startTime).format('hh:mm DD/MM/YYYY')}`}
+              />
             </ListItem>
             <ListItem>
               <ListItemIcon>
                 <ScheduleIcon />
               </ListItemIcon>
-              <ListItemText primary="30 minutes" />
+              <ListItemText primary={`${reqReservation.schedule.interval} minutes`} />
             </ListItem>
             <ListItem>
               <ListItemIcon>
@@ -183,7 +155,7 @@ export const RespondModal = () => {
             justifyContent="center"
             marginBottom={2}
           >
-            <CheckIcon color="success" /> Đức booked Today at 5:56PM
+            <CheckIcon color="success" /> {reqReservation.tutee.fullname} booked {moment(reqReservation.schedule.createdAt).format('DD/MM/YYYY')} at {moment(reqReservation.schedule.startTime).format('hh:mm')}
           </Typography>
           {isAccept ? (
             <Typography
@@ -193,7 +165,8 @@ export const RespondModal = () => {
               justifyContent="center"
               marginBottom={2}
             >
-              <CheckIcon color="success" /> You comfirmed Đức at {timeAccepted}
+              <CheckIcon color="success" /> You comfirmed {reqReservation.tutee.fullname} at{' '}
+              {timeAccepted}
             </Typography>
           ) : (
             <></>
@@ -224,7 +197,13 @@ export const RespondModal = () => {
                 variant="contained"
                 color="success"
                 sx={{ textTransform: 'capitalize' }}
-                onClick={() => setIsAccept(true)}
+                onClick={() => {
+                  setIsAccept(true);
+                  handleAcceptReservation(
+                    reqReservation._id,
+                    'I hope to bring you a lot of knowledge',
+                  );
+                }}
               >
                 <CheckIcon /> I'll be there
               </Button>
@@ -301,15 +280,30 @@ export const RespondModal = () => {
                   marginTop: '10px',
                   marginBottom: '10px',
                 }}
-              >
+              > 
+              <Button
+                  variant="contained"
+                  disableRipple
+                  sx={{ textTransform: 'capitalize', backGroundColor: '#2ad05e' }}
+                  onClick={() => {
+                    setIsReject(false);
+                  }}
+                >
+                  Cancel 
+                </Button>
                 <Button
                   variant="contained"
                   color="warning"
                   disableRipple
                   sx={{ textTransform: 'capitalize' }}
-                  onClick={() => {setIsReject(false); setIsCancel(true)}}
+                  onClick={() => {
+                    setIsReject(false);
+                    setIsCancel(true);
+                    setOpen(false);
+                    handleRejectReservation(reqReservation._id, contentCancel);
+                  }}
                 >
-                  Cancel reservation
+                  Send
                 </Button>
               </Box>
             </>

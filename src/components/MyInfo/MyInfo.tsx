@@ -9,6 +9,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { updateTutorProfile } from '../../redux/slice/appSlice/tutorSlice';
 import { useAppDispatch } from '../../redux/store';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/rootReducer';
 
 interface tutorInfo {
   fullname: string;
@@ -27,15 +29,15 @@ const arrayToInfo = (arrayString: string[]) => {
 };
 
 const tutorInitProfile = {
-  fullname: 'Hoang',
-  introduction: 'introduction value',
-  interests: 'interests value',
-  profession: arrayToInfo(['profession', '123']),
-  languages: arrayToInfo(['languages']),
-  experience: arrayToInfo(['experience']),
-  education: arrayToInfo(['education']),
-  displayName: 'displayName value',
-  hometown: 'hometown value',
+  fullname: '123',
+  introduction: '',
+  interests: '',
+  profession: '',
+  languages: '',
+  experience: '',
+  education: '',
+  displayName: '',
+  hometown: '',
 } as tutorInfo;
 
 const INFO_MAPPER = {
@@ -48,34 +50,45 @@ const INFO_MAPPER = {
   education: 'Bằng cấp',
   displayName: 'Tên hiển thị',
   hometown: 'Quê',
-};
+} as tutorInfo;
 
 export const MyInfo = () => {
   const [changeField, setChangeField] = useState([]);
-  const [fieldValue, setFieldValue] = useState({ ...tutorInitProfile });
-
+  const [newValues, setNewValues] = useState({ ...tutorInitProfile });
+  const fieldValue: tutorInfo = useSelector((state: RootState) => {
+    const values = { ...tutorInitProfile };
+    Object.keys(tutorInitProfile).map((field) => {
+      values[field as keyof tutorInfo] = state.tutorSlice[field];
+    });
+    return values;
+  });
   const dispatch = useAppDispatch();
 
   const handleChangeField = (prop: any) => (event: any) => {
-    setFieldValue({ ...fieldValue, [prop]: event.target.value });
+    setNewValues({ ...newValues, [prop]: event.target.value });
   };
 
-  const handleSubmit = async () => {
-    const res = (
-      await dispatch(
-        updateTutorProfile({ data: fieldValue, accessToken: localStorage.getItem('jwt') }),
-      )
-    ).payload;
-    console.log(res);
+  const handleSubmit = (value: any) => async () => {
+    const valueSubmit = { [value]: newValues[value as keyof tutorInfo] };
+    await dispatch(
+      updateTutorProfile({ data: valueSubmit, accessToken: localStorage.getItem('accessToken') }),
+    ).then(() => {
+      const temp = Array.from(changeField);
+      temp.slice(
+        temp.find((e) => e === value),
+        1,
+      );
+      setChangeField(temp);
+    });
   };
 
   const handleClick = (value: any) => () => {
     const currentIndex = changeField.indexOf(value);
-    const newFiled = [...changeField];
+    const newField = [...changeField];
 
     if (currentIndex === -1) {
-      newFiled.push(value);
-      setChangeField(newFiled);
+      newField.push(value);
+      setChangeField(newField);
     }
   };
 
@@ -87,23 +100,29 @@ export const MyInfo = () => {
             <ListItem disableGutters>
               {changeField.includes(value) ? (
                 <>
-                  <ListItemText sx={{ flex: 1 }}>{INFO_MAPPER[value]}</ListItemText>
+                  <ListItemText sx={{ flex: 1 }}>
+                    {INFO_MAPPER[value as keyof tutorInfo]}
+                  </ListItemText>
                   <TextField
                     sx={{ mr: 3, flex: 2 }}
-                    defaultValue={fieldValue[value as keyof tutorInfo]}
+                    defaultValue={
+                      newValues[value as keyof tutorInfo] || fieldValue[value as keyof tutorInfo]
+                    }
                     onChange={handleChangeField(value)}
                     variant="outlined"
                     size="small"
                   />
-                  <Button variant="outlined" onClick={handleSubmit}>
+                  <Button variant="outlined" onClick={handleSubmit(value)}>
                     Lưu
                   </Button>
                 </>
               ) : (
                 <ListItemButton onClick={handleClick(value)}>
-                  <ListItemText sx={{ flex: 1 }}>{INFO_MAPPER[value]}</ListItemText>
+                  <ListItemText sx={{ flex: 1 }}>
+                    {INFO_MAPPER[value as keyof tutorInfo]}
+                  </ListItemText>
                   <ListItemText sx={{ flex: 2 }}>
-                    {fieldValue[value as keyof tutorInfo]}
+                    {newValues[value as keyof tutorInfo] || fieldValue[value as keyof tutorInfo]}
                   </ListItemText>
                 </ListItemButton>
               )}
