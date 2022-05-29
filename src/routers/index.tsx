@@ -12,6 +12,9 @@ import {
   Introduction,
   Reservation,
   TutorScheduler,
+  TutorSignUpProcedure,
+  TutorSignUpHome,
+  TutorSignUpAccount,
   Subcription,
   Checkout,
   TutorLogin,
@@ -63,7 +66,7 @@ export const Routers = () => {
           />
           <PublicRouter
             exact={true}
-            path={'/tutors'}
+            path={'/student/tutors'}
             component={Tutors}
             layout={HeaderFooterLayout}
             isHasHeader={true}
@@ -73,7 +76,7 @@ export const Routers = () => {
           />
           <PublicRouter
             exact={true}
-            path={'/tutors/:id'}
+            path={'/student/tutors/:id'}
             component={TutorInfo}
             layout={HeaderFooterLayout}
             isHasHeader={true}
@@ -224,6 +227,13 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
+          <PublicRouter path="/tutors" component={TutorSignUpHome} layout={BlankLayout} exact />
+          <PublicRouter path="/tutor/:path?" component={TutorSignUpAccount} layout={BlankLayout} />
+          <PrivateRouter
+            path="/tutorsignup/:path?"
+            component={TutorSignUpProcedure}
+            layout={BlankLayout}
+           />
           <PublicRouter
             exact={true}
             path={'/student/history'}
