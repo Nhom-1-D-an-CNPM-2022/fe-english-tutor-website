@@ -14,7 +14,10 @@ import { useHistory } from 'react-router-dom';
 import { red } from '@mui/material/colors';
 import { useAppDispatch } from '../../redux/store';
 import { addFavoriteTutor } from '../../redux/slice/appSlice/userSlice';
+import { CardActionArea } from '@mui/material';
 import './TutorCard.scss';
+import Context from '../../containers/State/Context';
+import userApi from '../../services/aixos/userApi';
 interface ITutorCard {
   name?: string;
   accent?: string;
@@ -22,9 +25,8 @@ interface ITutorCard {
   ageOfAccount?: number;
   id: string;
   isFavoriteTutor?: boolean;
+  handleOnChat?: () => void;
 }
-import Context from '../../containers/State/Context';
-import userApi from '../../services/aixos/userApi';
 
 export const TutorCard: React.FC<ITutorCard> = ({
   name,
@@ -33,6 +35,7 @@ export const TutorCard: React.FC<ITutorCard> = ({
   ageOfAccount,
   id,
   isFavoriteTutor = false,
+  handleOnChat,
 }) => {
   const { iCall1 } = React.useContext(Context);
   const history = useHistory();
@@ -119,10 +122,22 @@ export const TutorCard: React.FC<ITutorCard> = ({
         </CardContent>
 
         <CardActions className="card-footer">
-          <Button size="small" className="button-footer">
+          <Button
+            size="small"
+            className="button-footer"
+            onMouseOver={onMouseIn}
+            onMouseOut={onMouseOut}
+            onClick={handleOnChat}
+          >
             Tin nhắn
           </Button>
-          <Button size="small" className="button-footer" onClick={iCall1}>
+          <Button
+            size="small"
+            className="button-footer"
+            onMouseOver={onMouseIn}
+            onMouseOut={onMouseOut}
+            onClick={iCall1}
+          >
             Gọi
           </Button>
         </CardActions>

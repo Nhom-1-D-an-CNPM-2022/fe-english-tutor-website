@@ -13,4 +13,5 @@ export * from './ScheduleInfoTutor/ScheduleInfoTutor';
 export * from './MyInfo/MyInfo';
 export * from './TutorSignUp/TutorAccount/TutorAccountImageBox';
 export * from './TutorSignUp/TutorAccount/TutorAccountFormBox';
-export * from './Comment/Comment'
+export * from './Comment/Comment';
+export * from './ChatBox/ChatBox';
