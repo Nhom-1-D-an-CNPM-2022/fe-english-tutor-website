@@ -5,6 +5,7 @@ import { TextInput } from './TextInput';
 import { MessageLeft, MessageRight } from './Message';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
+import Context from '../../containers/State/Context';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -64,6 +65,8 @@ interface IChatBox {
 
 const ChatBox: React.FC<IChatBox> = ({ open, onClose }) => {
   const classes = useStyles();
+  const { messages } = React.useContext(Context);
+
   return (
     <div className={classes.container} style={{ visibility: open ? 'visible' : 'hidden' }}>
       <Paper className={classes.paper}>

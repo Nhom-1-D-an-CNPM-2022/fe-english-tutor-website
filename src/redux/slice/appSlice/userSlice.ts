@@ -19,6 +19,13 @@ export const getFavoriteTutors = createAsyncThunk(
   },
 );
 
+export const getMessages = createAsyncThunk(
+  'messages/with/:userId',
+  async (userId: any, accessToken: any) => {
+    return await userApi.getMessages(userId, accessToken).then((res) => res.data);
+  },
+);
+
 interface IInitialState {
   isUser: boolean;
   OTP: string;

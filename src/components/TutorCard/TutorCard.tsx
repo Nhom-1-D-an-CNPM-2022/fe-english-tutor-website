@@ -37,7 +37,7 @@ export const TutorCard: React.FC<ITutorCard> = ({
   isFavoriteTutor = false,
   handleOnChat,
 }) => {
-  const { iCall1 } = React.useContext(Context);
+  const { iCall1, startChat } = React.useContext(Context);
   const history = useHistory();
   const [isHoverFavoriteButton, setIsHoverFavoriteButton] = React.useState(false);
   const [tempFavorite, setTempFavorite] = React.useState(null);
@@ -62,6 +62,15 @@ export const TutorCard: React.FC<ITutorCard> = ({
     await dispatch(
       addFavoriteTutor({ tutorId: id, accessToken: localStorage.getItem('accessToken') }),
     );
+  };
+
+  const handleOnClickChat = () => {
+    startChat({
+      userId: id,
+      socketId: '',
+    });
+
+    handleOnChat();
   };
 
   const newIsFavorite = tempFavorite !== null ? tempFavorite : isFavoriteTutor;
@@ -127,7 +136,7 @@ export const TutorCard: React.FC<ITutorCard> = ({
             className="button-footer"
             onMouseOver={onMouseIn}
             onMouseOut={onMouseOut}
-            onClick={handleOnChat}
+            onClick={handleOnClickChat}
           >
             Tin nhắn
           </Button>
