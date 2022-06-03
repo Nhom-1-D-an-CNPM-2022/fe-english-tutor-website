@@ -36,6 +36,7 @@ export const State: React.FC<IState> = ({ children }) => {
     socketId: '',
   });
   const [messages, setMessages] = useState();
+  const [isOpenChat, setIsOpenChat] = useState(false);
   const myVideo = useRef(null);
   const userVideo = useRef(null);
   const connectionRef = useRef(null);
@@ -262,7 +263,13 @@ export const State: React.FC<IState> = ({ children }) => {
   });
 
   useEffect(() => {
-    socket.on(ChatSocketEvents.UPDATE_MESSAGE, async () => {
+    socket.on(ChatSocketEvents.UPDATE_MESSAGE, async (message: any) => {
+      if (message.toSocket !== socket.id) {
+        return;
+      }
+      if (!isOpenChat) {
+        setIsOpenChat(true);
+      }
       const messageList = (
         await dispatch(
           getMessages({
@@ -272,6 +279,12 @@ export const State: React.FC<IState> = ({ children }) => {
         )
       ).payload;
       setMessages(messageList || []);
+      if (message.from !== otherUserOnChat.userId) {
+        setOtherUserOnChat({
+          userId: message.from,
+          socketId: message.fromSocket,
+        });
+      }
     });
   });
 
@@ -325,6 +338,8 @@ export const State: React.FC<IState> = ({ children }) => {
         sendMessage,
         startChat,
         messages,
+        isOpenChat,
+        setIsOpenChat,
       }}
     >
       {children}

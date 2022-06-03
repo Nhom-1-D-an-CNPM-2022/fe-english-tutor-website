@@ -34,6 +34,8 @@ interface IContext {
   startChat: any;
   sendMessage: any;
   messages: any;
+  isOpenChat: any;
+  setIsOpenChat: any;
 }
 
 const Context = createContext<IContext | null>(null);

@@ -6,6 +6,8 @@ import { MessageLeft, MessageRight } from './Message';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import Context from '../../containers/State/Context';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/rootReducer';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -65,38 +67,43 @@ interface IChatBox {
 
 const ChatBox: React.FC<IChatBox> = ({ open, onClose }) => {
   const classes = useStyles();
-  const { messages } = React.useContext(Context);
+  const { messages, setIsOpenChat, isOpenChat } = React.useContext(Context);
+  const account = useSelector((state: RootState) => state.userSlice.account);
+  const handleCloseChatBox = () => {
+    onClose();
+    setIsOpenChat(false);
+  };
 
   return (
-    <div className={classes.container} style={{ visibility: open ? 'visible' : 'hidden' }}>
+    <div
+      className={classes.container}
+      style={{ visibility: open || isOpenChat ? 'visible' : 'hidden' }}
+    >
       <Paper className={classes.paper}>
         <div className={classes.headerAction}>
-          <IconButton className={classes.closeButton} onClick={onClose}>
+          <IconButton className={classes.closeButton} onClick={handleCloseChatBox}>
             <CloseIcon />
           </IconButton>
         </div>
         <Paper id="style-1" className={classes.messagesBody}>
-          <MessageLeft
-            message="Hello"
-            // timestamp="MM/DD 00:00"
-            photoURL=""
-            displayName="Khoa"
-            avatarDisp={false}
-          />
-          <MessageRight
-            message="Hi"
-            // timestamp="MM/DD 00:00"
-            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
-            displayName="まさりぶ"
-            avatarDisp={true}
-          />
-          <MessageRight
-            message="I am Hoang"
-            // timestamp="MM/DD 00:00"
-            photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
-            displayName="まさりぶ"
-            avatarDisp={false}
-          />
+          {messages.map((m) =>
+            m.from === account.userId ? (
+              <MessageRight
+                message={m.content}
+                // timestamp="MM/DD 00:00"
+                // photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
+                displayName={account.name}
+                avatarDisp={true}
+              />
+            ) : (
+              <MessageLeft
+                message={m.content}
+                // timestamp="MM/DD 00:00"
+                displayName={m.name}
+                avatarDisp={false}
+              />
+            ),
+          )}
         </Paper>
         <TextInput />
       </Paper>
