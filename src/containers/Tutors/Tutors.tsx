@@ -17,6 +17,8 @@ import tutorApi from '../../services/aixos/tutorApi';
 import './Tutors.scss';
 import Context from '../State/Context';
 import userApi from '../../services/aixos/userApi';
+import Snackbar from '@mui/material/Snackbar';
+import ChatBox from '../../components/ChatBox/ChatBox';
 
 export const Tutors = () => {
   const pages = ['Products', 'Pricing', 'Blog'];
@@ -27,6 +29,7 @@ export const Tutors = () => {
   const [query, setQuery] = useState('');
   const [field, setField] = useState('all');
   const { iCall1, onlineTutors, getOnlineTutors } = useContext(Context);
+  const [openChat, setOpenChat] = useState(false);
   useEffect(() => {
     async function fetchMyAPI() {
       let response = await tutorApi.getAllTutor();
@@ -59,17 +62,27 @@ export const Tutors = () => {
     setField(field);
     if (field === 'online') {
       // iCall1();
-      // console.log('hehe')
+      // console.log('hehe');
       getOnlineTutors();
       if (tutorListAll.length === 0) {
         setTutorListAll(tutorList);
       }
+
       setTutorList(onlineTutors);
     }
     if (field === 'all') {
       setTutorList(tutorListAll);
     }
   };
+
+  const handleOnChat = () => {
+    setOpenChat(true);
+  };
+
+  const handleCloseChat = () => {
+    setOpenChat(false);
+  };
+
   return (
     <div className="tutors">
       <Toolbar variant="regular" disableGutters={true} className="toolbar-container">
@@ -124,12 +137,14 @@ export const Tutors = () => {
                     accent="USA"
                     id={item.userId || '123'}
                     isFavoriteTutor={item.isFavoriteTutor}
+                    handleOnChat={handleOnChat}
                   />
                 );
               })}
           </div>
         </div>
       </div>
+      <ChatBox open={openChat} onClose={handleCloseChat} />
     </div>
   );
 };

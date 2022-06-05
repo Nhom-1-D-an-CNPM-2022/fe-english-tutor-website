@@ -21,8 +21,8 @@ export const Header = () => {
 
   const { receiveCall, setReceiveCall, decline, otherUserAccount } = useContext(Context);
 
-  useEffect(()=>{
-    if (receiveCall){
+  useEffect(() => {
+    if (receiveCall) {
       if (confirm(otherUserAccount.user.fullname + ' calling \n Do you accept it?') == true) {
         window.location.href = '/call';
       } else {
@@ -30,7 +30,7 @@ export const Header = () => {
       }
       setReceiveCall(false);
     }
-  })
+  });
 
   return (
     <div className={className}>
@@ -55,7 +55,7 @@ export const Header = () => {
           </div>
         </div>
         <div className={`${className}__flex--grow`}></div>
-        <Link to='/student/subcribe' className={`${className}__register`}>
+        <Link to="/student/subcribe" className={`${className}__register`}>
           <span className={`${className}__label`}>Đăng ký khóa học</span>
           <span className={`${className}__background`}></span>
         </Link>
