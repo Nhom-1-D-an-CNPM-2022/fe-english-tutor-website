@@ -12,8 +12,6 @@ export const searchAllTutors = createAsyncThunk('/tutors/search', async (params:
 
 export const getTutorsProfile = createAsyncThunk('/tutors/profile/:id', async (id: string) => {
   return await tutorApi.getTutorsProfile(id).then((res) => {
-    console.log(res.data);
-
     return res.data;
   });
 });
@@ -27,7 +25,6 @@ export const updateTutorProfile = createAsyncThunk(
 
 const modifyValue = (obj: any) => {
   if (typeof obj === 'string') {
-    console.log(obj);
     return [obj];
   }
 
