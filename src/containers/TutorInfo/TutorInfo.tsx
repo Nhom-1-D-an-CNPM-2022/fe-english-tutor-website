@@ -47,7 +47,6 @@ export const TutorInfo = () => {
   };
 
   const tutorInfo = useSelector((state: RootState) => state.tutorSlice);
-  console.log(tutorInfo);
 
   return (
     <List className="tutor-info">
