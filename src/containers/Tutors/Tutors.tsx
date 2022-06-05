@@ -62,11 +62,12 @@ export const Tutors = () => {
     setField(field);
     if (field === 'online') {
       // iCall1();
-      // console.log('hehe')
+      // console.log('hehe');
       getOnlineTutors();
       if (tutorListAll.length === 0) {
         setTutorListAll(tutorList);
       }
+
       setTutorList(onlineTutors);
     }
     if (field === 'all') {
@@ -74,15 +75,11 @@ export const Tutors = () => {
     }
   };
 
-  const handleOpenChat = () => {
+  const handleOnChat = () => {
     setOpenChat(true);
   };
 
-  const handleCloseChat = (_: any, reason: any) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
+  const handleCloseChat = () => {
     setOpenChat(false);
   };
 
@@ -140,7 +137,7 @@ export const Tutors = () => {
                     accent="USA"
                     id={item.userId || '123'}
                     isFavoriteTutor={item.isFavoriteTutor}
-                    handleOnChat={handleOpenChat}
+                    handleOnChat={handleOnChat}
                   />
                 );
               })}

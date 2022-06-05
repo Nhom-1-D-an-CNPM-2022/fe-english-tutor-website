@@ -174,6 +174,8 @@ interface IAccount {
   iat: number;
   exp: number;
   Vip: string;
+  userId: number;
+  name: string;
 }
 
 interface IInformationVAT {
@@ -203,7 +205,14 @@ interface IUserAddress {
 }
 
 interface IOrder {
-  FirstName: string | number | boolean | {} | ReactElement<any, string | JSXElementConstructor<any>> | ReactNodeArray | ReactPortal;
+  FirstName:
+    | string
+    | number
+    | boolean
+    | {}
+    | ReactElement<any, string | JSXElementConstructor<any>>
+    | ReactNodeArray
+    | ReactPortal;
   LastName: any;
   IDOrder: number;
   IDProduct: string;

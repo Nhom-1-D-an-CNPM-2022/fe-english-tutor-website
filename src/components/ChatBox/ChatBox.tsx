@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'end',
       position: 'absolute',
       left: '-10px',
-      top: 0,
+      top: '300px',
     },
     messagesBody: {
       width: 'calc( 100% - 20px )',
@@ -86,7 +86,7 @@ const ChatBox: React.FC<IChatBox> = ({ open, onClose }) => {
           </IconButton>
         </div>
         <Paper id="style-1" className={classes.messagesBody}>
-          {messages.map((m) =>
+          {messages?.map((m: any) =>
             m.from === account.userId ? (
               <MessageRight
                 message={m.content}

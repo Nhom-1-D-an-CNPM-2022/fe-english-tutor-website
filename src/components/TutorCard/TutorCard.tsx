@@ -25,7 +25,7 @@ interface ITutorCard {
   ageOfAccount?: number;
   id: string;
   isFavoriteTutor?: boolean;
-  handleOnChat?: () => void;
+  handleOnChat: () => void;
 }
 
 export const TutorCard: React.FC<ITutorCard> = ({

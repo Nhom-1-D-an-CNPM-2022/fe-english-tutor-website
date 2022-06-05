@@ -64,7 +64,7 @@ export const Routers = () => {
             isHasFooter={false}
             footer={Footer}
           />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
             path={'/student/tutors'}
             component={Tutors}
@@ -74,7 +74,7 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
             path={'/student/tutors/:id'}
             component={TutorInfo}
@@ -140,7 +140,7 @@ export const Routers = () => {
           <PrivateRouter
             exact={true}
             path={'/student'}
-            component={Home}
+            component={Tutors}
             layout={HeaderFooterLayout}
             isHasHeader={true}
             header={Header}
@@ -233,7 +233,7 @@ export const Routers = () => {
             path="/tutorsignup/:path?"
             component={TutorSignUpProcedure}
             layout={BlankLayout}
-           />
+          />
           <PublicRouter
             exact={true}
             path={'/student/history'}
