@@ -217,7 +217,7 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
             path={'/tutors/profile/me'}
             component={MyInfo}
