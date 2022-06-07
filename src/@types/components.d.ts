@@ -176,6 +176,7 @@ interface IAccount {
   Vip: string;
   userId: number;
   name: string;
+  _id: string;
 }
 
 interface IInformationVAT {

@@ -22,7 +22,7 @@ export const MenuUser = ({ showMenu = false, setShowMenu }: MenuUser) => {
           Đăng ký gói học
           <span className={`${className}__line`}></span>
         </Link>
-        <Link to="" className={`${className}__item`}>
+        <Link to="/tutors/profile/me" className={`${className}__item`}>
           Cài đặt Tài khoản
           <span className={`${className}__line`}></span>
         </Link>

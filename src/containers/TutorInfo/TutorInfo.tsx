@@ -88,7 +88,7 @@ export const TutorInfo = () => {
             <Divider className="tutor-info__body__divider" />
           </>
         )}
-        {!!tutorInfo.languages.length && (
+        {!!tutorInfo.languages?.length && (
           <>
             <div className="tutor-info__body__my-info">
               <div className="tutor-info__body__my-info__header">
@@ -106,7 +106,7 @@ export const TutorInfo = () => {
             <Divider className="tutor-info__body__divider" />
           </>
         )}
-        {!!tutorInfo.profession.length && (
+        {!!tutorInfo.profession?.length && (
           <>
             <Typography variant="h5">Kĩ năng</Typography>
             <div className="tutor-info__body__my-info__content">
@@ -117,7 +117,7 @@ export const TutorInfo = () => {
             <Divider className="tutor-info__body__divider" />
           </>
         )}
-        {!!tutorInfo.experience.length && (
+        {!!tutorInfo.experience?.length && (
           <>
             <Typography variant="h5">Kinh nghiệm</Typography>
             <div className="tutor-info__body__my-info__content">
@@ -128,7 +128,7 @@ export const TutorInfo = () => {
             <Divider className="tutor-info__body__divider" />
           </>
         )}
-        {!!tutorInfo.education.length && (
+        {!!tutorInfo.education?.length && (
           <>
             <Typography variant="h5">Bằng cấp</Typography>
             <div className="tutor-info__body__my-info__content">
