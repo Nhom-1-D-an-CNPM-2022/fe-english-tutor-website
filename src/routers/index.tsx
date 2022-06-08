@@ -84,9 +84,7 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-        </Switch>
-
-        <Switch>
+        
           <PublicRouter
             exact={true}
             path={'/student/register'}
@@ -167,9 +165,7 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-        </Switch>
-
-        <Switch>
+       
           <PublicRouter
             exact={true}
             path={'/tutor/login'}
@@ -197,7 +193,7 @@ export const Routers = () => {
             header={Header}
             isHasFooter={false}
           />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
             path={'/tutors/schedule/create'}
             component={TutorScheduler}
@@ -207,7 +203,7 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
             path={'/tutors/schedule/create/:id'}
             component={TutorScheduler}

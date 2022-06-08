@@ -52,7 +52,8 @@ export const TutorCard: React.FC<ITutorCard> = ({
 
   const handleOnClick = () => {
     if (!isHoverFavoriteButton) {
-      history.push(`tutors/${id}`);
+      console.log(id)
+      window.open(`tutors/${id}`,'_self');
     }
   };
 

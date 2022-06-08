@@ -77,23 +77,18 @@ export const ScheduleBodyTutor = ({
   useEffect(() => {
     const headers = {
       Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Il9pZCI6IjYyNzY4NTBiMDM2MTZlZjdhZjc2ZjA2YSIsImVtYWlsIjoiMTIzQGdtYWlsLmNvbSIsImlzVmVyaWZpZWQiOmZhbHNlfSwiaWF0IjoxNjUyNzkxODQ4LCJleHAiOjE2NTI3OTU0NDh9.LpjD_yxDVhG6gzD79Ewb4ionefGb3ePMVsTA7CCIH3E',
+        `Bearer ${localStorage.getItem('accessToken')}`,
     };
     axios
-      .get(`${process.env.URL_MY_API}schedule`, { headers })
+      .get(`${process.env.URL_MY_API}booking/list/tutor`, { headers })
       .then((response) => setRespone(response.data));
   }, []);
   console.log(response);
 
   const response_daytime = response.map((res) => ({
-    year: parseInt(res.createdAt.substring(0, 4)),
-    month: parseInt(res.createdAt.substring(5, 7)),
-    day: parseInt(res.createdAt.substring(8, 10)),
-    hour: parseInt(res.createdAt.substring(11, 13)),
-    minute: parseInt(res.createdAt.substring(14, 16)),
-    second: parseInt(res.createdAt.substring(17, 19)),
-    interval: res.interval,
-    idStudent: res._id,
+    start_date: res.schedule.startTime.substring(0, 10),
+    start_time: res.schedule.startTime.substring(11, 19),
+    interval: res.schedule.interval,
   }));
 
   console.log(response_daytime);
@@ -276,7 +271,6 @@ export const ScheduleBodyTutor = ({
         <Table sx={{ minWidth: 650 }} aria-label="caption table">
           <TableHead>
             <TableRow>
-              <TableCell>Student id</TableCell>
               <TableCell align="right">Date start</TableCell>
               <TableCell align="right">Time start</TableCell>
               <TableCell align="right">Interval</TableCell>
@@ -286,20 +280,16 @@ export const ScheduleBodyTutor = ({
           <TableBody>
             {response_daytime.map((item: any, index: number) => (
               <TableRow key={index}>
-                <TableCell component="th" scope="row">
-                  {item.idStudent}
+                <TableCell align="right">
+                  {item.start_date}
                 </TableCell>
                 <TableCell align="right">
-                  {item.day}/{item.month}/{item.year}
-                </TableCell>
-                <TableCell align="right">
-                  {item.hour}:{item.minute}:{item.second}
+                  {item.start_time}
                 </TableCell>
                 <TableCell align="right">{item.interval}</TableCell>
                 <TableCell align="right">
-                  <Button variant="contained">Confirm</Button>
                   <Button variant="outlined" color="error">
-                    Decline
+                    Delete
                   </Button>
                 </TableCell>
               </TableRow>
