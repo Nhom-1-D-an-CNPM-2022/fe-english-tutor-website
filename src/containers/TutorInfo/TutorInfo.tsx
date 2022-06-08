@@ -29,15 +29,15 @@ type tutorId = {
 };
 
 interface tutorInfo {
-  fullname: string;
-  introduction: string;
-  interests: string;
-  profession: string;
-  languages: string;
-  experience: string;
-  education: string;
-  displayName: string;
-  hometown: string;
+  fullname: any;
+  introduction: any;
+  interests: any;
+  profession: any;
+  languages: any;
+  experience: any;
+  education: any;
+  displayName: any;
+  hometown: any;
 }
 
 export const TutorInfo = () => {
@@ -70,12 +70,15 @@ export const TutorInfo = () => {
     <List className="tutor-info">
       <ListSubheader className="tutor-info__header">
         <div className="tutor-info__header__wrapper">
-          <Avatar sx={{ width: 60, height: 60 }}>{tutorInfo.fullname}</Avatar>
+          <Avatar sx={{ width: 60, height: 60 }}>{tutorInfo.displayName}</Avatar>
           <div className="tutor-info__header__wrapper__content">
-            <Typography variant="h5">{tutorInfo.fullname}</Typography>
+            <Typography variant="h5">{tutorInfo.displayName}</Typography>
             <div className="tutor-info__header__wrapper__content__rating">
               <StarIcon sx={{ color: yellow[500] }} />
               4.9
+              <div className="tutor-info__header__wrapper__content__hometown">
+                {tutorInfo.hometown}
+              </div>
             </div>
           </div>
         </div>
@@ -103,7 +106,7 @@ export const TutorInfo = () => {
             <Divider className="tutor-info__body__divider" />
           </>
         )}
-        {tutorInfo.languages && (
+        {!!tutorInfo.languages?.length && (
           <>
             <div className="tutor-info__body__my-info">
               <div className="tutor-info__body__my-info__header">
@@ -113,40 +116,41 @@ export const TutorInfo = () => {
                 </Typography>
               </div>
               <div className="tutor-info__body__my-info__content">
-                <Chip label="Tieng Viet" variant="outlined" sx={{ marginRight: '10px' }} />
-                <Chip label="Tieng Anh" variant="outlined" />
+                {tutorInfo.languages.map((l) => (
+                  <Chip label={l.language} variant="outlined" sx={{ marginRight: '10px' }} />
+                ))}
               </div>
             </div>
             <Divider className="tutor-info__body__divider" />
           </>
         )}
-        {tutorInfo.profession && (
+        {!!tutorInfo.profession?.length && (
           <>
             <Typography variant="h5">Kĩ năng</Typography>
             <div className="tutor-info__body__my-info__content">
-              {tutorInfo.profession.split(' ').map((i) => (
+              {tutorInfo.profession.map((i) => (
                 <Chip key={i} label={i} variant="outlined" sx={{ marginRight: '10px' }} />
               ))}
             </div>
             <Divider className="tutor-info__body__divider" />
           </>
         )}
-        {tutorInfo.experience && (
+        {!!tutorInfo.experience?.length && (
           <>
             <Typography variant="h5">Kinh nghiệm</Typography>
             <div className="tutor-info__body__my-info__content">
-              {tutorInfo.experience.split(' ').map((i) => (
+              {tutorInfo.experience.map((i) => (
                 <Chip key={i} label={i} variant="outlined" sx={{ marginRight: '10px' }} />
               ))}
             </div>
             <Divider className="tutor-info__body__divider" />
           </>
         )}
-        {tutorInfo.education && (
+        {!!tutorInfo.education?.length && (
           <>
             <Typography variant="h5">Bằng cấp</Typography>
             <div className="tutor-info__body__my-info__content">
-              {tutorInfo.education.split(' ').map((i) => (
+              {tutorInfo.education.map((i) => (
                 <Chip key={i} label={i} variant="outlined" sx={{ marginRight: '10px' }} />
               ))}
             </div>

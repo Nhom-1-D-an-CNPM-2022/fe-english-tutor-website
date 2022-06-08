@@ -52,7 +52,7 @@ export const PublicRouter: React.FC<IPublicRouter> = ({
     }
 
     if (isAccount) {
-      return <Redirect to="/student" />;
+      return <Redirect to="/student/tutors" />;
     }
 
     return (

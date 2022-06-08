@@ -12,6 +12,9 @@ import {
   Introduction,
   Reservation,
   TutorScheduler,
+  TutorSignUpProcedure,
+  TutorSignUpHome,
+  TutorSignUpAccount,
   Subcription,
   Checkout,
   TutorLogin,
@@ -61,9 +64,9 @@ export const Routers = () => {
             isHasFooter={false}
             footer={Footer}
           />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
-            path={'/tutors'}
+            path={'/student/tutors'}
             component={Tutors}
             layout={HeaderFooterLayout}
             isHasHeader={true}
@@ -73,7 +76,7 @@ export const Routers = () => {
           />
           <PrivateRouter
             exact={true}
-            path={'/tutors/:id'}
+            path={'/student/tutors/:id'}
             component={TutorInfo}
             layout={HeaderFooterLayout}
             isHasHeader={true}
@@ -135,7 +138,7 @@ export const Routers = () => {
           <PrivateRouter
             exact={true}
             path={'/student'}
-            component={Home}
+            component={Tutors}
             layout={HeaderFooterLayout}
             isHasHeader={true}
             header={Header}
@@ -210,7 +213,7 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
             path={'/tutors/profile/me'}
             component={MyInfo}
@@ -219,6 +222,13 @@ export const Routers = () => {
             header={Header}
             isHasFooter={true}
             footer={Footer}
+          />
+          <PublicRouter path="/tutors" component={TutorSignUpHome} layout={BlankLayout} exact />
+          <PublicRouter path="/tutor/:path?" component={TutorSignUpAccount} layout={BlankLayout} />
+          <PrivateRouter
+            path="/tutorsignup/:path?"
+            component={TutorSignUpProcedure}
+            layout={BlankLayout}
           />
           <PublicRouter
             exact={true}
