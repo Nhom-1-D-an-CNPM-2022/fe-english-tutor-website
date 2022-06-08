@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 import Context from './Context';
 import Peer from 'simple-peer';
+import RecordRTC from 'recordrtc'
 
 const URL = 'https://apinc.herokuapp.com/';
 export const socket = io(URL);
@@ -34,6 +35,7 @@ export const State: React.FC<IState> = ({ children }) => {
   const connectionRef = useRef(null);
 
   const screenShareTrack = useRef(null);
+  const recordVideo = useRef(null);
 
   const account = useSelector((state: RootState) => state.userSlice.account);
 
@@ -60,7 +62,7 @@ export const State: React.FC<IState> = ({ children }) => {
       window.location.href = '/';
     });
     socket.on('endCall', () => {
-      if (callSuccess || isCall) window.location.href = '/';
+      if (callSuccess || isCall) {window.location.href = '/';}
       else setReceiveCall(false);
     });
 
@@ -148,6 +150,9 @@ export const State: React.FC<IState> = ({ children }) => {
 
     setCallSuccess(true);
     peer.signal(signalCall);
+
+    recordVideo.current = new RecordRTC(myVideo.current.srcObject, {type: 'video'});
+    recordVideo.current.startRecording();
 
     connectionRef.current = peer;
     console.log(connectionRef.current);
