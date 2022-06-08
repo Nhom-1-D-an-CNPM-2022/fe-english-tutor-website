@@ -88,7 +88,7 @@ export const Home = () => {
                     introduction={item.introduction}
                     ageOfAccount={item.ageOfAccount}
                     accent="USA"
-                    id={''}
+                    id='123'
                   />
                 );
               })}

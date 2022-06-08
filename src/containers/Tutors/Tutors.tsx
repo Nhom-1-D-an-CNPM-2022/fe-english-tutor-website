@@ -70,6 +70,7 @@ export const Tutors = () => {
       setTutorList(tutorListAll);
     }
   };
+  console.log(tutorList)
   return (
     <div className="tutors">
       <Toolbar variant="regular" disableGutters={true} className="toolbar-container">
@@ -122,7 +123,7 @@ export const Tutors = () => {
                     introduction={item.introduction}
                     ageOfAccount={item.ageOfAccount}
                     accent="USA"
-                    id={item.userId || '123'}
+                    id={item._id || '123'}
                     isFavoriteTutor={item.isFavoriteTutor}
                   />
                 );

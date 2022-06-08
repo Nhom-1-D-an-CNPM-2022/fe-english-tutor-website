@@ -161,6 +161,7 @@ interface EnhancedTableProps {
 }
 
 interface IAccount {
+  private _id(arg0: string, _id: any);
   IDUser: number;
   FirstName: string;
   LastName: string;
