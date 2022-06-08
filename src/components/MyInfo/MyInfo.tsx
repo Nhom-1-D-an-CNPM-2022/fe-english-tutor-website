@@ -30,6 +30,15 @@ const arrayToInfo = (arrayString: string[]) => {
   return arrayString.join(', ');
 };
 
+const modifyLanguages = (arrayObjet: object[]) => {
+  const result = arrayObjet?.reduce((pre: any, cur: any) => {
+    pre.push(cur.language);
+    return pre;
+  }, []);
+
+  return result.join(', ');
+};
+
 const tutorInitProfile = {
   displayName: '',
   introduction: '',
@@ -58,7 +67,17 @@ export const MyInfo = () => {
   const fieldValue: tutorInfo = useSelector((state: RootState) => {
     const values = { ...tutorInitProfile };
     Object.keys(tutorInitProfile).map((field) => {
-      values[field as keyof tutorInfo] = state.tutorSlice[field];
+      if (typeof state.tutorSlice[field] === 'object') {
+        if (field === 'languages') {
+          console.log(state.tutorSlice[field]);
+
+          values[field as keyof tutorInfo] = modifyLanguages(state.tutorSlice[field]);
+        } else {
+          values[field as keyof tutorInfo] = arrayToInfo(state.tutorSlice[field]);
+        }
+      } else {
+        values[field as keyof tutorInfo] = state.tutorSlice[field];
+      }
     });
     return values;
   });
