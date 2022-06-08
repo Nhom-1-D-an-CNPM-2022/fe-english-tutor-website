@@ -62,7 +62,7 @@ export const TutorInfo = () => {
       content: content,
       star: star,
     };
-    alert(`${comment.content} - ${comment.star}`);
+    alert(`${comment.content} - ${comment.star} - ${id}`);
   };
   const tutorInfo = useSelector((state: RootState) => state.tutorSlice);
   console.log('213123');
