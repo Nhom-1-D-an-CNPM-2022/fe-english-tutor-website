@@ -7,7 +7,9 @@ import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { updateTutorProfile } from '../../redux/slice/appSlice/tutorSlice';
+import Typography from '@mui/material/Typography';
+
+import { updateTutorProfile, getMyProfileTutor } from '../../redux/slice/appSlice/tutorSlice';
 import { useAppDispatch } from '../../redux/store';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
@@ -28,27 +30,34 @@ const arrayToInfo = (arrayString: string[]) => {
   return arrayString.join(', ');
 };
 
+const modifyLanguages = (arrayObjet: object[]) => {
+  const result = arrayObjet?.reduce((pre: any, cur: any) => {
+    pre.push(cur.language);
+    return pre;
+  }, []);
+
+  return result.join(', ');
+};
+
 const tutorInitProfile = {
-  fullname: '123',
+  displayName: '',
   introduction: '',
   interests: '',
   profession: '',
   languages: '',
   experience: '',
   education: '',
-  displayName: '',
   hometown: '',
 } as tutorInfo;
 
 const INFO_MAPPER = {
-  fullname: 'Họ và tên',
+  displayName: 'Tên hiển thị',
   introduction: 'Giới thiệu',
   interests: 'Thông tin về tôi',
   profession: 'Kĩ năng',
   languages: 'Ngôn ngữ',
   experience: 'Kinh nghiệm',
   education: 'Bằng cấp',
-  displayName: 'Tên hiển thị',
   hometown: 'Quê',
 } as tutorInfo;
 
@@ -58,11 +67,29 @@ export const MyInfo = () => {
   const fieldValue: tutorInfo = useSelector((state: RootState) => {
     const values = { ...tutorInitProfile };
     Object.keys(tutorInitProfile).map((field) => {
-      values[field as keyof tutorInfo] = state.tutorSlice[field];
+      if (typeof state.tutorSlice[field] === 'object') {
+        if (field === 'languages') {
+          console.log(state.tutorSlice[field]);
+
+          values[field as keyof tutorInfo] = modifyLanguages(state.tutorSlice[field]);
+        } else {
+          values[field as keyof tutorInfo] = arrayToInfo(state.tutorSlice[field]);
+        }
+      } else {
+        values[field as keyof tutorInfo] = state.tutorSlice[field];
+      }
     });
     return values;
   });
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    await dispatch(getMyProfileTutor({ accessToken: localStorage.getItem('accessToken') }));
+  };
 
   const handleChangeField = (prop: any) => (event: any) => {
     setNewValues({ ...newValues, [prop]: event.target.value });
@@ -74,10 +101,12 @@ export const MyInfo = () => {
       updateTutorProfile({ data: valueSubmit, accessToken: localStorage.getItem('accessToken') }),
     ).then(() => {
       const temp = Array.from(changeField);
-      temp.slice(
-        temp.find((e) => e === value),
+
+      temp.splice(
+        temp.findIndex((e) => e === value),
         1,
       );
+
       setChangeField(temp);
     });
   };
@@ -94,6 +123,9 @@ export const MyInfo = () => {
 
   return (
     <Box sx={{ width: 800 }}>
+      <Typography variant="h3" color="text.secondary" marginRight={2}>
+        Cập nhật thông tin
+      </Typography>
       <List>
         {Object.keys(fieldValue).map((value) => (
           <div key={value}>

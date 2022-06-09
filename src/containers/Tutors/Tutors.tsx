@@ -12,11 +12,11 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import ButtonBase from '@mui/material/ButtonBase';
 import tutorApi from '../../services/aixos/tutorApi';
 import './Tutors.scss';
 import Context from '../State/Context';
 import userApi from '../../services/aixos/userApi';
+import ChatBox from '../../components/ChatBox/ChatBox';
 
 export const Tutors = () => {
   const pages = ['Products', 'Pricing', 'Blog'];
@@ -27,17 +27,23 @@ export const Tutors = () => {
   const [query, setQuery] = useState('');
   const [field, setField] = useState('all');
   const { iCall1, onlineTutors, getOnlineTutors } = useContext(Context);
+  const [openChat, setOpenChat] = useState(false);
+
   useEffect(() => {
     async function fetchMyAPI() {
-      let response = await tutorApi.getAllTutor();
-      setTutorList((arr) => arr.concat(response.data));
+      const response = await tutorApi.getAllTutor();
+      const favList = await userApi.getFavoriteTutors(localStorage.getItem('accessToken'));
+      setTutorList((arr) => {
+        const result = response.data.reduce((pre: any, cur: any) => {
+          const isFav = favList.data.find((item: any) => item._id === cur.userId);
+          pre.push({
+            ...cur,
+            isFav: !!isFav,
+          });
+          return pre;
+        }, []);
 
-      await userApi.getFavoriteTutors(localStorage.getItem('accessToken')).then((response) => {
-        const tempList = tutorList.map((item) => ({
-          ...item,
-          isFavoriteTutor: !!response.data.find((temp: any) => temp._id === item._id),
-        }));
-        setTutorList(tempList);
+        return arr.concat(result);
       });
     }
     fetchMyAPI();
@@ -59,17 +65,27 @@ export const Tutors = () => {
     setField(field);
     if (field === 'online') {
       // iCall1();
-      // console.log('hehe')
+      // console.log('hehe');
       getOnlineTutors();
       if (tutorListAll.length === 0) {
         setTutorListAll(tutorList);
       }
+
       setTutorList(onlineTutors);
     }
     if (field === 'all') {
       setTutorList(tutorListAll);
     }
   };
+
+  const handleOnChat = () => {
+    setOpenChat(true);
+  };
+
+  const handleCloseChat = () => {
+    setOpenChat(false);
+  };
+
   return (
     <div className="tutors">
       <Toolbar variant="regular" disableGutters={true} className="toolbar-container">
@@ -118,18 +134,20 @@ export const Tutors = () => {
                 return (
                   <TutorCard
                     key={i}
-                    name={item.displayName}
+                    name={item.displayName || item.fullname}
                     introduction={item.introduction}
                     ageOfAccount={item.ageOfAccount}
                     accent="USA"
                     id={item.userId || '123'}
-                    isFavoriteTutor={item.isFavoriteTutor}
+                    isFavoriteTutor={item.isFav}
+                    handleOnChat={handleOnChat}
                   />
                 );
               })}
           </div>
         </div>
       </div>
+      <ChatBox open={openChat} onClose={handleCloseChat} />
     </div>
   );
 };

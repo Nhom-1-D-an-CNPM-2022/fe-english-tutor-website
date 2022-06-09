@@ -30,7 +30,12 @@ interface IContext {
   setNotifications: any;
   otherUserAccount: any;
   onlineTutors: any;
-  getOnlineTutors:any;
+  getOnlineTutors: any;
+  startChat: any;
+  sendMessage: any;
+  messages: any;
+  isOpenChat: any;
+  setIsOpenChat: any;
 }
 
 const Context = createContext<IContext | null>(null);

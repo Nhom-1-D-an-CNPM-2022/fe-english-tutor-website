@@ -161,6 +161,7 @@ interface EnhancedTableProps {
 }
 
 interface IAccount {
+  private _id(arg0: string, _id: any);
   IDUser: number;
   FirstName: string;
   LastName: string;
@@ -174,6 +175,9 @@ interface IAccount {
   iat: number;
   exp: number;
   Vip: string;
+  userId: number;
+  name: string;
+  _id: string;
 }
 
 interface IInformationVAT {
@@ -203,7 +207,14 @@ interface IUserAddress {
 }
 
 interface IOrder {
-  FirstName: string | number | boolean | {} | ReactElement<any, string | JSXElementConstructor<any>> | ReactNodeArray | ReactPortal;
+  FirstName:
+    | string
+    | number
+    | boolean
+    | {}
+    | ReactElement<any, string | JSXElementConstructor<any>>
+    | ReactNodeArray
+    | ReactPortal;
   LastName: any;
   IDOrder: number;
   IDProduct: string;

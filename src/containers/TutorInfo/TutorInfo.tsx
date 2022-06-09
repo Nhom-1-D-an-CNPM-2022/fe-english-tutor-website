@@ -10,6 +10,12 @@ import PublicIcon from '@mui/icons-material/Public';
 import Chip from '@mui/material/Chip';
 import { yellow } from '@mui/material/colors';
 import Divider from '@mui/material/Divider';
+import Comment from '../../components/Comment/Comment';
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import SendIcon from '@mui/icons-material/Send';
+import IconButton from '@mui/material/IconButton';
+import Rating from '@mui/material/Rating';
 import { Scheduler } from '../Scheduler/Scheduler';
 import './TutorInfo.scss';
 import { useParams } from 'react-router-dom';
@@ -23,15 +29,15 @@ type tutorId = {
 };
 
 interface tutorInfo {
-  fullname: string;
-  introduction: string;
-  interests: string;
-  profession: string;
-  languages: string;
-  experience: string;
-  education: string;
-  displayName: string;
-  hometown: string;
+  fullname: any;
+  introduction: any;
+  interests: any;
+  profession: any;
+  languages: any;
+  experience: any;
+  education: any;
+  displayName: any;
+  hometown: any;
 }
 
 export const TutorInfo = () => {
@@ -45,19 +51,34 @@ export const TutorInfo = () => {
   const fetchData = async () => {
     await dispatch(getTutorsProfile(id));
   };
+  const [content, setContent] = useState('');
+  const [star, setStar] = useState(0);
 
+  const changeInput = (e: any) => {
+    setContent(e.target.value);
+  };
+  const SubmitComment = () => {
+    let comment = {
+      content: content,
+      star: star,
+    };
+    alert(`${comment.content} - ${comment.star} - ${id}`);
+  };
   const tutorInfo = useSelector((state: RootState) => state.tutorSlice);
-
+  console.log('213123');
   return (
     <List className="tutor-info">
       <ListSubheader className="tutor-info__header">
         <div className="tutor-info__header__wrapper">
-          <Avatar sx={{ width: 60, height: 60 }}>{tutorInfo.fullname}</Avatar>
+          <Avatar sx={{ width: 60, height: 60 }}>{tutorInfo.displayName}</Avatar>
           <div className="tutor-info__header__wrapper__content">
-            <Typography variant="h5">{tutorInfo.fullname}</Typography>
+            <Typography variant="h5">{tutorInfo.displayName}</Typography>
             <div className="tutor-info__header__wrapper__content__rating">
               <StarIcon sx={{ color: yellow[500] }} />
               4.9
+              <div className="tutor-info__header__wrapper__content__hometown">
+                {tutorInfo.hometown}
+              </div>
             </div>
           </div>
         </div>
@@ -85,7 +106,7 @@ export const TutorInfo = () => {
             <Divider className="tutor-info__body__divider" />
           </>
         )}
-        {tutorInfo.languages && (
+        {!!tutorInfo.languages?.length && (
           <>
             <div className="tutor-info__body__my-info">
               <div className="tutor-info__body__my-info__header">
@@ -95,40 +116,41 @@ export const TutorInfo = () => {
                 </Typography>
               </div>
               <div className="tutor-info__body__my-info__content">
-                <Chip label="Tieng Viet" variant="outlined" sx={{ marginRight: '10px' }} />
-                <Chip label="Tieng Anh" variant="outlined" />
+                {tutorInfo.languages.map((l) => (
+                  <Chip label={l.language} variant="outlined" sx={{ marginRight: '10px' }} />
+                ))}
               </div>
             </div>
             <Divider className="tutor-info__body__divider" />
           </>
         )}
-        {tutorInfo.profession && (
+        {!!tutorInfo.profession?.length && (
           <>
             <Typography variant="h5">Kĩ năng</Typography>
             <div className="tutor-info__body__my-info__content">
-              {tutorInfo.profession.split(' ').map((i) => (
+              {tutorInfo.profession.map((i) => (
                 <Chip key={i} label={i} variant="outlined" sx={{ marginRight: '10px' }} />
               ))}
             </div>
             <Divider className="tutor-info__body__divider" />
           </>
         )}
-        {tutorInfo.experience && (
+        {!!tutorInfo.experience?.length && (
           <>
             <Typography variant="h5">Kinh nghiệm</Typography>
             <div className="tutor-info__body__my-info__content">
-              {tutorInfo.experience.split(' ').map((i) => (
+              {tutorInfo.experience.map((i) => (
                 <Chip key={i} label={i} variant="outlined" sx={{ marginRight: '10px' }} />
               ))}
             </div>
             <Divider className="tutor-info__body__divider" />
           </>
         )}
-        {tutorInfo.education && (
+        {!!tutorInfo.education?.length && (
           <>
             <Typography variant="h5">Bằng cấp</Typography>
             <div className="tutor-info__body__my-info__content">
-              {tutorInfo.education.split(' ').map((i) => (
+              {tutorInfo.education.map((i) => (
                 <Chip key={i} label={i} variant="outlined" sx={{ marginRight: '10px' }} />
               ))}
             </div>
@@ -139,7 +161,64 @@ export const TutorInfo = () => {
         <Typography variant="h5" sx={{ marginBottom: '10px' }}>
           Lịch làm việc
         </Typography>
-        <Scheduler />
+        {/* <Scheduler /> */}
+        <Divider className="tutor-info__body__divider" />
+        <Typography variant="h5" sx={{ marginBottom: '10px' }}>
+          Đánh giá của ứng viên
+        </Typography>
+        <div className="tutor-info__body__my-info__review">
+          <Comment
+            id={1}
+            name="Nguyen Van A"
+            date="tháng 12, 2020"
+            body="He has a great gift of emphaty. He listening carefully,
+        and really trying to teach and share something.
+        And also you feel he cares about you. Thank you Fabian."
+          />
+          <Comment
+            id={2}
+            name="Nguyen Van A"
+            date="tháng 12, 2020"
+            body="He has a great gift of emphaty. He listening carefully,
+        and really trying to teach and share something.
+        And also you feel he cares about you. Thank you Fabian."
+          />
+          <Comment
+            id={3}
+            name="Nguyen Van A"
+            date="tháng 12, 2020"
+            body="He has a great gift of emphaty. He listening carefully,
+        and really trying to teach and share something.
+        And also you feel he cares about you. Thank you Fabian."
+          />
+          <Paper
+            component="form"
+            sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400, marginTop: 5 }}
+          >
+            <InputBase
+              sx={{ ml: 1, flex: 1 }}
+              placeholder="Give some review here"
+              inputProps={{ 'aria-label': 'give review' }}
+              onChange={changeInput}
+            />
+            <Rating
+              name="half-rating"
+              defaultValue={2.5}
+              precision={0.5}
+              onChange={(_, value) => {
+                setStar(value);
+              }}
+            />
+            <IconButton
+              color="primary"
+              sx={{ p: '10px' }}
+              aria-label="send"
+              onClick={SubmitComment}
+            >
+              <SendIcon />
+            </IconButton>
+          </Paper>
+        </div>
       </ListItem>
     </List>
   );
