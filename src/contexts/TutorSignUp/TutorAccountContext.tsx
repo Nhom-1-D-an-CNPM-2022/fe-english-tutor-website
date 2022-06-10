@@ -1,6 +1,6 @@
 import React, { createContext } from 'react';
-import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { useAppDispatch } from '../../redux';
 import { setProfile } from '../../redux/slice/appSlice/tutorSignUpSlice';
 import tutorSignUpApi from '../../services/aixos/tutorSignUpApi';
 
@@ -27,7 +27,7 @@ interface ContextValue {
 export const TutorAccountContext = createContext<ContextValue>({} as any);
 
 export default function TutorAccountProvider({ children }: React.PropsWithChildren<{}>) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
 
   const isEmail = (str: string) => {

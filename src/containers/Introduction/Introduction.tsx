@@ -34,13 +34,13 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`vertical-tab-${index}`}
     >
       {value === index && (
-        <Box sx={{ p: 3 }} style={{display: "flex"}}>
+        <Box sx={{ p: 3 }} style={{ display: 'flex' }}>
           <LazyLoadImage
             src={imgsrc} // use normal <img> attributes as props
             effect="opacity"
-            style={{ display: 'inline-block', width: '100%'}}
+            style={{ display: 'inline-block', width: '100%' }}
           />
-          <Typography style={{width: '300px'}}>{children}</Typography>
+          <Typography style={{ width: '300px' }}>{children}</Typography>
         </Box>
       )}
     </div>
@@ -90,13 +90,13 @@ export const Introduction = () => {
                   </Grid>
                   <Grid item xs={12}>
                     <Box style={{ paddingLeft: '20px', paddingRight: '0px' }}>
-                      <Typography color="GrayText" component="h4" >
+                      <Typography color="GrayText" component="h4">
                         Trở nên thuần thục nhanh hơn thông qua các bài giảng trò chuyện một kèm một
                         qua video phù hợp với các mục tiêu của bạn.
                       </Typography>
                     </Box>
                   </Grid>
-                  <Box className='Box-padding'></Box>
+                  <Box className="Box-padding"></Box>
                   <Grid item xs={12}>
                     <Box style={{ paddingLeft: '20px', paddingRight: '0px' }}>
                       <Grid item xs={12}>
@@ -167,20 +167,20 @@ export const Introduction = () => {
                 </Grid>
                 <Grid item xs={12} md={6} lg={6} className="Grid-items">
                   <Typography variant="h3">Đắm mình vào Tiếng Anh ở mọi nơi</Typography>
-                  <Box className='Box-padding'></Box>
+                  <Box className="Box-padding"></Box>
                   <Typography variant="body1">
                     Hình thành độ thành thạo và sự tự tin sử dụng Tiếng Anh thông qua các cuộc trò
                     chuyện thực tế với các gia sư thân thiện đến từ Mỹ, Anh, Úc, và các nước khác.
                     Tất cả những gì bạn cần là thiết bị của bạn!
                   </Typography>
-                  <Box className='Box-padding'></Box>
+                  <Box className="Box-padding"></Box>
                   <Button
                     variant="contained"
                     color="secondary"
                     size="large"
                     tabIndex={0}
                     type="button"
-                    id='button-start'
+                    id="button-start"
                   >
                     Bắt đầu học
                   </Button>
@@ -235,25 +235,25 @@ export const Introduction = () => {
                       'https://www.cambly.com/fe/static/landing_page/features/Scheduling.webp'
                     }
                   >
-                    Bắt đầu bài học 1-1 của bạn bất cứ khi nào, tại bất cứ đâu. Đặt lịch trước hoặc gọi ngay cho 1 gia sư đang trực tuyến!
+                    Bắt đầu bài học 1-1 của bạn bất cứ khi nào, tại bất cứ đâu. Đặt lịch trước hoặc
+                    gọi ngay cho 1 gia sư đang trực tuyến!
                   </TabPanel>
                   <TabPanel
                     value={value}
                     index={2}
-                    imgsrc={
-                      'https://www.cambly.com/fe/static/landing_page/features/courses.webp'
-                    }
+                    imgsrc={'https://www.cambly.com/fe/static/landing_page/features/courses.webp'}
                   >
-                    Tập trung vào các mục tiêu cụ thể của bạn với các khóa học có hướng dẫn của chúng tôi, bao gồm luyện thi học thuật, tiếng Anh thương mại, luyện đàm thoại, và nhiều hơn nữa.
+                    Tập trung vào các mục tiêu cụ thể của bạn với các khóa học có hướng dẫn của
+                    chúng tôi, bao gồm luyện thi học thuật, tiếng Anh thương mại, luyện đàm thoại,
+                    và nhiều hơn nữa.
                   </TabPanel>
                   <TabPanel
                     value={value}
                     index={3}
-                    imgsrc={
-                      'https://www.cambly.com/fe/static/landing_page/features/Classroom.webp'
-                    }
+                    imgsrc={'https://www.cambly.com/fe/static/landing_page/features/Classroom.webp'}
                   >
-                    Hình thành các kỹ năng mới cùng gia sư của bạn trong từng bài học - các công cụ học tập có quền hạn của chúng tôi sẵn sàng giúp bạn trên mọi bước đường.
+                    Hình thành các kỹ năng mới cùng gia sư của bạn trong từng bài học - các công cụ
+                    học tập có quền hạn của chúng tôi sẵn sàng giúp bạn trên mọi bước đường.
                   </TabPanel>
                   <TabPanel
                     value={value}
@@ -262,7 +262,8 @@ export const Introduction = () => {
                       'https://www.cambly.com/fe/static/landing_page/features/Lesson%20History.webp'
                     }
                   >
-                    Củng cố các khái niệm và từ vựng mới bằng cách xem lại các bài học được ghi lại của bạn.
+                    Củng cố các khái niệm và từ vựng mới bằng cách xem lại các bài học được ghi lại
+                    của bạn.
                   </TabPanel>
                 </div>
               </Box>
@@ -315,8 +316,8 @@ export const Introduction = () => {
           <Container maxWidth="lg">
             <Box>
               <Grid container spacing={{ xs: 6 }}>
-                <Grid  item xs={12} md={6} style={{ display: 'flex' }}>
-                  <Link underline="none" style={{ display: 'flex', color: 'black'}} >
+                <Grid item xs={12} md={6} style={{ display: 'flex' }}>
+                  <Link underline="none" style={{ display: 'flex', color: 'black' }}>
                     <Grid container spacing={{ xs: 4 }}>
                       <Grid item xs={3} sm={2} md={3}>
                         <LazyLoadImage
@@ -342,7 +343,11 @@ export const Introduction = () => {
                   </Link>
                 </Grid>
                 <Grid item xs={12} md={6} style={{ display: 'flex' }}>
-                  <Link underline='none' color="primary" style={{ display: 'flex', color: 'black' }}>
+                  <Link
+                    underline="none"
+                    color="primary"
+                    style={{ display: 'flex', color: 'black' }}
+                  >
                     <Grid container spacing={{ xs: 4 }}>
                       <Grid item xs={3} sm={2} md={3}>
                         <LazyLoadImage
@@ -421,26 +426,28 @@ export const Introduction = () => {
             </Container>
           </Box>
         </Box>
-        <Box className='content-footer'>
-          <Box className='content-footer-container'>
-            <Container maxWidth='lg'>
+        <Box className="content-footer">
+          <Box className="content-footer-container">
+            <Container maxWidth="lg">
               <Grid container>
                 <Grid item xs={6} sm={4}>
-                  <Typography className='heading' variant='overline'>Giới thiệu chung</Typography>
+                  <Typography className="heading" variant="overline">
+                    Giới thiệu chung
+                  </Typography>
                   <Box>
-                    <Box id='content-container'>
-                      <Link underline='hover'>
-                        <Button className='content-button' variant="text" size='large' >
+                    <Box id="content-container">
+                      <Link underline="hover">
+                        <Button className="content-button" variant="text" size="large">
                           Khóa học
                         </Button>
                       </Link>
-                      <Link underline='hover'>
-                        <Button className='content-button' variant="text" size='large' >
+                      <Link underline="hover">
+                        <Button className="content-button" variant="text" size="large">
                           Blog
                         </Button>
                       </Link>
-                      <Link underline='hover'>
-                        <Button className='content-button' variant="text" size='large' >
+                      <Link underline="hover">
+                        <Button className="content-button" variant="text" size="large">
                           Sự nghiệp
                         </Button>
                       </Link>
@@ -448,31 +455,38 @@ export const Introduction = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={6} sm={4}>
-                  <Typography className='heading' variant='overline'>Tham gia</Typography>
+                  <Typography className="heading" variant="overline">
+                    Tham gia
+                  </Typography>
                   <Box>
-                    <Box id='content-container'>
-                      <Link underline='hover'>
-                        <Button className='content-button' variant="text" size='large' >
+                    <Box id="content-container">
+                      <Link underline="hover">
+                        <Button className="content-button" variant="text" size="large">
                           Cambly
                         </Button>
                       </Link>
-                      <Link underline='hover'>
-                        <Button className='content-button' variant="text" size='large' >
+                      <Link underline="hover">
+                        <Button className="content-button" variant="text" size="large">
                           Cambly Kids
                         </Button>
                       </Link>
-                      <Link underline='hover'>
-                        <Button className='content-button' variant="text" size='large' >
+                      <Link underline="hover">
+                        <Button className="content-button" variant="text" size="large">
                           Cambly dành cho các tổ chức
                         </Button>
                       </Link>
-                      <Link underline='hover'>
-                        <Button className='content-button' variant="text" size='large' >
+                      <Link underline="hover">
+                        <Button
+                          href="/tutors"
+                          className="content-button"
+                          variant="text"
+                          size="large"
+                        >
                           Become a Tutor
                         </Button>
                       </Link>
-                      <Link underline='hover'>
-                        <Button className='content-button' variant="text" size='large' >
+                      <Link underline="hover">
+                        <Button className="content-button" variant="text" size="large">
                           Trở thành sứ giả
                         </Button>
                       </Link>
@@ -480,32 +494,34 @@ export const Introduction = () => {
                   </Box>
                 </Grid>
                 <Grid item xs={6} sm={4}>
-                  <Typography className='heading' variant='overline'>Liên kết hữu ích</Typography>
+                  <Typography className="heading" variant="overline">
+                    Liên kết hữu ích
+                  </Typography>
                   <Box>
-                    <Box id='content-container'>
-                      <Link underline='hover'>
-                        <Button className='content-button' variant="text" size='large' >
+                    <Box id="content-container">
+                      <Link underline="hover">
+                        <Button className="content-button" variant="text" size="large">
                           Trung Tâm Trợ Giúp Của Cambly
                         </Button>
                       </Link>
-                      <Link underline='hover'>
-                        <Button className='content-button' variant="text" size='large' >
+                      <Link underline="hover">
+                        <Button className="content-button" variant="text" size="large">
                           Cambly (iOS)
                         </Button>
                       </Link>
-                      <Link underline='hover'>
-                        <Button className='content-button' variant="text" size='large' >
+                      <Link underline="hover">
+                        <Button className="content-button" variant="text" size="large">
                           Cambly (Android)
                         </Button>
                       </Link>
-                      <Link underline='hover'>
-                        <Button className='content-button' variant="text" size='large' >
-                        Cambly Kids (iOS)
+                      <Link underline="hover">
+                        <Button className="content-button" variant="text" size="large">
+                          Cambly Kids (iOS)
                         </Button>
                       </Link>
-                      <Link underline='hover' className='content-button-l'>
-                        <Button className='content-button' variant="text" size='large' >
-                        Cambly Kids (Android)
+                      <Link underline="hover" className="content-button-l">
+                        <Button className="content-button" variant="text" size="large">
+                          Cambly Kids (Android)
                         </Button>
                       </Link>
                     </Box>

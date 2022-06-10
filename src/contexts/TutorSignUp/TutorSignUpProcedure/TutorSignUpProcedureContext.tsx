@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useAppDispatch } from '../../../redux';
 import { RootState } from '../../../redux/rootReducer';
 import {
   TutorSignUpProfile,
@@ -37,7 +38,7 @@ interface ContextValue {
 export const TutorSignUpProcedureContext = createContext<ContextValue>({} as any);
 
 export default function TutorSignUpProcedureProvider({ children }: React.PropsWithChildren<{}>) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const profile = useSelector((store: RootState) => store.tutorSignUpSlice);
   const history = useHistory();
   const location = useLocation();
@@ -84,7 +85,7 @@ export default function TutorSignUpProcedureProvider({ children }: React.PropsWi
     mediaType: 'profilePicture' | 'videoIntroduction' | 'demoLesson' | string,
     file: File,
   ) => {
-    handleUploadFile(file, function successCallback(response: any) {
+    handleUploadFile(file, (response: any) => {
       dispatch(
         updateProfileMedia({
           mediaType,
