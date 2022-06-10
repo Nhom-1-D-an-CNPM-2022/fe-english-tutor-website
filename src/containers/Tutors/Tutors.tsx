@@ -22,7 +22,7 @@ export const Tutors = () => {
   const pages = ['Products', 'Pricing', 'Blog'];
   const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
   const [tutorList, setTutorList] = useState([]);
-  // const [tutorListOnl, setTutorListOnl] = useState([]);
+  const [isFieldOnline, setIsFieldOnline] = useState(false);
   const [tutorListAll, setTutorListAll] = useState([]);
   const [query, setQuery] = useState('');
   const [field, setField] = useState('all');
@@ -66,18 +66,33 @@ export const Tutors = () => {
     if (field === 'online') {
       // iCall1();
       // console.log('hehe');
+      setIsFieldOnline(true);
       getOnlineTutors();
       if (tutorListAll.length === 0) {
         setTutorListAll(tutorList);
       }
 
       setTutorList(onlineTutors);
+      console.log('hung', onlineTutors);
     }
     if (field === 'all') {
+      setIsFieldOnline(false);
       setTutorList(tutorListAll);
     }
   };
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     getOnlineTutors();
+  //     getOnlineTutors();
+  //     if (tutorListAll.length === 0) {
+  //       setTutorListAll(tutorList);
+  //     }
+  //     setTutorList(onlineTutors);
+  //     console.log('hung', onlineTutors);
+  //   }, 2000);
 
+  //   return () => clearInterval(intervalId);
+  // }, [isFieldOnline]);
   const handleOnChat = () => {
     setOpenChat(true);
   };
