@@ -58,6 +58,7 @@ interface IInitialState {
   education: any;
   displayName: any;
   hometown: any;
+  reviewing: any;
 }
 
 const initialState = {
@@ -73,6 +74,7 @@ const initialState = {
   education: '',
   displayName: '',
   hometown: '',
+  reviewing: []
 } as IInitialState;
 
 export const tutorSlice = createSlice({
@@ -98,6 +100,7 @@ export const tutorSlice = createSlice({
       state.displayName = action.payload.displayName;
       state.hometown = action.payload.hometown;
       state.message = action.payload.message;
+      state.reviewing = action.payload.reviewing;
     });
     builder.addCase(updateTutorProfile.fulfilled, (state, action) => {
       state.introduction = action.payload.introduction;
