@@ -21,5 +21,10 @@ const tutorApi = {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
   },
+  loginTutor: async (tutor: any) => {
+    const url = `/users/login-tutor`;
+
+    return await axiosMy.post(url, tutor);
+  },
 };
 export default tutorApi;

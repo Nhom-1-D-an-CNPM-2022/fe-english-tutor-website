@@ -1,11 +1,14 @@
-import { Button } from '@mui/material';
-import axios from 'axios';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import './Login.scss';
+
 import { LoginWithForm, LoginWithSocial } from '../../components';
 import { ILoginIllustration } from '../../constants/images';
+import { Button } from '@mui/material';
+
+import axios from 'axios';
 import Link from '@mui/material/Link';
-import './Login.scss';
+import Swal from 'sweetalert2';
+import { useHistory } from 'react-router-dom';
 
 export const Login = () => {
   const history = useHistory();
@@ -39,22 +42,25 @@ export const Login = () => {
           password: values.password,
         })
         .then(function (response: any) {
-          
-          console.log(response.data.accessToken)
+          console.log(response.data.accessToken);
           if (response.data.accessToken !== '') {
             localStorage.setItem('accessToken', response.data.accessToken);
-            
+
             if (history.action === 'PUSH') {
               history.goBack();
             } else {
               history.push({
-                pathname: `/`,
+                pathname: `/student`,
               });
             }
           }
         })
         .catch(function (error: any) {
           console.log(error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Email hoặc mật khẩu không đúng.',
+          });
         });
     }
   };

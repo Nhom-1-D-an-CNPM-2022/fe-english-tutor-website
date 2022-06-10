@@ -25,6 +25,7 @@ export const ScheduleTutor = () => {
     let dayString = new Date(currentYear, currentMonth, day).toDateString();
     return currentDay == dayString ? 'scheduleBody__active' : '';
   };
+  //Kiem tra co phai ngay da duoc book hay ko
   const activeBookedDay = (day: any) => {
     let currentDay = new Date().toDateString();
     let dayString = new Date(currentYear, currentMonth, day - 2).toDateString();
@@ -52,8 +53,9 @@ export const ScheduleTutor = () => {
   };
 
   const checkBookedDate = (day: number, month: number, year: number) => {
-    const date = new Date(new Date(). getTime() + 24 * 60 * 60 * 1000 * 2);
-    return day == date.getDate() && month == date.getMonth() && year == date.getFullYear();
+    const date = new Date();
+    console.log('date',date.getFullYear());
+    return day == date.getDate() && (month) == date.getMonth() && year == date.getFullYear();
   } 
 
   // Xử lý khi thay đổi tháng

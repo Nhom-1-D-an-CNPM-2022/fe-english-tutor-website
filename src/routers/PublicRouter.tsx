@@ -21,33 +21,41 @@ export const PublicRouter: React.FC<IPublicRouter> = ({
   let query = new URLSearchParams(useLocation().search).get('text');
   const location = useLocation().pathname;
   const dispatch = useAppDispatch();
-  const { isAccount } = useSelector((state: RootState) => state.userSlice);
-  const [isFetch, setIsFectch] = useState('');
+  const isAccount = useSelector((state: RootState) => state.userSlice.isAccount);
+  const [isFetch, setIsFectch] = useState(false);
   const fecthInfo = async () => {
-    const check = (await dispatch(getInfo({ jwt: localStorage.getItem('jwt') }))).payload;
-    if (check === true || check === false || String(typeof check) === 'object') {
-      setIsFectch("true");
-    }else{
-      setIsFectch("false")
+    const check = (await dispatch(getInfo({ accessToken: localStorage.getItem('accessToken') })))
+      .payload;
+
+    if (
+      check === true ||
+      check === false ||
+      String(typeof check) === 'object' ||
+      check === undefined
+    ) {
+      setIsFectch(true);
     }
   };
+
   useEffect(() => {
     fecthInfo();
-    return () => {};
+    return;
   }, [location]);
+
   const render = (props: any) => {
-    if (
-      (isAccount === true && location === '/student/login') ||
-      (isAccount === true && location === '/account/register')
-    ) {
-      return <Redirect to="/" />;
+    if (!isFetch) {
+      return (
+        <Box sx={{ display: 'flex' }}>
+          <CircularProgress />
+        </Box>
+      );
     }
 
-    return isFetch === "" ? (
-      <Box sx={{ display: 'flex' }}>
-        <CircularProgress />
-      </Box>
-    ) : (
+    if (isAccount) {
+      return <Redirect to="/student" />;
+    }
+
+    return (
       <Layout
         header={
           isHasHeader ? (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './ScheduleInfo.scss';
 
 import {
@@ -17,12 +17,45 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import NotesIcon from '@mui/icons-material/Notes';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
+import bookingApi from '../../services/aixos/booking';
+import Swal from 'sweetalert2';
 
 export const ScheduleInfo = () => {
   const className = 'scheduleInfo';
   const location = useLocation();
   const state: any = location.state;
+  const history = useHistory();
+  const [note, setNote] = useState('');
+
+  const handleClick = async () => {
+    const booking = {
+      scheduleId: state.tutor._id,
+      tuteeRequest: note,
+    };
+
+    const data = await bookingApi.bookLesson({ ...booking });
+
+    if (data.data) {
+      Swal.fire({
+        title: 'Thành Công!',
+        text: 'Quá trình đăng ký hoàn tất',
+        icon: 'success',
+        confirmButtonText: 'OK',
+      });
+
+      history.push('/student/schedule');
+
+      return;
+    }
+
+    Swal.fire({
+      title: 'Thất Bại!',
+      text: 'Quá trình đăng ký xảy ra lỗi',
+      icon: 'error',
+      confirmButtonText: 'OK',
+    });
+  };
 
   return (
     <Container fixed>
@@ -34,7 +67,7 @@ export const ScheduleInfo = () => {
             </Avatar>
           </ListItemAvatar>
           <ListItemText
-            primary={`Bài học với ${state.tutor} - ${state.day}/${state.month}/${state.year}`}
+            primary={`Bài học với ${state.tutor.tutor.displayName} - ${state.day}/${state.month}/${state.year}`}
           />
         </ListItem>
         <ListItem>
@@ -43,7 +76,7 @@ export const ScheduleInfo = () => {
               <PersonOutlineIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={state.tutor} />
+          <ListItemText primary={state.tutor.tutor.displayName} />
         </ListItem>
         <ListItem>
           <ListItemAvatar>
@@ -75,10 +108,11 @@ export const ScheduleInfo = () => {
             minRows={6}
             placeholder="(Tùy chọn) Thêm một ghi chú..."
             style={{ width: 300, border: '1px solid #000', padding: '8px' }}
+            onChange={(e: any) => setNote(e.target.value)}
           />
         </ListItem>
         <ListItem>
-          <Button variant="contained" className={`${className}__btn`}>
+          <Button variant="contained" className={`${className}__btn`} onClick={handleClick}>
             Gửi
           </Button>
         </ListItem>
