@@ -4,7 +4,7 @@ import Context from './Context';
 import Peer from 'simple-peer';
 import { ChatSocketEvents } from '../../constants/common';
 
-const URL = 'https://apinc.herokuapp.com/';
+const URL = String(process.env.URL_MY_API);
 export const socket = io(URL);
 
 import { RootState } from '../../redux/rootReducer';
@@ -48,6 +48,7 @@ export const State: React.FC<IState> = ({ children }) => {
 
   useEffect(() => {
     myVideo.current = {};
+    
   }, []);
 
   useEffect(() => {
@@ -242,15 +243,20 @@ export const State: React.FC<IState> = ({ children }) => {
     socket.emit('notification', { teacher, student, course, notification });
   };
   const getOnlineTutors = async () => {
-    console.log('a');
     await socket.emit('getOnlineTutors');
     socket.on('receiveOnlineTutors', (list) => {
-      setOnlineTutors((onlineTutors) => [...onlineTutors, ...list]);
+      list.map((item: any) => {
+        onlineTutors.push(item.user);
+      });
+      setOnlineTutors([...onlineTutors]);
     });
   };
   useEffect(() => {
     socket.on('receiveNewOnlineTutor', (data) => {
-      setOnlineTutors((onlineTutor) => [...onlineTutors, ...data]);
+      data.map((item: any) => {
+        onlineTutors.push(item.user);
+      });
+      setOnlineTutors([...onlineTutors]);
     });
   });
 
