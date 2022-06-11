@@ -19,8 +19,6 @@ export const LoginWithSocial = () => {
         tokenId: tokenId,
       })
       .then(function (response: any) {
-        console.log(response)
-        console.log(response.data.accessToken)
         if (response.data.accessToken !== '') {
           localStorage.setItem('accessToken', response.data.accessToken);
           if (history.action === 'PUSH') {

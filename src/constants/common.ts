@@ -95,3 +95,8 @@ export const FilterOption = [
     ],
   },
 ];
+
+export const ChatSocketEvents = {
+  PRIVATE_MESSAGE: 'private message',
+  UPDATE_MESSAGE: 'update message',
+};

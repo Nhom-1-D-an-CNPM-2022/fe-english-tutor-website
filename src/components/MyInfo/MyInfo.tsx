@@ -7,8 +7,12 @@ import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { updateTutorProfile } from '../../redux/slice/appSlice/tutorSlice';
+import Typography from '@mui/material/Typography';
+
+import { updateTutorProfile, getMyProfileTutor } from '../../redux/slice/appSlice/tutorSlice';
 import { useAppDispatch } from '../../redux/store';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/rootReducer';
 
 interface tutorInfo {
   fullname: string;
@@ -26,84 +30,131 @@ const arrayToInfo = (arrayString: string[]) => {
   return arrayString.join(', ');
 };
 
+const modifyLanguages = (arrayObjet: object[]) => {
+  const result = arrayObjet?.reduce((pre: any, cur: any) => {
+    pre.push(cur.language);
+    return pre;
+  }, []);
+
+  return result.join(', ');
+};
+
 const tutorInitProfile = {
-  fullname: 'Hoang',
-  introduction: 'introduction value',
-  interests: 'interests value',
-  profession: arrayToInfo(['profession', '123']),
-  languages: arrayToInfo(['languages']),
-  experience: arrayToInfo(['experience']),
-  education: arrayToInfo(['education']),
-  displayName: 'displayName value',
-  hometown: 'hometown value',
+  displayName: '',
+  introduction: '',
+  interests: '',
+  profession: '',
+  languages: '',
+  experience: '',
+  education: '',
+  hometown: '',
 } as tutorInfo;
 
 const INFO_MAPPER = {
-  fullname: 'Họ và tên',
+  displayName: 'Tên hiển thị',
   introduction: 'Giới thiệu',
   interests: 'Thông tin về tôi',
   profession: 'Kĩ năng',
   languages: 'Ngôn ngữ',
   experience: 'Kinh nghiệm',
   education: 'Bằng cấp',
-  displayName: 'Tên hiển thị',
   hometown: 'Quê',
-};
+} as tutorInfo;
 
 export const MyInfo = () => {
   const [changeField, setChangeField] = useState([]);
-  const [fieldValue, setFieldValue] = useState({ ...tutorInitProfile });
+  const [newValues, setNewValues] = useState({ ...tutorInitProfile });
+  const fieldValue: tutorInfo = useSelector((state: RootState) => {
+    const values = { ...tutorInitProfile };
+    Object.keys(tutorInitProfile).map((field) => {
+      if (typeof state.tutorSlice[field] === 'object') {
+        if (field === 'languages') {
+          console.log(state.tutorSlice[field]);
 
+          values[field as keyof tutorInfo] = modifyLanguages(state.tutorSlice[field]);
+        } else {
+          values[field as keyof tutorInfo] = arrayToInfo(state.tutorSlice[field]);
+        }
+      } else {
+        values[field as keyof tutorInfo] = state.tutorSlice[field];
+      }
+    });
+    return values;
+  });
   const dispatch = useAppDispatch();
 
-  const handleChangeField = (prop: any) => (event: any) => {
-    setFieldValue({ ...fieldValue, [prop]: event.target.value });
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    await dispatch(getMyProfileTutor({ accessToken: localStorage.getItem('accessToken') }));
   };
 
-  const handleSubmit = async () => {
-    const res = (
-      await dispatch(
-        updateTutorProfile({ data: fieldValue, accessToken: localStorage.getItem('accessToken') }),
-      )
-    ).payload;
-    console.log(res);
+  const handleChangeField = (prop: any) => (event: any) => {
+    setNewValues({ ...newValues, [prop]: event.target.value });
+  };
+
+  const handleSubmit = (value: any) => async () => {
+    const valueSubmit = { [value]: newValues[value as keyof tutorInfo] };
+    await dispatch(
+      updateTutorProfile({ data: valueSubmit, accessToken: localStorage.getItem('accessToken') }),
+    ).then(() => {
+      const temp = Array.from(changeField);
+
+      temp.splice(
+        temp.findIndex((e) => e === value),
+        1,
+      );
+
+      setChangeField(temp);
+    });
   };
 
   const handleClick = (value: any) => () => {
     const currentIndex = changeField.indexOf(value);
-    const newFiled = [...changeField];
+    const newField = [...changeField];
 
     if (currentIndex === -1) {
-      newFiled.push(value);
-      setChangeField(newFiled);
+      newField.push(value);
+      setChangeField(newField);
     }
   };
 
   return (
     <Box sx={{ width: 800 }}>
+      <Typography variant="h3" color="text.secondary" marginRight={2}>
+        Cập nhật thông tin
+      </Typography>
       <List>
         {Object.keys(fieldValue).map((value) => (
           <div key={value}>
             <ListItem disableGutters>
               {changeField.includes(value) ? (
                 <>
-                  <ListItemText sx={{ flex: 1 }}>{INFO_MAPPER[value]}</ListItemText>
+                  <ListItemText sx={{ flex: 1 }}>
+                    {INFO_MAPPER[value as keyof tutorInfo]}
+                  </ListItemText>
                   <TextField
                     sx={{ mr: 3, flex: 2 }}
-                    defaultValue={fieldValue[value as keyof tutorInfo]}
+                    defaultValue={
+                      newValues[value as keyof tutorInfo] || fieldValue[value as keyof tutorInfo]
+                    }
                     onChange={handleChangeField(value)}
                     variant="outlined"
                     size="small"
                   />
-                  <Button variant="outlined" onClick={handleSubmit}>
+                  <Button variant="outlined" onClick={handleSubmit(value)}>
                     Lưu
                   </Button>
                 </>
               ) : (
                 <ListItemButton onClick={handleClick(value)}>
-                  <ListItemText sx={{ flex: 1 }}>{INFO_MAPPER[value]}</ListItemText>
+                  <ListItemText sx={{ flex: 1 }}>
+                    {INFO_MAPPER[value as keyof tutorInfo]}
+                  </ListItemText>
                   <ListItemText sx={{ flex: 2 }}>
-                    {fieldValue[value as keyof tutorInfo]}
+                    {newValues[value as keyof tutorInfo] || fieldValue[value as keyof tutorInfo]}
                   </ListItemText>
                 </ListItemButton>
               )}

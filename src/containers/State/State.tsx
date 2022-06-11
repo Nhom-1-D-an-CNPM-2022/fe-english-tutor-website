@@ -2,13 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 import Context from './Context';
 import Peer from 'simple-peer';
+import { ChatSocketEvents } from '../../constants/common';
 
-const URL = 'https://apinc.herokuapp.com/';
+const URL = String(process.env.URL_MY_API);
 export const socket = io(URL);
 
 import { RootState } from '../../redux/rootReducer';
 import { useSelector } from 'react-redux';
-
+import { useAppDispatch } from '../../redux';
+import { getMessages } from '../../redux/slice/appSlice/userSlice';
 interface IState {
   children: any;
 }
@@ -29,6 +31,12 @@ export const State: React.FC<IState> = ({ children }) => {
   const [screenShare, setScreenShare] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [onlineTutors, setOnlineTutors] = useState([]);
+  const [otherUserOnChat, setOtherUserOnChat] = useState({
+    userId: '',
+    socketId: '',
+  });
+  const [messages, setMessages] = useState();
+  const [isOpenChat, setIsOpenChat] = useState(false);
   const myVideo = useRef(null);
   const userVideo = useRef(null);
   const connectionRef = useRef(null);
@@ -36,9 +44,11 @@ export const State: React.FC<IState> = ({ children }) => {
   const screenShareTrack = useRef(null);
 
   const account = useSelector((state: RootState) => state.userSlice.account);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     myVideo.current = {};
+    
   }, []);
 
   useEffect(() => {
@@ -233,15 +243,20 @@ export const State: React.FC<IState> = ({ children }) => {
     socket.emit('notification', { teacher, student, course, notification });
   };
   const getOnlineTutors = async () => {
-    console.log('a');
     await socket.emit('getOnlineTutors');
     socket.on('receiveOnlineTutors', (list) => {
-      setOnlineTutors((onlineTutors) => [...onlineTutors, ...list]);
+      list.map((item: any) => {
+        onlineTutors.push(item.user);
+      });
+      setOnlineTutors([...onlineTutors]);
     });
   };
   useEffect(() => {
     socket.on('receiveNewOnlineTutor', (data) => {
-      setOnlineTutors((onlineTutor) => [...onlineTutors, ...data]);
+      data.map((item: any) => {
+        onlineTutors.push(item.user);
+      });
+      setOnlineTutors([...onlineTutors]);
     });
   });
 
@@ -252,6 +267,46 @@ export const State: React.FC<IState> = ({ children }) => {
       );
     });
   });
+
+  useEffect(() => {
+    socket.on(ChatSocketEvents.UPDATE_MESSAGE, async (message: any) => {
+      if (message.toSocket !== socket.id) {
+        return;
+      }
+      if (!isOpenChat) {
+        setIsOpenChat(true);
+      }
+      const messageList = (
+        await dispatch(
+          getMessages({
+            userId: otherUserOnChat.userId,
+            accessToken: localStorage.getItem('accessToken'),
+          }),
+        )
+      ).payload;
+      setMessages(messageList || []);
+      if (message.from !== otherUserOnChat.userId) {
+        setOtherUserOnChat({
+          userId: message.from,
+          socketId: message.fromSocket,
+        });
+      }
+    });
+  });
+
+  const startChat = (to: any) => {
+    setOtherUserOnChat(to);
+  };
+
+  const sendMessage = async (content: any) => {
+    await socket.emit(ChatSocketEvents.PRIVATE_MESSAGE, {
+      fromSocket: socket.id,
+      toSocket: otherUserOnChat.socketId,
+      from: account.userId,
+      to: otherUserOnChat.userId,
+      content,
+    });
+  };
 
   return (
     <Context.Provider
@@ -286,6 +341,11 @@ export const State: React.FC<IState> = ({ children }) => {
         otherUserAccount,
         onlineTutors,
         getOnlineTutors,
+        sendMessage,
+        startChat,
+        messages,
+        isOpenChat,
+        setIsOpenChat,
       }}
     >
       {children}
