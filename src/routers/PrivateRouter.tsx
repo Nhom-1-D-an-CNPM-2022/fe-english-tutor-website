@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Redirect, Route, useLocation } from 'react-router-dom';
 import { RootState } from '../redux/rootReducer';
 import { getInfo } from '../redux/slice/appSlice/userSlice';
+import { getInfoTutor } from '../redux/slice/appSlice/userSlice';
 import { useAppDispatch } from '../redux/store';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
@@ -58,6 +59,8 @@ export const PrivateRouter: React.FC<IPrivateRouter> = ({
     if (!isAccount) {
       return <Redirect to="/" />;
     }
+
+    dispatch(getInfoTutor());
 
     return (
       <Layout

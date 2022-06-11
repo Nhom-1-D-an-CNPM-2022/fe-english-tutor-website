@@ -23,8 +23,11 @@ const tutorApi = {
   },
   loginTutor: async (tutor: any) => {
     const url = `/users/login-tutor`;
-
     return await axiosMy.post(url, tutor);
+  },
+  getInfoTutor: async () => {
+    const url = `/tutors/get-info`;
+    return await axiosMy.get(url);
   },
 };
 export default tutorApi;

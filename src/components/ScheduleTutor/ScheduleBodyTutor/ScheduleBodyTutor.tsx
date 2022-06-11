@@ -1,22 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './ScheduleBodyTutor.scss';
-import axios from 'axios';
+
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux';
 import { ScheduleClassTutor } from '../ScheduleClassTutor/ScheduleClassTutor';
-import { Avatar, List, ListItem, ListItemAvatar, ListItemText } from '@mui/material';
-import Button from '@mui/material/Button';
-import Popover from '@mui/material/Popover';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import { AnyObject } from 'immer/dist/internal';
-import { ContextExclusionPlugin } from 'webpack';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import scheduleApi from '../../../services/aixos/scheduleApi';
+
+import { Avatar } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
 interface IScheduleBody {
   daysInMonth: number;
   startDay: number;
@@ -34,23 +26,9 @@ export const ScheduleBodyTutor = ({
   month,
   year,
   activeCurrentDay,
-  activeBookedDay,
   checkDate,
-  checkBookedDate,
 }: IScheduleBody) => {
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
-
-  const className = 'scheduleBody';
+  const className = 'scheduleBodyTutor';
   const weekdays = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
   const coverWeeksday = (weeksday: number) => {
     switch (weeksday) {
@@ -71,46 +49,41 @@ export const ScheduleBodyTutor = ({
     }
   };
 
-  //get repone from api
-  const [response, setRespone] = useState([]);
+  const tutor = useSelector((state: RootState) => state.userSlice.tutor);
+  const [listCalendar, setLisCalendar] = useState([]);
+  const [listSchedule, setListSchedule] = useState([]);
+
+  const getCalendar = async () => {
+    if (tutor.length !== 0) {
+      const listCalendar = await scheduleApi.getSchedule({ tutorId: tutor._id });
+      setLisCalendar([...[], ...listCalendar.data]);
+    }
+  };
+
+  const createSchedule = () => {
+    let schedule = new Array(daysInMonth + startDay).fill({});
+
+    if (listCalendar.length !== 0) {
+      for (let i = 0; i < listCalendar.length; i++) {
+        let day = new Date(listCalendar[i].startTime).getDate();
+        let index = day + startDay - 1;
+
+        schedule[index] = listCalendar[i];
+      }
+    }
+
+    setListSchedule(schedule);
+  };
 
   useEffect(() => {
-    const headers = {
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Il9pZCI6IjYyNzY4NTBiMDM2MTZlZjdhZjc2ZjA2YSIsImVtYWlsIjoiMTIzQGdtYWlsLmNvbSIsImlzVmVyaWZpZWQiOmZhbHNlfSwiaWF0IjoxNjUyNzczMjY4LCJleHAiOjE2NTI3NzY4Njh9.a-rFuEEGa0cskMJ5DBBoV4CApEPKovfWKFySYuXV8no',
-    };
-    axios
-      .get(`${process.env.URL_MY_API}schedule`, { headers })
-      .then((response) => setRespone(response.data));
-  }, []);
-  console.log(response);
+    getCalendar();
+  }, [tutor]);
 
-  const response_daytime = response.map((res) => ({
-    year: parseInt(res.createdAt.substring(0, 4)),
-    month: parseInt(res.createdAt.substring(5, 7)),
-    day: parseInt(res.createdAt.substring(8, 10)),
-    hour: parseInt(res.createdAt.substring(11, 13)),
-    minute: parseInt(res.createdAt.substring(14, 16)),
-    second: parseInt(res.createdAt.substring(17, 19)),
-    interval: res.interval,
-    idStudent: res._id,
-  }));
+  useEffect(() => {
+    createSchedule();
+  }, [listCalendar]);
 
-  console.log(response_daytime);
-
-  const getBooked = (
-    day: number,
-    month: number,
-    year: number,
-    day1: number,
-    month1: number,
-    year1: number,
-  ) => {
-    return day == day1 && month == month1 && year == year1;
-  };
-  function createData(idStudent: string, dateStart: string, timeStart: string, interval: number) {
-    return { idStudent, dateStart, timeStart, interval };
-  }
+  console.log(listSchedule);
 
   return (
     <>
@@ -123,187 +96,41 @@ export const ScheduleBodyTutor = ({
               </div>
             );
           })}
-          {[...Array(daysInMonth + startDay)].map((item: any, index: number) => {
-            return index >= startDay ? (
-              <div className={`${className}__day ${checkDate(index + 1 - startDay, month, year)}`}>
-                <div className={`${className}__text-content`}>
-                  <div className={`${className}__text ${activeCurrentDay(index + 1 - startDay)}`}>
-                    <small>{index + 1 - startDay}</small>
-                  </div>
-                </div>
-                <div className={`${className}__tutor`}>
-                  <Avatar sx={{ width: 20, height: 20, float: 'left' }}>
-                    <PersonOutlineIcon />
-                  </Avatar>
-                </div>
-                {!checkDate(index + 1 - startDay, month, year) && (
-                  <div className={`${className}__btn`}>
-                    <ScheduleClassTutor
-                      day={index + 1 - startDay}
-                      month={month}
-                      year={year}
-                      weeksday={coverWeeksday(index % 7)}
-                    />
-                  </div>
-                )}
-                {/* {response_daytime.map((item: any, index: number) => {
-                return (
-                  getBooked(index + 1 - startDay, month, year, item.day, item.month - 1, item.year) && (
-                    <div className={`${className}__btn`}>
-                      <hr className="green-line" onClick={handleClick} />
-                      <Popover
-                        id={id}
-                        open={open}
-                        anchorEl={anchorEl}
-                        onClose={handleClose}
-                        anchorOrigin={{
-                          vertical: 'bottom',
-                          horizontal: 'left',
-                        }}
-                      >
-                        <List disablePadding={true}>
-                          <ListItem disableGutters={true} button={true}>
-                            <ListItemText>
-                              <Box className="Popup-text-able">{item.day} {item.month} {item.year}</Box>
-                            </ListItemText>
-                            <Button className="Popup-button-able">Chọn</Button>
-                          </ListItem>
-                          <ListItem disableGutters={true} button={true}>
-                            <ListItemText>
-                              <Box className="Popup-text-able">00:30 - 01:00</Box>
-                            </ListItemText>
-                            <Button className="Popup-button-disable" disabled>
-                              Đã đặt trước
-                            </Button>
-                          </ListItem>
-                        </List>
-                      </Popover>
+          {listSchedule.length !== 0 &&
+            listSchedule.map((item: any, index: number) => {
+              return index >= startDay ? (
+                <div
+                  className={`${className}__day ${checkDate(index + 1 - startDay, month, year)}`}
+                >
+                  <div className={`${className}__text-content`}>
+                    <div className={`${className}__text ${activeCurrentDay(index + 1 - startDay)}`}>
+                      <small>{index + 1 - startDay}</small>
                     </div>
-                  )
-                );
-              })} */}
-                {/* {getBooked(index + 1 - startDay, month, year, fake_data[0].day, fake_data[0].month - 1, fake_data[0].year) && (
-                <div className={`${className}__btn`}>
-                  <hr className="green-line" onClick={handleClick} />
-                  <Popover
-                    id={id}
-                    open={open}
-                    anchorEl={anchorEl}
-                    onClose={handleClose}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'left',
-                    }}
-                  >
-                    <List disablePadding={true}>
-                      <ListItem disableGutters={true} button={true}>
-                        <ListItemText>
-                          <Box className="Popup-text-able">
-                            {response_daytime.map((item: any, index: number) => {
-                              return (
-                                <div className={`${className}__title`}>
-                                  <h5>{item.day}</h5>
-                                </div>
-                              );
-                            })}
-                          </Box>
-                        </ListItemText>
-                        <Button className="Popup-button-able">Chọn</Button>
-                      </ListItem>
-                      <ListItem disableGutters={true} button={true}>
-                        <ListItemText>
-                          <Box className="Popup-text-able">00:30 - 01:00</Box>
-                        </ListItemText>
-                        <Button className="Popup-button-disable" disabled>
-                          Đã đặt trước
-                        </Button>
-                      </ListItem>
-                    </List>
-                  </Popover>
+                  </div>
+                  <div className={`${className}__tutor`}>
+                    {item.interval && (
+                      <Avatar sx={{ width: 20, height: 20, float: 'left' }}>
+                        <CheckCircleIcon />
+                      </Avatar>
+                    )}
+                  </div>
+                  {!checkDate(index + 1 - startDay, month, year) && (
+                    <div className={`${className}__btn`}>
+                      <ScheduleClassTutor
+                        day={index + 1 - startDay}
+                        month={month}
+                        year={year}
+                        weeksday={coverWeeksday(index % 7)}
+                      />
+                    </div>
+                  )}
                 </div>
-              )}
-              {getBooked(index + 1 - startDay, month, year, fake_data[1].day, fake_data[1].month - 1, fake_data[1].year) && (
-                <div className={`${className}__btn`}>
-                  <hr className="green-line" onClick={handleClick} />
-                  <Popover
-                    id={id}
-                    open={open}
-                    anchorEl={anchorEl}
-                    onClose={handleClose}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'left',
-                    }}
-                  >
-                    <List disablePadding={true}>
-                      <ListItem disableGutters={true} button={true}>
-                        <ListItemText>
-                          <Box className="Popup-text-able">
-                            {response_daytime.map((item: any, index: number) => {
-                              return (
-                                <div className={`${className}__title`}>
-                                  <h5>{item.day}</h5>
-                                </div>
-                              );
-                            })}
-                          </Box>
-                        </ListItemText>
-                        <Button className="Popup-button-able">Chọn</Button>
-                      </ListItem>
-                      <ListItem disableGutters={true} button={true}>
-                        <ListItemText>
-                          <Box className="Popup-text-able">00:30 - 01:00</Box>
-                        </ListItemText>
-                        <Button className="Popup-button-disable" disabled>
-                          Đã đặt trước
-                        </Button>
-                      </ListItem>
-                    </List>
-                  </Popover>
-                </div>
-              )} */}
-              </div>
-            ) : (
-              <div className={`${className}__day ${className}__hide`}></div>
-            );
-          })}
+              ) : (
+                <div className={`${className}__day ${className}__hide`}></div>
+              );
+            })}
         </div>
       </div>
-      <Typography variant="h4" component="h5">
-        Booking list
-      </Typography>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="caption table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Student id</TableCell>
-              <TableCell align="right">Date start</TableCell>
-              <TableCell align="right">Time start</TableCell>
-              <TableCell align="right">Interval</TableCell>
-              <TableCell align="right"></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {response_daytime.map((item: any, index: number) => (
-              <TableRow key={index}>
-                <TableCell component="th" scope="row">
-                  {item.idStudent}
-                </TableCell>
-                <TableCell align="right">
-                  {item.day}/{item.month}/{item.year}
-                </TableCell>
-                <TableCell align="right">
-                  {item.hour}:{item.minute}:{item.second}
-                </TableCell>
-                <TableCell align="right">{item.interval}</TableCell>
-                <TableCell align="right">
-                  <Button variant="contained">Confirm</Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
     </>
   );
 };
