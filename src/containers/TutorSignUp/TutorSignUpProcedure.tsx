@@ -6,38 +6,45 @@ import TutorSignUpDemoLessonStep from '../../components/TutorSignUp/Procedure/St
 import TutorSignUpProfileStep from '../../components/TutorSignUp/Procedure/Steps/ProfileStep/TutorSignUpProfileStep';
 import TutorSignUpSupplementalStep from '../../components/TutorSignUp/Procedure/Steps/SupplementalStep/TutorSignUpSupplementalStep';
 import TutorSignUpWelcomeStep from '../../components/TutorSignUp/Procedure/Steps/WelcomeStep/TutorSignUpWelcomeStep';
+import TutorSignUpProcedureProvider from '../../contexts/TutorSignUp/TutorSignUpProcedure/TutorSignUpProcedureContext';
 import TutorSignUpLayout from '../../layouts/TutorSignUpLayout/TutorSignUpLayout';
 import TutorSignUpProcedureLayout from '../../layouts/TutorSignUpLayout/TutorSignUpProcedureLayout';
 
 export function TutorSignUpProcedure() {
   return (
     <TutorSignUpLayout>
-      <Switch>
-        <Route path="/tutorsignup/platformSelector" component={TutorSignUpPlatformSelector} exact />
-        <Route path="/tutorsignup/step/:step?">
-          <TutorSignUpProcedureLayout>
-            <Switch>
-              <Route path="/tutorsignup/step/welcome" component={TutorSignUpWelcomeStep} exact />
-              <Route path="/tutorsignup/step/profile" component={TutorSignUpProfileStep} exact />
-              <Route
-                path="/tutorsignup/step/supplemental"
-                component={TutorSignUpSupplementalStep}
-                exact
-              />
-              <Route
-                path="/tutorsignup/step/demoLesson"
-                component={TutorSignUpDemoLessonStep}
-                exact
-              />
-              <Route
-                path="/tutorsignup/step/status"
-                component={TutorSignUpApplicationStatusStep}
-                exact
-              />
-            </Switch>
-          </TutorSignUpProcedureLayout>
-        </Route>
-      </Switch>
+      <TutorSignUpProcedureProvider>
+        <Switch>
+          <Route
+            path="/tutorsignup/platformSelector"
+            component={TutorSignUpPlatformSelector}
+            exact
+          />
+          <Route path="/tutorsignup/step/:step?">
+            <TutorSignUpProcedureLayout>
+              <Switch>
+                <Route path="/tutorsignup/step/welcome" component={TutorSignUpWelcomeStep} exact />
+                <Route path="/tutorsignup/step/profile" component={TutorSignUpProfileStep} exact />
+                <Route
+                  path="/tutorsignup/step/supplemental"
+                  component={TutorSignUpSupplementalStep}
+                  exact
+                />
+                <Route
+                  path="/tutorsignup/step/demoLesson"
+                  component={TutorSignUpDemoLessonStep}
+                  exact
+                />
+                <Route
+                  path="/tutorsignup/step/status"
+                  component={TutorSignUpApplicationStatusStep}
+                  exact
+                />
+              </Switch>
+            </TutorSignUpProcedureLayout>
+          </Route>
+        </Switch>
+      </TutorSignUpProcedureProvider>
     </TutorSignUpLayout>
   );
 }
