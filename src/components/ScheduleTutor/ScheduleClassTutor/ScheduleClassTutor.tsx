@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import './ScheduleClassTutor.scss';
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import RemoveIcon from '@mui/icons-material/Remove';
 import EventIcon from '@mui/icons-material/Event';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import {
   IconButton,
@@ -24,11 +21,10 @@ import {
   Select,
   MenuItem,
   InputLabel,
-  ListItemAvatar,
-  Avatar,
-  Rating,
 } from '@mui/material';
-import { Link, useHistory } from 'react-router-dom';
+
+import scheduleApi from '../../../services/aixos/scheduleApi';
+import Swal from 'sweetalert2';
 
 interface IScheduleClass {
   day: number;
@@ -38,12 +34,10 @@ interface IScheduleClass {
 }
 
 export const ScheduleClassTutor = ({ day, month, year, weeksday }: IScheduleClass) => {
-  const className = 'scheduleClass';
-  const history = useHistory();
+  const className = 'scheduleClassTutor';
 
   const [date, setDate] = useState('');
   const [length, setLength] = useState('');
-  const [tutor, setTutor] = useState('');
 
   const handleChangeDate = (event: any) => {
     setDate(event.target.value as string);
@@ -53,51 +47,69 @@ export const ScheduleClassTutor = ({ day, month, year, weeksday }: IScheduleClas
     setLength(event.target.value as string);
   };
 
-  const handleChangeTutor = (event: any) => {
-    setTutor(event.target.value as string);
+  const handleClick = async () => {
+    if (date == '' || length == '') {
+      return;
+    }
+
+    const time = date.split(':');
+    const startDate = new Date(
+      year,
+      month,
+      day,
+      Number(time[0]),
+      Number(time[1]),
+      0,
+      0,
+    ).toISOString();
+
+    const schedule = {
+      startTime: startDate,
+      interval: length.slice(0, 2),
+      isBooked: false,
+    };
+    scheduleApi
+      .createSchedule({ schedule: schedule })
+      .then(function (response: any) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Tạo lịch dạy mới thành công.',
+        });
+      })
+      .catch(function (error: any) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Tạo lịch dạy mới thất bại.',
+        });
+      });
   };
 
-  const handleClick = () => {
-    history.push({
-      pathname: `/tutors/schedule/create/123`,
-      state: { day: day, month: month, year: year, date: date, length: length, tutor: tutor },
-    });
+  const generateDate = () => {
+    let currentDay = new Date().toDateString();
+    let dayString = new Date(year, month, day).toDateString();
+    let currentHour = 0;
+    let minute = 0;
+    const date: Array<string> = [];
+
+    if (currentDay == dayString) {
+      currentHour = new Date().getHours();
+      minute = new Date().getMinutes() + (15 - (new Date().getMinutes() % 15));
+    }
+
+    for (let i = currentHour; i < 24; i++) {
+      while (minute < 60) {
+        date.push(`${i}:${minute === 0 ? '00' : minute}`);
+        minute += 15;
+      }
+
+      minute = 0;
+    }
+
+    return date;
   };
 
-  const infoTutor = (name: string, rating: number) => {
-    return (
-      <>
-        <ListItemAvatar>
-          <Avatar>
-            <PersonOutlineIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText
-          primary={name}
-          secondary={
-            <Rating name="half-rating-read" defaultValue={rating} precision={0.5} readOnly />
-          }
-        />
-        <Link target="_blank" to="/">
-          <IconButton edge="end" aria-label="comments">
-            <AccountBoxIcon />
-          </IconButton>
-        </Link>
-      </>
-    );
-  };
-
-  const dataTimeStart = ['08:00', '08:15', '08:30', '08:45',
-                        '09:00', '09:15', '09:30', '09:45',
-                        '10:00', '10:15', '10:30', '10:45',
-                        '11:00', '11:15', '11:30', '11:45',
-                        '12:00', '12:15', '12:30', '12:45',
-                        '13:00', '13:15', '13:30', '13:45',
-                        '14:00', '14:15', '14:30', '14:45',
-                        '15:00', '15:15', '15:30', '15:45',
-                        '16:00', '16:15', '16:30', '16:45',];
+  const dataTimeStart = generateDate();
   const dataLength = ['15 phút', '30 phút'];
-  const dataTutor = [{ name: 'Anh Kiem', rating: 5 }];
 
   const choose = (
     data: Array<any>,
@@ -124,10 +136,6 @@ export const ScheduleClassTutor = ({ day, month, year, weeksday }: IScheduleClas
             data.map((item: string, index: number) => {
               return <MenuItem value={item}>{item}</MenuItem>;
             })}
-          {type === 3 &&
-            data.map((item: any, index: number) => {
-              return <MenuItem value={item.name}>{infoTutor(item.name, item.rating)}</MenuItem>;
-            })}
         </Select>
       </FormControl>
     );
@@ -149,11 +157,6 @@ export const ScheduleClassTutor = ({ day, month, year, weeksday }: IScheduleClas
       content: 'Độ dài Bài học',
       func: choose(dataLength, 'Độ dài Bài học', handleChangeLength, length, 2),
     },
-    // {
-    //   icon: <PersonOutlineIcon />,
-    //   content: 'Chọn Gia sư',
-    //   func: choose(dataTutor, 'Chọn Gia sư', handleChangeTutor, tutor, 3),
-    // },
   ];
 
   return (
@@ -192,7 +195,9 @@ export const ScheduleClassTutor = ({ day, month, year, weeksday }: IScheduleClas
                           );
                         })}
                         <div className={`${className}__btn`} onClick={handleClick}>
-                          <Button>Tiếp tục</Button>
+                          <Button disabled={length !== '' && date !== '' ? false : true}>
+                            Tạo Buổi Dạy
+                          </Button>
                         </div>
                       </List>
                     </div>

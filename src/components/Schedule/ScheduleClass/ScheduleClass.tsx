@@ -65,11 +65,16 @@ export const ScheduleClass = ({ day, month, year, weeksday }: IScheduleClass) =>
   };
 
   const generateDate = () => {
-    const currentHour = new Date(year, month, day).getHours();
-    const currentMinute = new Date(year, month, day).getMinutes();
-    let minute = currentMinute + (15 - (currentMinute % 15));
-
+    let currentDay = new Date().toDateString();
+    let dayString = new Date(year, month, day).toDateString();
+    let currentHour = 0;
+    let minute = 0;
     const date: Array<string> = [];
+
+    if (currentDay == dayString) {
+      currentHour = new Date().getHours();
+      minute = new Date().getMinutes() + (15 - (new Date().getMinutes() % 15));
+    }
 
     for (let i = currentHour; i < 24; i++) {
       while (minute < 60) {
@@ -93,13 +98,11 @@ export const ScheduleClass = ({ day, month, year, weeksday }: IScheduleClass) =>
       year,
       month,
       day,
-      Number.parseInt(time[0]),
-      Number.parseInt(time[1]),
+      Number(time[0]),
+      Number(time[1]),
       0,
       0,
     ).toISOString();
-
-    console.log('currentDate', currentDate);
 
     const schudule: any = await scheduleApi.getSchedule({
       startTime: currentDate,

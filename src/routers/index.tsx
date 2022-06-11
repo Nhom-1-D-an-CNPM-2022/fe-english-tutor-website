@@ -84,7 +84,7 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-        
+
           <PublicRouter
             exact={true}
             path={'/student/register'}
@@ -165,7 +165,19 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-       
+          <PublicRouter
+            exact={true}
+            path={'/student/history'}
+            component={History}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
+        </Switch>
+
+        <Switch>
           <PublicRouter
             exact={true}
             path={'/tutor/login'}
@@ -184,7 +196,7 @@ export const Routers = () => {
             header={HeaderTutor}
             isHasFooter={false}
           />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
             path={'/tutor/reservation'}
             component={Reservation}
@@ -196,16 +208,6 @@ export const Routers = () => {
           <PrivateRouter
             exact={true}
             path={'/tutors/schedule/create'}
-            component={TutorScheduler}
-            layout={HeaderFooterLayout}
-            isHasHeader={true}
-            header={Header}
-            isHasFooter={true}
-            footer={Footer}
-          />
-          <PrivateRouter
-            exact={true}
-            path={'/tutors/schedule/create/:id'}
             component={TutorScheduler}
             layout={HeaderFooterLayout}
             isHasHeader={true}
@@ -229,16 +231,6 @@ export const Routers = () => {
             path="/tutorsignup/:path?"
             component={TutorSignUpProcedure}
             layout={BlankLayout}
-          />
-          <PublicRouter
-            exact={true}
-            path={'/student/history'}
-            component={History}
-            layout={HeaderFooterLayout}
-            isHasHeader={true}
-            header={Header}
-            isHasFooter={true}
-            footer={Footer}
           />
         </Switch>
       </Router>

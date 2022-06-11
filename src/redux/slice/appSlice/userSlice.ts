@@ -1,8 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import userApi from '../../../services/aixos/userApi';
+import tutorApi from '../../../services/aixos/tutorApi';
 
 export const getInfo = createAsyncThunk('users/get-info', async (accessToken: any) => {
   return await userApi.getInfo(accessToken).then((res) => res.data);
+});
+
+export const getInfoTutor = createAsyncThunk('tutors/get-info', async () => {
+  return await tutorApi.getInfoTutor().then((res) => res.data);
 });
 
 export const addFavoriteTutor = createAsyncThunk(
@@ -34,6 +39,8 @@ interface IInitialState {
   status: boolean;
   message: string;
   favoriteTutors: any;
+  tutor: any;
+  isTutor: boolean;
 }
 
 const initialState = {
@@ -44,6 +51,8 @@ const initialState = {
   status: false,
   message: '',
   favoriteTutors: [],
+  tutor: [],
+  isTutor: false,
 } as IInitialState;
 
 export const userSlice = createSlice({
@@ -59,6 +68,20 @@ export const userSlice = createSlice({
         state.isAccount = false;
       }
     });
+    builder.addCase(getInfo.rejected, (state, action) => {
+      state.isAccount = false;
+    });
+    builder.addCase(getInfoTutor.fulfilled, (state, action) => {
+      if (action.payload.tutor) {
+        state.tutor = action.payload.tutor;
+        state.isTutor = true;
+      } else {
+        state.isTutor = false;
+      }
+    });
+    builder.addCase(getInfoTutor.rejected, (state, action) => {
+      state.isTutor = false;
+    });
     builder.addCase(addFavoriteTutor.fulfilled, (state, action) => {
       state.favoriteTutors.push(action.payload.data);
       state.message = action.payload.message;
@@ -66,9 +89,6 @@ export const userSlice = createSlice({
     builder.addCase(getFavoriteTutors.fulfilled, (state, action) => {
       state.favoriteTutors = action.payload.data;
       state.message = action.payload.message;
-    });
-    builder.addCase(getInfo.rejected, (state, action) => {
-      state.isAccount = false;
     });
   },
 });
