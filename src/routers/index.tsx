@@ -54,9 +54,9 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
-            path={'/call'}
+            path={'/videoCall'}
             component={VideoCall}
             layout={HeaderFooterLayout}
             isHasHeader={false}
@@ -64,7 +64,7 @@ export const Routers = () => {
             isHasFooter={false}
             footer={Footer}
           />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
             path={'/student/tutors'}
             component={Tutors}
@@ -74,7 +74,7 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
             path={'/student/tutors/:id'}
             component={TutorInfo}
@@ -84,9 +84,6 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-        </Switch>
-
-        <Switch>
           <PublicRouter
             exact={true}
             path={'/student/register'}
@@ -137,16 +134,16 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-          <PrivateRouter
+          {/* <PrivateRouter
             exact={true}
             path={'/student'}
-            component={Home}
+            component={Tutors}
             layout={HeaderFooterLayout}
             isHasHeader={true}
             header={Header}
             isHasFooter={true}
             footer={Footer}
-          />
+          /> */}
           <PrivateRouter
             exact={true}
             path={'/student/schedule'}
@@ -161,6 +158,16 @@ export const Routers = () => {
             exact={true}
             path={'/student/schedule/:id'}
             component={Scheduler}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PrivateRouter
+            exact={true}
+            path={'/student/history'}
+            component={History}
             layout={HeaderFooterLayout}
             isHasHeader={true}
             header={Header}
@@ -188,42 +195,32 @@ export const Routers = () => {
             header={HeaderTutor}
             isHasFooter={false}
           />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
             path={'/tutor/reservation'}
             component={Reservation}
             layout={OnlyHeaderLayout}
             isHasHeader={true}
-            header={Header}
+            header={HeaderTutor}
             isHasFooter={false}
           />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
             path={'/tutors/schedule/create'}
             component={TutorScheduler}
             layout={HeaderFooterLayout}
             isHasHeader={true}
-            header={Header}
+            header={HeaderTutor}
             isHasFooter={true}
             footer={Footer}
           />
-          <PublicRouter
-            exact={true}
-            path={'/tutors/schedule/create/:id'}
-            component={TutorScheduler}
-            layout={HeaderFooterLayout}
-            isHasHeader={true}
-            header={Header}
-            isHasFooter={true}
-            footer={Footer}
-          />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
             path={'/tutors/profile/me'}
             component={MyInfo}
             layout={HeaderFooterLayout}
             isHasHeader={true}
-            header={Header}
+            header={HeaderTutor}
             isHasFooter={true}
             footer={Footer}
           />
@@ -233,16 +230,6 @@ export const Routers = () => {
             path="/tutorsignup/:path?"
             component={TutorSignUpProcedure}
             layout={BlankLayout}
-          />
-          <PublicRouter
-            exact={true}
-            path={'/student/history'}
-            component={History}
-            layout={HeaderFooterLayout}
-            isHasHeader={true}
-            header={Header}
-            isHasFooter={true}
-            footer={Footer}
           />
         </Switch>
       </Router>
