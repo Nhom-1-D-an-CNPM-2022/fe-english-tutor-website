@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import List from './base/List/List';
 import ListItem from './base/ListItem/ListItem';
-import React, { FC, ReactFragment, useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { ProfileStepContext } from '../../../../../../contexts/TutorSignUp/TutorSignUpProcedure/ProfileStepContext';
 import { SUPPLEMENTAL_INTRODUCTION } from './constants';
 import { ChipActionBox, DevelopmentActionBox, TextActionBox } from './base/ActionBoxes';
