@@ -233,7 +233,7 @@ export const Routers = () => {
             path="/tutorsignup/:path?"
             component={TutorSignUpProcedure}
             layout={BlankLayout}
-           />
+          />
           <PublicRouter
             exact={true}
             path={'/student/history'}

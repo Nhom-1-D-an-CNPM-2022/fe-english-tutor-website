@@ -104,9 +104,15 @@ export default function TutorAccountProvider({ children }: React.PropsWithChildr
     if (history.action === 'PUSH') {
       history.goBack();
     } else {
-      history.push({
-        pathname: `/tutorsignup/platformSelector`,
-      });
+      if (data.profile.isSubmitted && data.profile.status === 'approved') {
+        history.push({
+          pathname: `/tutors/profile/me`,
+        });
+      } else {
+        history.push({
+          pathname: `/tutorsignup/platformSelector`,
+        });
+      }
     }
   };
 
