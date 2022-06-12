@@ -56,7 +56,7 @@ export const Routers = () => {
           />
           <PrivateRouter
             exact={true}
-            path={'/call'}
+            path={'/videoCall'}
             component={VideoCall}
             layout={HeaderFooterLayout}
             isHasHeader={false}

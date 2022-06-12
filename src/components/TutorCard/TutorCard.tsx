@@ -23,6 +23,7 @@ interface ITutorCard {
   accent?: string;
   introduction?: string;
   ageOfAccount?: number;
+  socketId?: string;
   id: string;
   isFavoriteTutor?: boolean;
   handleOnChat: () => void;
@@ -33,6 +34,7 @@ export const TutorCard: React.FC<ITutorCard> = ({
   accent,
   introduction,
   ageOfAccount,
+  socketId,
   id,
   isFavoriteTutor = false,
   handleOnChat,
@@ -146,7 +148,7 @@ export const TutorCard: React.FC<ITutorCard> = ({
             className="button-footer"
             onMouseOver={onMouseIn}
             onMouseOut={onMouseOut}
-            onClick={iCall1}
+            onClick={async()=>{await iCall1(socketId); history.push ('/videoCall');}}
           >
             Gọi
           </Button>
