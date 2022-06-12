@@ -57,11 +57,11 @@ export const State: React.FC<IState> = ({ children }) => {
       setOnlineList(list);
     });
     socket.emit('online', account);
-    socket.on('callToUser', (from: any) => {
+    socket.on('callToUser', ({from , user}) => {
       if (!callSuccess) {
+        setOtherUser(from);
+        setOtherUserAccount(user);
         setReceiveCall(true);
-        setOtherUser(from.socketID);
-        setOtherUserAccount(from);
       } else socket.emit('callFail', { from: from.socketID });
     });
 
@@ -98,12 +98,11 @@ export const State: React.FC<IState> = ({ children }) => {
     socket.emit('callToUser', { from: { socketID: socket.id, user: account }, to: id });
   };
 
-  const iCall1 = (toUser: any) => {
-    const id = toUser.socketID;
-    setOtherUser(id);
-    setIsCall(true);
-    socket.emit('callToUser', { from: socket.id, to: id });
-    window.location.href = '/call';
+  const iCall1 = async (socketId: any) => {
+    const id = socketId;
+    await setOtherUser(id);
+    await setIsCall(true);
+    await socket.emit('callToUser', { from: socket.id, to: id, user: account });
   };
 
   const iCall = () => {
@@ -115,7 +114,6 @@ export const State: React.FC<IState> = ({ children }) => {
           userToCall: otherUser,
           signalData: data,
           from: socket.id,
-          name: socket.id,
         });
       });
 
@@ -148,7 +146,6 @@ export const State: React.FC<IState> = ({ children }) => {
         userToCall: otherUser,
         signalData: data,
         from: socket.id,
-        name: socket.id,
       });
     });
 
@@ -246,6 +243,7 @@ export const State: React.FC<IState> = ({ children }) => {
     await socket.emit('getOnlineTutors');
     socket.on('receiveOnlineTutors', (list) => {
       list.map((item: any) => {
+        item.user.socketId = item.socketID;
         onlineTutors.push(item.user);
       });
       setOnlineTutors([...onlineTutors]);
@@ -253,9 +251,8 @@ export const State: React.FC<IState> = ({ children }) => {
   };
   useEffect(() => {
     socket.on('receiveNewOnlineTutor', (data) => {
-      data.map((item: any) => {
-        onlineTutors.push(item.user);
-      });
+      let item = data;
+      onlineTutors.push(item.user);
       setOnlineTutors([...onlineTutors]);
     });
   });
