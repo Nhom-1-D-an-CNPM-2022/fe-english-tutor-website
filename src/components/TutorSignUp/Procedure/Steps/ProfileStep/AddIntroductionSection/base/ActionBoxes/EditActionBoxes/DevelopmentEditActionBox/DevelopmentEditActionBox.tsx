@@ -22,7 +22,15 @@ export default function DevelopmentEditActionBox({ currentValue }: DevelopmentEd
                 {singleDevelopment.tags.join(' • ')}
               </Typography>
             </Stack>
-            <Typography variant="body2">{singleDevelopment.description}</Typography>
+            <Typography
+              variant="body2"
+              whiteSpace="pre-line"
+              sx={{
+                wordWrap: 'break-word',
+              }}
+            >
+              {singleDevelopment.description}
+            </Typography>
           </Box>
         ))}
     </EditActionBox>

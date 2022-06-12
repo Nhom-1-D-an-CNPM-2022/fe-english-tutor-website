@@ -36,7 +36,7 @@ interface IDevelopment {
 
 interface ITeachingCertificates {
   fileName: string;
-  URLFile: string;
+  fileUrl: string;
   type: string;
 }
 
@@ -60,6 +60,7 @@ interface IInitialState {
   demoLesson: string;
   isSubmitted: boolean;
   status: 'reviewed' | 'approved' | 'rejected';
+  isFetched: boolean;
 }
 
 export type TutorSignUpProfile = IInitialState;
@@ -106,6 +107,7 @@ const initialState = {
   demoLesson: '',
   isSubmitted: false,
   status: 'reviewed',
+  isFetched: false,
 } as IInitialState;
 
 export const tutorSignUpSlice = createSlice({
@@ -121,6 +123,7 @@ export const tutorSignUpSlice = createSlice({
         ...(action.payload.dateOfBirth && {
           dateOfBirth: moment(action.payload.dateOfBirth).format('YYYY-MM-DD'),
         }),
+        isFetched: true,
       };
     },
   },

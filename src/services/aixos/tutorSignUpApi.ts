@@ -38,11 +38,19 @@ const tutorSignUpApi = {
 
   updateProfile: async (newInformation: any) => {
     const url = 'tutors/profile/me';
-    return await axiosMy.put(url, newInformation, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    return await axiosMy.put(
+      url,
+      {
+        data: {
+          ...newInformation,
+        },
       },
-    });
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+      },
+    );
   },
 
   updateProfileMedia: async (profileMedia: any) => {

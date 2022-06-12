@@ -1,6 +1,6 @@
 import PublicIcon from '@mui/icons-material/Public';
 import { MenuItem } from '@mui/material';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Button from '../../../../../base/Button/Button';
 import {
@@ -20,13 +20,24 @@ import { isEmptyString, isInvalidLanguage } from '../validation';
 export default function AddLanguagesDialog() {
   const { profile, dialog, isErrorChecked, handleSaveDialog, handleUpdateProfile } =
     useContext(ProfileStepContext);
+  const [languages, setLanguages] = useState<Language[]>([
+    {
+      id: '0',
+      language: 'English',
+      dialect: '',
+    },
+  ]);
 
-  const [languages, setLanguages] = useState<Language[]>(
-    profile.languages.map((language) => ({
-      id: uuidv4(),
-      ...language,
-    })),
-  );
+  useEffect(() => {
+    if (dialog === 'ADD_LANGUAGES') {
+      setLanguages(
+        profile.languages.map((language) => ({
+          id: uuidv4(),
+          ...language,
+        })),
+      );
+    }
+  }, [dialog]);
 
   const handleChangeLanguage = (
     index: number,

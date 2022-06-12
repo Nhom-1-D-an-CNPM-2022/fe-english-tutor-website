@@ -68,16 +68,20 @@ export const validateProfileStep = ({
   displayName,
   hometown,
   dateOfBirth,
-  introduction,
   videoIntroduction,
+  introduction,
+  teachingStyles,
+  aboutMe,
   languages,
 }: TutorSignUpProfile) => {
   return (
     Boolean(displayName) &&
     Boolean(hometown) &&
     Boolean(dateOfBirth) &&
-    Boolean(introduction) &&
     Boolean(videoIntroduction) &&
+    Boolean(introduction) &&
+    Boolean(teachingStyles) &&
+    Boolean(aboutMe) &&
     Boolean(languages[0].language) &&
     Boolean(languages[0].dialect)
   );

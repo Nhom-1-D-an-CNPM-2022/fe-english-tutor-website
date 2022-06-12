@@ -1,10 +1,11 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../../redux';
 import {
   TutorSignUpProfile,
   updateProfile,
   updateTeachingCertificates,
 } from '../../../redux/slice/appSlice/tutorSignUpSlice';
+import { handleUploadFile } from './helpers';
 import { TutorSignUpProcedureContext } from './TutorSignUpProcedureContext';
 
 type Dialogs =
@@ -44,6 +45,10 @@ interface ContextValue {
     mediaType: 'profilePicture' | 'videoIntroduction' | string,
     file: File,
   ) => void;
+  handleUploadTeachingCertificate: (
+    file: File,
+    resultSetter: (result: Record<string, string>) => void,
+  ) => any;
   handleUpdateTeachingCertificates: (newTeachingCertificates: any) => void;
 }
 
@@ -56,7 +61,7 @@ export default function ProfileStepProvider({
   children: ReactNode;
   profile: TutorSignUpProfile;
 }) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { handleUpdateProfileMedia } = useContext(TutorSignUpProcedureContext);
   const [isErrorChecked, setIsErrorChecked] = useState<boolean>(false);
   const [dialog, setDialog] = useState<Dialogs>();
@@ -131,6 +136,19 @@ export default function ProfileStepProvider({
     dispatch(updateProfile(newInformation));
   };
 
+  const handleUploadTeachingCertificate = (
+    file: File,
+    resultSetter: (result: Record<string, string>) => void,
+  ) => {
+    handleUploadFile(file, (response: any) => {
+      resultSetter({
+        fileName: file.name,
+        url: response.url,
+        publicId: response.public_id,
+      });
+    });
+  };
+
   const handleUpdateTeachingCertificates = (newTeachingCertificates: any) => {
     dispatch(updateTeachingCertificates(newTeachingCertificates));
   };
@@ -156,6 +174,7 @@ export default function ProfileStepProvider({
         closeDialog,
         handleUpdateProfile,
         handleUpdateProfileMedia,
+        handleUploadTeachingCertificate,
         handleUpdateTeachingCertificates,
       }}
     >
