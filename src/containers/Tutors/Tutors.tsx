@@ -152,6 +152,7 @@ export const Tutors = () => {
                     name={item.displayName || item.fullname}
                     introduction={item.introduction}
                     ageOfAccount={item.ageOfAccount}
+                    socketId = {item.socketId}
                     accent="USA"
                     id={item.userId || '123'}
                     isFavoriteTutor={item.isFav}

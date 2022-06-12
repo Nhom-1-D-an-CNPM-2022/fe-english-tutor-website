@@ -54,9 +54,9 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-          <PublicRouter
+          <PrivateRouter
             exact={true}
-            path={'/call'}
+            path={'/videoCall'}
             component={VideoCall}
             layout={HeaderFooterLayout}
             isHasHeader={false}
