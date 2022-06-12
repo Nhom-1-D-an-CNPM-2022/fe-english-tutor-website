@@ -69,7 +69,7 @@ export const ScheduleClassTutor = ({ day, month, year, weeksday }: IScheduleClas
       isBooked: false,
     };
     scheduleApi
-      .createSchedule({ schedule: schedule })
+      .createSchedule({ schedule: schedule }, )
       .then(function (response: any) {
         Swal.fire({
           icon: 'success',
