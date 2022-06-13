@@ -21,6 +21,7 @@ import {
   TutorRegister,
   History,
   Review,
+  CallVideo,
 } from '../containers';
 import { MyInfo } from '../components/MyInfo/MyInfo';
 import { PrivateRouter } from './PrivateRouter';
@@ -134,16 +135,6 @@ export const Routers = () => {
             isHasFooter={true}
             footer={Footer}
           />
-          {/* <PrivateRouter
-            exact={true}
-            path={'/student'}
-            component={Tutors}
-            layout={HeaderFooterLayout}
-            isHasHeader={true}
-            header={Header}
-            isHasFooter={true}
-            footer={Footer}
-          /> */}
           <PrivateRouter
             exact={true}
             path={'/student/schedule'}
@@ -168,6 +159,16 @@ export const Routers = () => {
             exact={true}
             path={'/student/history'}
             component={History}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
+          <PrivateRouter
+            exact={true}
+            path={'/student/video-call'}
+            component={CallVideo}
             layout={HeaderFooterLayout}
             isHasHeader={true}
             header={Header}

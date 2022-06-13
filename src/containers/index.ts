@@ -18,3 +18,4 @@ export * from './TutorLogin/TutorLogin';
 export * from './TutorRegister/TutorRegister';
 export * from './History/History';
 export * from './Review/Review';
+export * from './CallVideo/CallVideo';

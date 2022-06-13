@@ -4,7 +4,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import Dotenv from 'dotenv-webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import NodePolyfillPlugin from "node-polyfill-webpack-plugin";
+import NodePolyfillPlugin from 'node-polyfill-webpack-plugin';
 
 const config: webpack.Configuration = {
   entry: ['@babel/polyfill', './src/index.tsx'],
