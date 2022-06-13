@@ -48,15 +48,17 @@ export const State: React.FC<IState> = ({ children }) => {
 
   useEffect(() => {
     myVideo.current = {};
-    
-  }, []);
+  },[]);
+  useEffect(()=>{
+    socket.emit('online', account);
+  }, [account]);
 
   useEffect(() => {
     socket.on('online', (list: any) => {
       for (let t of list) if (t.id === socket.id) list.splice(list.indexOf(t), 1);
       setOnlineList(list);
     });
-    socket.emit('online', account);
+    
     socket.on('callToUser', ({from , user}) => {
       if (!callSuccess) {
         setOtherUser(from);
@@ -78,7 +80,7 @@ export const State: React.FC<IState> = ({ children }) => {
       setSignalCall(signal);
     });
 
-    socket.on('updateVideo', (from: any, vid: any, mic: any) => {
+    socket.on('updateVideo', ({from, vid, mic}) => {
       if (from === otherUser) {
         setYourMic(mic);
         setYourVid(vid);
@@ -123,7 +125,7 @@ export const State: React.FC<IState> = ({ children }) => {
       });
 
       socket.on('iCallUser', (signal: any) => {
-        peer.signal(signal);
+        peer.signal(signal.signal);
         setCallSuccess(true);
         //console.log(19);
       });
@@ -142,6 +144,7 @@ export const State: React.FC<IState> = ({ children }) => {
     const stream = myVideo.current.srcObject;
     const peer = new Peer({ initiator: false, trickle: false, stream });
     peer.on('signal', (data: any) => {
+      console.log(data)
       socket.emit('iCallUser', {
         userToCall: otherUser,
         signalData: data,
@@ -154,7 +157,7 @@ export const State: React.FC<IState> = ({ children }) => {
     });
 
     setCallSuccess(true);
-    peer.signal(signalCall);
+    peer.signal(signalCall.signal);
 
     connectionRef.current = peer;
     console.log(connectionRef.current);
