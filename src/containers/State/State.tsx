@@ -20,7 +20,7 @@ export const State: React.FC<IState> = ({ children }) => {
   const [receiveCall, setReceiveCall] = useState(false);
   const [otherUser, setOtherUser] = useState('');
   const [otherUserAccount, setOtherUserAccount] = useState('');
-  const [signalCall, setSignalCall] = useState({});
+  const [signalCall, setSignalCall] = useState('');
   const [video, setVideo] = useState({});
   const [isCall, setIsCall] = useState(false);
   const [myMic, setMyMic] = useState(false);
@@ -40,7 +40,6 @@ export const State: React.FC<IState> = ({ children }) => {
   const myVideo = useRef(null);
   const userVideo = useRef(null);
   const connectionRef = useRef(null);
-
   const screenShareTrack = useRef(null);
 
   const account = useSelector((state: RootState) => state.userSlice.account);
@@ -48,16 +47,18 @@ export const State: React.FC<IState> = ({ children }) => {
 
   useEffect(() => {
     myVideo.current = {};
-    
   }, []);
+
+  useEffect(() => {
+    socket.emit('online', account);
+  }, [account]);
 
   useEffect(() => {
     socket.on('online', (list: any) => {
       for (let t of list) if (t.id === socket.id) list.splice(list.indexOf(t), 1);
       setOnlineList(list);
     });
-    socket.emit('online', account);
-    socket.on('callToUser', ({from , user}) => {
+    socket.on('callToUser', ({ from, user }) => {
       if (!callSuccess) {
         setOtherUser(from);
         setOtherUserAccount(user);
@@ -134,6 +135,7 @@ export const State: React.FC<IState> = ({ children }) => {
       window.location.href = '/';
     }
   };
+  
   const decline = () => {
     socket.emit('decline', { to: otherUser });
   };

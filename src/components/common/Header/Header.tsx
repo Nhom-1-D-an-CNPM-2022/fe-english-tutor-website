@@ -8,7 +8,14 @@ import { AiOutlineCalendar } from 'react-icons/ai';
 import { BsFillQuestionCircleFill } from 'react-icons/bs';
 import { FaUserCircle } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
-import { Dialog ,DialogTitle, DialogContent, DialogContentText, DialogActions, Button} from '@mui/material'
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from '@mui/material';
 
 import { MenuUser } from './MenuUser/MenuUser';
 import Context from '../../../containers/State/Context';
@@ -23,30 +30,8 @@ export const Header = () => {
 
   const { receiveCall, setReceiveCall, decline, otherUserAccount } = useContext(Context);
 
-
   return (
     <div className={className}>
-      
-      <Dialog
-        open={receiveCall}
-        onClose={()=>{setReceiveCall(false); decline()}}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          Cuộc gọi
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {otherUserAccount.fullname} đang gọi đến
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={()=>{setReceiveCall(false); decline()}}>Tắt</Button>
-          <Button onClick={()=>{history.push('/videoCall')}} autoFocus>Nghe</Button>
-        </DialogActions>
-      </Dialog>
-
       <div className={`${className}__content`}>
         <Link to={''} className={`${className}__logo`}>
           <img src="https://www.cambly.com/fe/static/logos/sm/primary.png" alt="Logo" />

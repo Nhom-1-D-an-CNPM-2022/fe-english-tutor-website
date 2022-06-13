@@ -1,11 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './HeaderTutor.scss';
 
-import { AppBar, Toolbar, FormControl, Select, MenuItem, Button } from '@mui/material';
+import {
+  AppBar,
+  Toolbar,
+  FormControl,
+  Select,
+  MenuItem,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from '@mui/material';
 import { Link, useHistory } from 'react-router-dom';
 import { MenuUser } from '../Header/MenuUser/MenuUser';
 import { RootState } from '../../../redux';
 import { useSelector } from 'react-redux';
+import Context from '../../../containers/State/Context';
 
 export const HeaderTutor = () => {
   const className = 'header-tutor';
@@ -29,8 +42,47 @@ export const HeaderTutor = () => {
     history.push('/tutor/register');
   };
 
+  const { receiveCall, setReceiveCall, decline, otherUserAccount } = useContext(Context);
+
+  console.log(otherUserAccount);
+
   return (
     <AppBar position="static" sx={{ boxShadow: 'none' }}>
+      <Dialog
+        open={receiveCall}
+        onClose={() => {
+          setReceiveCall(false);
+          decline();
+        }}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Cuộc gọi</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {/* {otherUserAccount.fullname} đang gọi đến */}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setReceiveCall(false);
+              decline();
+            }}
+          >
+            Tắt
+          </Button>
+          <Button
+            onClick={() => {
+              history.push('/videoCall');
+            }}
+            autoFocus
+          >
+            Nghe
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <Toolbar sx={{ backgroundColor: '#fff', display: 'flex', justifyContent: 'space-between' }}>
         <div className={className}>
           <div className={`${className}__left`}>
