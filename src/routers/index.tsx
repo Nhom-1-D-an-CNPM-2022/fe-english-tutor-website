@@ -231,6 +231,16 @@ export const Routers = () => {
             component={TutorSignUpProcedure}
             layout={BlankLayout}
           />
+          <PrivateRouter
+            exact={true}
+            path={'/student/history'}
+            component={History}
+            layout={HeaderFooterLayout}
+            isHasHeader={true}
+            header={Header}
+            isHasFooter={true}
+            footer={Footer}
+          />
         </Switch>
       </Router>
     </State>
