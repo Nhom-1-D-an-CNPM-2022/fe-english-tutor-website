@@ -20,24 +20,45 @@ import { ProfileStepContext } from '../../../../../../../../contexts/TutorSignUp
 import { isInvalidCertificate } from '../validation';
 
 export default function AddTeachingCertificatesDialog() {
-  const { profile, dialog, isErrorChecked, handleSaveDialog, handleUpdateTeachingCertificates } =
-    useContext(ProfileStepContext);
+  const {
+    profile,
+    dialog,
+    isErrorChecked,
+    handleSaveDialog,
+    handleUploadTeachingCertificate,
+    handleUpdateProfile,
+  } = useContext(ProfileStepContext);
   const [selectedTypes, setSelectedTypes] = useState<Array<string>>([]);
   const [certificates, setCertificates] = useState<Certificate[]>([]);
+  const [uploadingResult, setUploadingResult] = useState<Record<string, string> | null>(null);
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
     if (dialog === 'ADD_TEACHING_CERTIFICATES') {
       setCertificates(
-        profile.certificates.map(({ fileName, URLFile, type }) => ({
+        profile.certificates.map(({ fileName, fileUrl, type }) => ({
           id: uuidv4(),
           fileName,
-          URLFile,
+          fileUrl,
           type,
         })),
       );
     }
   }, [dialog]);
+
+  useEffect(() => {
+    if (uploadingResult) {
+      setCertificates([
+        ...certificates,
+        {
+          id: uuidv4(),
+          fileName: uploadingResult.fileName,
+          fileUrl: uploadingResult.url,
+          type: '',
+        },
+      ]);
+    }
+  }, [uploadingResult]);
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError('');
@@ -53,26 +74,7 @@ export default function AddTeachingCertificatesDialog() {
   };
 
   const previewFile = (file: File) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onloadend = () => {
-      if (reader.result) {
-        setCertificates([
-          ...certificates,
-          {
-            id: uuidv4(),
-            fileName: file.name,
-            URLFile: reader.result.toString(),
-            type: '',
-          },
-        ]);
-      }
-    };
-
-    reader.onerror = (e) => {
-      console.error(e);
-    };
+    handleUploadTeachingCertificate(file, setUploadingResult);
   };
 
   const handleChangeCertificateType = (
@@ -104,10 +106,10 @@ export default function AddTeachingCertificatesDialog() {
       if (isError) {
         return true;
       } else {
-        handleUpdateTeachingCertificates({
-          certificates: certificates.map(({ fileName, URLFile, type }) => ({
+        handleUpdateProfile({
+          certificates: certificates.map(({ fileName, fileUrl, type }) => ({
             fileName,
-            URLFile,
+            fileUrl,
             type,
           })),
         });

@@ -1,5 +1,5 @@
-import { BasicInfo } from "./EditActionBoxes/BasicInfoEditActionBox/constants";
-import { Development } from "./EditActionBoxes/DevelopmentEditActionBox/constants";
+import { BasicInfo } from './EditActionBoxes/BasicInfoEditActionBox/constants';
+import { Development } from './EditActionBoxes/DevelopmentEditActionBox/constants';
 
 function isBasicInfo(
   value: BasicInfo | string | Array<string> | Array<Development> | undefined,
@@ -17,8 +17,8 @@ export const isInvalidValue = (
   value: BasicInfo | string | Array<string> | Array<Development> | undefined,
 ) => {
   switch (true) {
-    case typeof value === "string":
-      return value === "";
+    case typeof value === 'string':
+      return value === '';
     case value instanceof Array:
       let arrValue = value as Array<any>;
 
@@ -53,24 +53,15 @@ export const isInvalidValue = (
 };
 
 const isInvalidBasicInfo = (basicInfo: BasicInfo) => {
-  return (
-    !basicInfo.displayName || !basicInfo.hometown || !basicInfo.dateOfBirth
-  );
+  return !basicInfo.displayName || !basicInfo.hometown || !basicInfo.dateOfBirth;
 };
 
 const isInvalidLabel = (label: string) => {
-  const indexOfOpenParenthesis = label.indexOf("(");
+  const indexOfOpenParenthesis = label.indexOf('(');
 
-  return (
-    !label.slice(0, indexOfOpenParenthesis) ||
-    label.slice(indexOfOpenParenthesis) === "()"
-  );
+  return !label.slice(0, indexOfOpenParenthesis) || label.slice(indexOfOpenParenthesis) === '()';
 };
 
 const isInvalidDevelopment = (development: Development) => {
-  return (
-    !development.description ||
-    !development.title ||
-    development.tags.length === 0
-  );
+  return !development.description || !development.title || development.tags.length === 0;
 };

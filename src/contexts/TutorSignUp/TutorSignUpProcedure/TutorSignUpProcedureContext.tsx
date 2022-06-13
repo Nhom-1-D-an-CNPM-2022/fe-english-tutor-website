@@ -1,12 +1,15 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useAppDispatch } from '../../../redux';
 import { RootState } from '../../../redux/rootReducer';
 import {
+  setProfile,
   TutorSignUpProfile,
   updateProfile,
   updateProfileMedia,
 } from '../../../redux/slice/appSlice/tutorSignUpSlice';
+import tutorSignUpApi from '../../../services/aixos/tutorSignUpApi';
 import { TUTOR_SIGN_UP_PROCEDURE_STEPS } from './constants';
 import {
   handleUploadFile,
@@ -37,7 +40,7 @@ interface ContextValue {
 export const TutorSignUpProcedureContext = createContext<ContextValue>({} as any);
 
 export default function TutorSignUpProcedureProvider({ children }: React.PropsWithChildren<{}>) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const profile = useSelector((store: RootState) => store.tutorSignUpSlice);
   const history = useHistory();
   const location = useLocation();
@@ -48,6 +51,27 @@ export default function TutorSignUpProcedureProvider({ children }: React.PropsWi
   const [isProfileStepCompleted, setIsProfileStepCompleted] = useState<boolean>(false);
   const [isSupplementalStepCompleted, setIsSupplementalStepCompleted] = useState<boolean>(false);
   const [isDemoLessonStepCompleted, setIsDemoLessonStepCompleted] = useState<boolean>(false);
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+
+    const fetchProfile = async () => {
+      try {
+        const response = await tutorSignUpApi.getProfile(accessToken);
+        const profile = response.data;
+        dispatch(setProfile(profile));
+      } catch (error) {
+        localStorage.removeItem('accessToken');
+        history.push({
+          pathname: '/',
+        });
+      }
+    };
+
+    if (accessToken && !profile.isFetched) {
+      fetchProfile();
+    }
+  }, []);
 
   useEffect(() => {
     if (!isProfileStepCompleted && validateProfileStep(profile)) {
@@ -84,7 +108,7 @@ export default function TutorSignUpProcedureProvider({ children }: React.PropsWi
     mediaType: 'profilePicture' | 'videoIntroduction' | 'demoLesson' | string,
     file: File,
   ) => {
-    handleUploadFile(file, function successCallback(response: any) {
+    handleUploadFile(file, (response: any) => {
       dispatch(
         updateProfileMedia({
           mediaType,

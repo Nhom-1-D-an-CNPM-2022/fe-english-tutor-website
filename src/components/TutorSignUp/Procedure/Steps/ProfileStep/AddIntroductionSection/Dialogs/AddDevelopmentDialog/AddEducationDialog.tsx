@@ -112,7 +112,7 @@ export default function AddEducationDialog() {
           onClick={() => handleAdd(education, setEducation)}
           disabled={education.length === MAX_DEVELOPMENT_ITEMS}
         >
-          Add work
+          Add education
         </Button>
       </DialogContentActions>
     </Dialog>
