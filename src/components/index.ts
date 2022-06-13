@@ -9,7 +9,6 @@ export * from './ScheduleInfo/ScheduleInfo';
 export * from './ScheduleWeekView/ScheduleWeekView';
 export * from './ReservationOption/ReservationOption';
 export * from './ScheduleTutor/ScheduleTutor';
-export * from './ScheduleInfoTutor/ScheduleInfoTutor';
 export * from './MyInfo/MyInfo';
 export * from './TutorSignUp/TutorAccount/TutorAccountImageBox';
 export * from './TutorSignUp/TutorAccount/TutorAccountFormBox';

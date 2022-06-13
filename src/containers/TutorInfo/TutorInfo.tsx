@@ -23,6 +23,7 @@ import { useAppDispatch } from '../../redux/store';
 import { getTutorsProfile } from '../../redux/slice/appSlice/tutorSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
+import axios from 'axios';
 
 type tutorId = {
   id: string;
@@ -38,6 +39,7 @@ interface tutorInfo {
   education: any;
   displayName: any;
   hometown: any;
+  reviewing: any;
 }
 
 export const TutorInfo = () => {
@@ -57,14 +59,32 @@ export const TutorInfo = () => {
   const changeInput = (e: any) => {
     setContent(e.target.value);
   };
-  const SubmitComment = () => {
+  const SubmitComment = async () => {
     let comment = {
       content: content,
       star: star,
     };
-    alert(`${comment.content} - ${comment.star} - ${id}`);
+    const commentBody = {
+      tutorId: id,
+      comment: comment.content,
+      rating: comment.star
+    };
+    console.log(commentBody);
+   
+    try{
+    const {data} = await axios.put(`${process.env.URL_MY_API}tutors/review`, commentBody, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+      }
+    })
+    .then((res) => {location.reload()});
+  } catch (err : any) {
+      console.log(err.response);
+  }
   };
   const tutorInfo = useSelector((state: RootState) => state.tutorSlice);
+  console.log(tutorInfo);
+  
   console.log('213123');
   return (
     <List className="tutor-info">
@@ -167,30 +187,13 @@ export const TutorInfo = () => {
           Đánh giá của ứng viên
         </Typography>
         <div className="tutor-info__body__my-info__review">
+        {tutorInfo.reviewing.map ( (item: any, key: any) =>
           <Comment
-            id={1}
-            name="Nguyen Van A"
-            date="tháng 12, 2020"
-            body="He has a great gift of emphaty. He listening carefully,
-        and really trying to teach and share something.
-        And also you feel he cares about you. Thank you Fabian."
+            id={key}
+            name={item.userId}
+            body={item.comment}
           />
-          <Comment
-            id={2}
-            name="Nguyen Van A"
-            date="tháng 12, 2020"
-            body="He has a great gift of emphaty. He listening carefully,
-        and really trying to teach and share something.
-        And also you feel he cares about you. Thank you Fabian."
-          />
-          <Comment
-            id={3}
-            name="Nguyen Van A"
-            date="tháng 12, 2020"
-            body="He has a great gift of emphaty. He listening carefully,
-        and really trying to teach and share something.
-        And also you feel he cares about you. Thank you Fabian."
-          />
+          )} 
           <Paper
             component="form"
             sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400, marginTop: 5 }}

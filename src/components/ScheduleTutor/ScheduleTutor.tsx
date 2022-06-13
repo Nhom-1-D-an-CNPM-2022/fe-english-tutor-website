@@ -16,7 +16,11 @@ export const ScheduleTutor = () => {
 
   // Lấy ngày bắt đầu của tháng
   const getStartDayInMonth = () => {
-    return new Date(currentYear, currentMonth, 1).getDay();
+    const startDay = new Date(currentYear, currentMonth, 1).getDay();
+
+    if (startDay === 0) return 7;
+
+    return startDay;
   };
 
   // Kiểm tra có phải ngày hiện tại
@@ -54,9 +58,9 @@ export const ScheduleTutor = () => {
 
   const checkBookedDate = (day: number, month: number, year: number) => {
     const date = new Date();
-    console.log('date',date.getFullYear());
-    return day == date.getDate() && (month) == date.getMonth() && year == date.getFullYear();
-  } 
+    console.log('date', date.getFullYear());
+    return day == date.getDate() && month == date.getMonth() && year == date.getFullYear();
+  };
 
   // Xử lý khi thay đổi tháng
   const handleChangeMonth = (type: string) => {
@@ -83,7 +87,7 @@ export const ScheduleTutor = () => {
   const daysInMonth = getDaysInMonth();
   const startDay = getStartDayInMonth();
 
-  const className = 'schedule';
+  const className = 'scheduleTutor';
 
   return (
     <div className={className}>
@@ -104,7 +108,7 @@ export const ScheduleTutor = () => {
                 activeCurrentDay={activeCurrentDay}
                 activeBookedDay={activeBookedDay}
                 checkDate={checkDate}
-                checkBookedDate = {checkBookedDate}
+                checkBookedDate={checkBookedDate}
               />
             </div>
           </div>

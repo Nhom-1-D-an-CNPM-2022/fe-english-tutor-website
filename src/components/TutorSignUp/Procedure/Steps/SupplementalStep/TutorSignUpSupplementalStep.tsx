@@ -20,12 +20,12 @@ import {
 import { formGroupStyle } from './style';
 import React, { useContext, useState } from 'react';
 import { TutorSignUpProcedureContext } from '../../../../../contexts/TutorSignUp/TutorSignUpProcedure/TutorSignUpProcedureContext';
-import { useDispatch } from 'react-redux';
 import { updateProfile } from '../../../../../redux/slice/appSlice/tutorSignUpSlice';
 import { isOtherPlatformsChanged } from './validation';
+import { useAppDispatch } from '../../../../../redux';
 
 export default function TutorSignUpSupplementalStep() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { profile, isSupplementalStepCompleted, goToStep } = useContext(
     TutorSignUpProcedureContext,
   );

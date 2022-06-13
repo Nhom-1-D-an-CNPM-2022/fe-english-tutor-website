@@ -13,7 +13,7 @@ export const CERTIFICATE_TYPES = [
 export interface Certificate {
   id: string;
   fileName: string;
-  URLFile: string;
+  fileUrl: string;
   type: typeof CERTIFICATE_TYPES[number] | string;
 }
 
